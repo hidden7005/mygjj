@@ -48,7 +48,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #2b6cff;outline-offse
 <div id="app">
   <div id="map"></div>
   <header>
-    <div class="row"><h1>MY<em>GJJ</em> <small style="font:600 11px sans-serif;color:var(--sub)">v3</small></h1><span id="lab"></span></div>
+    <div class="row"><h1>MY<em>GJJ</em> <small style="font:600 11px sans-serif;color:var(--sub)">v4</small></h1><span id="lab"></span></div>
     <input id="rng" type="range" min="4000" max="12000" step="500" value="8000" aria-label="최대 가격">
   </header>
   <div id="notice" hidden></div>
@@ -64,17 +64,26 @@ button:focus-visible,input:focus-visible{outline:3px solid #2b6cff;outline-offse
 // ★ 네이버 클라우드 Application의 Client ID를 여기에 넣으세요
 const CLIENT_ID = 'd0j0x8a40f';
 
-// 샘플 데이터 (가상) — 나중에 DB로 교체
-const PLACES = [
-  {n:'가나반점', t:'간짜장', p:7000, r:4.0, lat:37.5712, lng:126.9769},
-  {n:'다라루', t:'짜장면', p:5500, r:4.6, lat:37.5641, lng:126.9753},
-  {n:'마바사 중화', t:'간짜장', p:8500, r:3.9, lat:37.5659, lng:126.9751},
-  {n:'아자성', t:'짜장면', p:6000, r:3.7, lat:37.5663, lng:126.9812},
-  {n:'차카원', t:'간짜장', p:9000, r:4.2, lat:37.5555, lng:126.9719},
-  {n:'타파하', t:'짜장면', p:6500, r:4.4, lat:37.5586, lng:126.9774},
-  {n:'홍보각', t:'간짜장', p:10000, r:4.8, lat:37.5589, lng:126.9786},
-  {n:'동해루', t:'짜장면', p:5000, r:3.6, lat:37.5702, lng:126.9998}
-];
+// Supabase (공개용 키 — 웹페이지에 들어가도 안전한 값)
+const SB_URL = 'https://aitolwzpiencyfunjhkp.supabase.co';
+const SB_KEY = 'sb_publishable_IdeiksyY68b_r85K69EANg_kW04pydm';
+const ADMIN = new URLSearchParams(location.search).has('admin'); // ?admin 이면 지도 탭 시 좌표 표시
+let PLACES = [];
+async function sb(path){
+  const r = await fetch(SB_URL + '/rest/v1/' + path, { headers: { apikey: SB_KEY } });
+  if (!r.ok) throw new Error(path + ' → ' + r.status);
+  return r.json();
+}
+async function loadPlaces(){
+  try {
+    const [pl, rt] = await Promise.all([sb('places?select=*'), sb('place_ratings?select=*')]);
+    const m = {}; rt.forEach(x => m[x.place_id] = x);
+    PLACES = pl.map(x => ({ id:x.id, n:x.name, t:x.kind, p:x.price, lat:x.lat, lng:x.lng,
+      r: m[x.id] ? Number(m[x.id].avg_rating) : null, c: m[x.id] ? Number(m[x.id].n) : 0 }));
+  } catch (e) { warn('데이터를 불러오지 못했어요: ' + e.message, true); }
+  render();
+}
+const rtxt = x => x.r == null ? '아직 평가 없음' : '평점 ' + x.r.toFixed(1) + ' (' + x.c + '명)';
 let max = 8000, map = null, markers = [], sel = null;
 const $ = id => document.getElementById(id);
 const won = v => v.toLocaleString('ko-KR');
@@ -85,7 +94,7 @@ function card(x){
   if (!x){ c.hidden = true; return; }
   c.innerHTML = '';
   const b = document.createElement('b'); b.textContent = x.n;
-  const p = document.createElement('p'); p.textContent = x.t + ' · ' + won(x.p) + '원 · 평점 ' + x.r.toFixed(1);
+  const p = document.createElement('p'); p.textContent = x.t + ' · ' + won(x.p) + '원 · ' + rtxt(x);
   c.append(b, p); c.hidden = false;
 }
 
@@ -97,12 +106,13 @@ function render(){
   items.forEach(x => {
     const li = document.createElement('li');
     const a = document.createElement('b'); a.textContent = x.n;
-    const s = document.createElement('small'); s.textContent = x.t + ' · 평점 ' + x.r.toFixed(1);
+    const s = document.createElement('small'); s.textContent = x.t + ' · ' + rtxt(x);
     const pr = document.createElement('span'); pr.className = 'pr'; pr.textContent = won(x.p);
     li.append(a, pr, s);
     li.onclick = () => { $('panel').classList.remove('open'); pick(x); };
     ul.appendChild(li);
   });
+  if (!items.length){ const li = document.createElement('li'); li.textContent = '조건에 맞는 가게가 아직 없어요.'; li.style.color = 'var(--sub)'; ul.appendChild(li); }
   if (!map) return;
   markers.forEach(m => m.setMap(null));
   markers = items.map(x => {
@@ -132,21 +142,26 @@ $('bLoc').onclick = () => {
 function initMap(){
   try {
     map = new naver.maps.Map('map', { center: new naver.maps.LatLng(37.5640, 126.9790), zoom: 15 });
-    naver.maps.Event.addListener(map, 'click', () => { sel = null; card(null); render(); });
+    naver.maps.Event.addListener(map, 'click', e => {
+      sel = null;
+      if (ADMIN) { const c = $('card'); c.textContent = '좌표  ' + e.coord.lat().toFixed(6) + ', ' + e.coord.lng().toFixed(6); c.hidden = false; }
+      else card(null);
+      render();
+    });
     render();
   } catch (e) { warn('지도 오류: ' + e.message); }
 }
 window.addEventListener('error', e => warn('오류: ' + e.message));
-function warn(t){
+function warn(t, plain){
   const n = $('notice'); n.textContent = '';
   const b = document.createElement('b'); b.textContent = t;
   const d = document.createElement('div');
-  d.textContent = '이 페이지 주소: ' + location.origin + ' — 네이버 Application의 Web 서비스 URL에 이 주소가 그대로 등록돼 있어야 해요.';
+  d.textContent = plain ? '' : '이 페이지 주소: ' + location.origin + ' — 네이버 Application의 Web 서비스 URL에 이 주소가 그대로 등록돼 있어야 해요.';
   n.append(b, d); n.hidden = false;
 }
 window.navermap_authFailure = () => warn('지도 인증에 실패했어요');
 
-render();
+render(); loadPlaces();
 if (!CLIENT_ID){ warn('지도 키(CLIENT_ID)가 비어 있어요'); }
 else {
   const s = document.createElement('script');
