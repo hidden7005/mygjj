@@ -5,73 +5,550 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MYGJJ</title>
 <style>
-:root{--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--sub:#6e6e73;--line:#d2d2d7;--blue:#0071e3;--glass:rgba(255,255,255,.8);--gold:#ff9f0a}
-@media (prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--sub:#a1a1a6;--line:#38383a;--glass:rgba(28,28,30,.8);--gold:#ffb340}}
-*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;width:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
-button{font:inherit;color:inherit;cursor:pointer}
-#map{position:absolute;inset:0;width:100%;height:100%;background:#e5e5ea;z-index:1}
-.glass{background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 2px 14px rgba(0,0,0,.14)}
-#top{position:absolute;z-index:5;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);display:flex;gap:8px;max-width:520px}
-#q{flex:1;min-width:0;height:46px;border:0;border-radius:14px;padding:0 16px;font-size:17px;color:var(--ink)}
-#q::placeholder{color:var(--sub)}
-#q:focus{outline:2px solid var(--blue)}
-#me{height:46px;padding:0 16px;border:0;border-radius:14px;font-size:15px;font-weight:600}
-#res{position:absolute;z-index:5;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 64px);max-width:520px;max-height:55%;overflow:auto;border-radius:14px}
-#res[hidden]{display:none}
-.row{display:block;width:100%;text-align:left;border:0;background:none;padding:12px 16px;border-bottom:1px solid var(--line);position:relative}
-.row b{display:block;font-size:16px}
-.row small{color:var(--sub);font-size:13px}
-.row i{position:absolute;right:16px;top:14px;font-style:normal;font-weight:600;color:var(--blue)}
-.ask{color:var(--blue);border:0}
-.empty{padding:14px 16px;color:var(--sub)}
+:root {
+  --system-bg: #f2f2f7;
+  --card-bg: #ffffff;
+  --secondary-card-bg: #f8f8fa;
+  --label-primary: #1d1d1f;
+  --label-secondary: #86868b;
+  --label-tertiary: #a1a1a6;
+  --separator: rgba(60, 60, 67, 0.12);
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-gold: #ff9500;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --sheet-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
 
-.pin{transform:translate(-50%,-100%);background:var(--card);color:var(--ink);font:600 14px -apple-system,sans-serif;padding:6px 11px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;cursor:pointer}
-.pin.biz{background:var(--bg);color:var(--sub);font-weight:500;font-size:12px;border:1px dashed var(--line);padding:4px 9px}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --system-bg: #000000;
+    --card-bg: #1c1c1e;
+    --secondary-card-bg: #2c2c2e;
+    --label-primary: #f5f5f7;
+    --label-secondary: #98989d;
+    --label-tertiary: #636366;
+    --separator: rgba(84, 84, 88, 0.36);
+    --apple-blue: #0a84ff;
+    --apple-blue-hover: #409cff;
+    --apple-gold: #ff9f0a;
+    --glass-bg: rgba(28, 28, 30, 0.78);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --sheet-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+}
 
-#ver-badge{position:absolute;z-index:6;right:10px;top:calc(env(safe-area-inset-top,0px) + 12px);font-size:11px;font-weight:600;color:var(--sub);background:var(--glass);padding:3px 7px;border-radius:8px;pointer-events:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 
-#sheet{position:absolute;z-index:8;left:0;right:0;bottom:0;max-height:85%;overflow:auto;background:var(--card);border-radius:22px 22px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 22px);box-shadow:0 -4px 24px rgba(0,0,0,.2);transform:translateY(110%);transition:transform .25s ease}
-#sheet.open{transform:none}
-.x{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:50%;border:0;background:var(--bg);color:var(--sub)}
-h2{font-size:24px;font-weight:700;letter-spacing:-.02em;padding-right:34px}
-h3{font-size:16px;margin:18px 0 8px;font-weight:600}
-.sub{color:var(--sub);font-size:14px;margin-top:4px}
-.stats{display:flex;gap:10px;margin:16px 0}
-.stats div{flex:1;background:var(--bg);border-radius:14px;padding:12px 14px}
-.stats small{display:block;color:var(--sub);font-size:12px}
-.stats b{font-size:22px;font-weight:700}
-.stats span{font-size:13px;color:var(--sub);font-weight:500}
-.btns{display:flex;flex-direction:column;gap:8px}
-.btn{display:block;text-align:center;text-decoration:none;color:var(--ink);background:var(--bg);border:0;border-radius:12px;padding:13px;font-size:16px;font-weight:600;width:100%}
-.btn.primary{background:var(--blue);color:#fff}
-input,select{width:100%;height:46px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font-size:16px;background:var(--card);color:var(--ink);margin-top:6px}
+html, body {
+  height: 100%;
+  width: 100%;
+}
 
-.price-ctrl{display:flex;gap:6px;margin-top:6px}
-.price-btn{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 0;font-size:13px;font-weight:600;color:var(--ink)}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Apple SD Gothic Neo", sans-serif;
+  background: var(--system-bg);
+  color: var(--label-primary);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.015em;
+}
 
-.rating-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);padding:12px;border-radius:14px;margin-top:8px}
-.rating-item{background:var(--card);padding:10px 12px;border-radius:10px;display:flex;flex-direction:column;gap:4px}
-.rating-item.full{grid-column:span 2;background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.25)}
-.rating-item label{font-size:13px;font-weight:600;color:var(--sub)}
-.rating-item.full label{color:var(--ink);font-size:14px}
-.star-row{display:flex;align-items:center;gap:2px}
-.star-btn{border:0;background:none;font-size:20px;color:var(--line);padding:0 1px;line-height:1}
-.star-btn.on{color:var(--gold)}
-.total-score{margin-left:auto;font-size:18px;font-weight:700;color:var(--gold)}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
 
-.rv{padding:10px 0;border-top:1px solid var(--line);font-size:15px}
-.u{border:0;background:none;color:var(--blue);font-weight:600;padding:0;margin-right:6px}
-#toast{position:absolute;z-index:99;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:90%;box-shadow:0 4px 12px rgba(0,0,0,.25)}
-#toast[hidden]{display:none}
-button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-@media (min-width:760px){#sheet{left:12px;right:auto;bottom:12px;width:420px;max-height:calc(100% - 24px);border-radius:22px}}
+#map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #e5e5ea;
+  z-index: 1;
+}
+
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(190%) blur(24px);
+  backdrop-filter: saturate(190%) blur(24px);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+}
+
+#top {
+  position: absolute;
+  z-index: 5;
+  left: 16px;
+  right: 16px;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  display: flex;
+  gap: 10px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+#q {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  border-radius: 16px;
+  padding: 0 18px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--label-primary);
+  border: 0.5px solid var(--glass-border);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#q::placeholder {
+  color: var(--label-secondary);
+}
+
+#q:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+}
+
+#me {
+  height: 48px;
+  padding: 0 18px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--apple-blue);
+  white-space: nowrap;
+}
+
+#me:active {
+  transform: scale(0.97);
+}
+
+#res {
+  position: absolute;
+  z-index: 5;
+  left: 16px;
+  right: 16px;
+  top: calc(env(safe-area-inset-top, 0px) + 68px);
+  max-width: 540px;
+  margin: 0 auto;
+  max-height: 52%;
+  overflow-y: auto;
+  border-radius: 18px;
+}
+
+#res[hidden] {
+  display: none;
+}
+
+.row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 0.5px solid var(--separator);
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.row b {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--label-primary);
+  line-height: 1.3;
+}
+
+.row small {
+  display: block;
+  color: var(--label-secondary);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.row i {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--apple-blue);
+}
+
+.ask {
+  color: var(--apple-blue);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  padding: 15px;
+}
+
+.empty {
+  padding: 20px 18px;
+  text-align: center;
+  color: var(--label-secondary);
+  font-size: 15px;
+}
+
+.pin {
+  transform: translate(-50%, -100%);
+  background: var(--card-bg);
+  color: var(--label-primary);
+  font: 600 13px -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 7px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  cursor: pointer;
+  border: 0.5px solid var(--separator);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pin:active {
+  transform: translate(-50%, -100%) scale(0.95);
+}
+
+.pin.biz {
+  background: var(--card-bg);
+  color: var(--label-secondary);
+  font-weight: 500;
+  font-size: 12px;
+  border: 1px dashed var(--separator);
+  padding: 5px 10px;
+}
+
+#ver-badge {
+  position: absolute;
+  z-index: 6;
+  right: 14px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--label-secondary);
+  background: var(--glass-bg);
+  padding: 4px 9px;
+  border-radius: 10px;
+  pointer-events: none;
+  border: 0.5px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+#sheet {
+  position: absolute;
+  z-index: 8;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 86%;
+  overflow-y: auto;
+  background: var(--card-bg);
+  border-radius: 28px 28px 0 0;
+  padding: 24px 22px calc(env(safe-area-inset-bottom, 0px) + 24px);
+  box-shadow: var(--sheet-shadow);
+  transform: translateY(105%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#sheet.open {
+  transform: translateY(0);
+}
+
+#sheet::before {
+  content: "";
+  display: block;
+  width: 38px;
+  height: 5px;
+  background: var(--separator);
+  border-radius: 999px;
+  margin: -8px auto 16px;
+}
+
+.x {
+  position: absolute;
+  right: 16px;
+  top: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--secondary-card-bg);
+  color: var(--label-secondary);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.x:active {
+  transform: scale(0.92);
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  padding-right: 36px;
+  color: var(--label-primary);
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+  color: var(--label-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.sub {
+  color: var(--label-secondary);
+  font-size: 14px;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+.stats {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.stats div {
+  flex: 1;
+  background: var(--secondary-card-bg);
+  border-radius: 18px;
+  padding: 14px 16px;
+  border: 0.5px solid var(--separator);
+}
+
+.stats small {
+  display: block;
+  color: var(--label-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.stats b {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--label-primary);
+  letter-spacing: -0.02em;
+}
+
+.stats span {
+  font-size: 13px;
+  color: var(--label-secondary);
+  font-weight: 400;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--label-primary);
+  background: var(--secondary-card-bg);
+  border-radius: 16px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  border: 0.5px solid var(--separator);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.primary {
+  background: var(--apple-blue);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.28);
+}
+
+.btn.primary:active {
+  background: var(--apple-blue-hover);
+}
+
+input, select {
+  width: 100%;
+  height: 50px;
+  border: 0.5px solid var(--separator);
+  border-radius: 16px;
+  padding: 0 16px;
+  font-size: 16px;
+  background: var(--secondary-card-bg);
+  color: var(--label-primary);
+  margin-top: 8px;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+}
+
+input::placeholder {
+  color: var(--label-tertiary);
+}
+
+.rating-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: var(--secondary-card-bg);
+  padding: 12px;
+  border-radius: 20px;
+  margin-top: 12px;
+  border: 0.5px solid var(--separator);
+}
+
+.rating-item {
+  background: var(--card-bg);
+  padding: 12px 14px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--card-shadow);
+}
+
+.rating-item.full {
+  grid-column: span 2;
+  background: rgba(255, 149, 0, 0.07);
+  border: 0.5px solid rgba(255, 149, 0, 0.28);
+  box-shadow: none;
+}
+
+.rating-item label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-secondary);
+}
+
+.rating-item.full label {
+  color: var(--label-primary);
+  font-size: 14px;
+}
+
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.star-btn {
+  border: 0;
+  background: none;
+  font-size: 22px;
+  color: var(--separator);
+  padding: 0 1px;
+  line-height: 1;
+  transition: transform 0.1s ease;
+}
+
+.star-btn:active {
+  transform: scale(1.2);
+}
+
+.star-btn.on {
+  color: var(--apple-gold);
+}
+
+.total-score {
+  margin-left: auto;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--apple-gold);
+}
+
+.rv {
+  padding: 12px 0;
+  border-top: 0.5px solid var(--separator);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.u {
+  border: 0;
+  background: none;
+  color: var(--apple-blue);
+  font-weight: 600;
+  padding: 0;
+  margin-right: 6px;
+}
+
+#toast {
+  position: absolute;
+  z-index: 99;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 72px);
+  transform: translateX(-50%);
+  background: var(--card-bg);
+  color: var(--label-primary);
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 0.5px solid var(--separator);
+}
+
+#toast[hidden] {
+  display: none;
+}
+
+@media (min-width: 760px) {
+  #sheet {
+    left: 20px;
+    right: auto;
+    bottom: 20px;
+    width: 420px;
+    max-height: calc(100% - 40px);
+    border-radius: 28px;
+  }
+}
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.010</div>
+<div id="ver-badge">v0.011</div>
 <div id="top"><input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off" aria-label="가게 이름 검색"><button id="me" class="glass" data-a="me">로그인</button></div>
 <div id="res" class="glass" hidden></div>
 <div id="toast" hidden></div>
@@ -89,7 +566,7 @@ let map = null, markers = [], nearbyMarkers = [], places = [], rate = {}, me = n
 let scores = { taste: 0, price: 0, kind: 0, clean: 0 };
 
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
-function sheet(h){ $('sheet').innerHTML = '<button class="x" data-a="close" aria-label="닫기">✕</button>' + h; $('sheet').classList.add('open');$('res').hidden = true; resetScores(); }
+function sheet(h){ $('sheet').innerHTML = '<button class="x" data-a="close" aria-label="닫기">✕</button>' + h; $('sheet').classList.add('open'); $('res').hidden = true; resetScores(); }
 function needLogin(){ if (!me){ openLogin(); return true; } return false; }
 function resetScores(){ scores = { taste: 0, price: 0, kind: 0, clean: 0 }; }
 
@@ -188,7 +665,7 @@ function renderRatingComponent(){
         </div>
       </div>
     </div>
-    <input id="c" placeholder="한줄평 (선택)" maxlength="100">
+    <input id="c" placeholder="한줄평 남기기 (선택)" maxlength="100">
   `;
 }
 
@@ -202,14 +679,6 @@ function updateStarsUI(){
   const avg = vals.length ? (vals.reduce((a, b) => a + b, 0) / 4).toFixed(1) : '-';
   const el = $('total-score');
   if (el) el.textContent = avg === '-' ? '- / 5.0' : `★ ${avg} / 5.0`;
-}
-
-function adjustPrice(diff){
-  const el = $('pr');
-  if (!el) return;
-  let val = Math.max(0, (parseInt(el.value, 10) || 0) + diff);
-  val = Math.round(val / 100) * 100;
-  el.value = val;
 }
 
 $('q').oninput = e => { clearTimeout(st); st = setTimeout(() => search(e.target.value.trim()), 250); };
@@ -236,10 +705,10 @@ async function openPlace(p){
   const rv = (await db.from('reviews').select('rating,comment,user_id,profiles(username)').eq('place_id', p.id).order('created_at', { ascending: false }).limit(10)).data || [];
   sheet('<h2>' + esc(p.name) + '</h2><p class="sub">' + esc(p.kind) + ' · ' + esc(addr) + '</p>' +
     '<div class="stats"><div><small>금액</small><b>' + won(p.price) + '원</b></div><div><small>평점</small><b>' + (rt ? rt.avg_rating + ' <span>/ 5 (' + rt.n + ')</span>' : '-') + '</b></div></div>' +
-    '<div class="btns"><a class="btn" target="_blank" rel="noopener" href="https://map.naver.com/p/search/' + encodeURIComponent(p.name + ' ' + addr) + '">네이버맵에서 보기</a>' +
+    '<div class="btns"><a class="btn" target="_blank" rel="noopener" href="https://map.naver.com/p/search/' + encodeURIComponent(p.name + ' ' + addr) + '">네이버 지도에서 보기</a>' +
     '<a class="btn" target="_blank" rel="noopener" href="https://map.kakao.com/link/map/' + encodeURIComponent(p.name) + ',' + p.lat + ',' + p.lng + '">카카오맵에서 보기</a>' +
     '<button class="btn" data-a="fav">' + (fav ? '♥ 즐겨찾기 해제' : '♡ 즐겨찾기') + '</button></div>' +
-    '<h3>평가 남기기</h3>' + renderRatingComponent() + '<button class="btn primary" style="margin-top:10px" data-a="review">등록</button>' +
+    '<h3>평가 남기기</h3>' + renderRatingComponent() + '<button class="btn primary" style="margin-top:14px" data-a="review">등록</button>' +
     '<h3>리뷰</h3>' + (rv.length ? rv.map(r => '<div class="rv"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' + '★'.repeat(r.rating) + (r.comment ? '<br>' + esc(r.comment) : '') + '</div>').join('') : '<p class="sub">아직 리뷰가 없어요</p>'));
   if (map) map.panTo(new naver.maps.LatLng(p.lat, p.lng));
 }
@@ -247,22 +716,20 @@ async function openPlace(p){
 function openNew(b){
   curBiz = b;
   sheet('<h2>' + esc(b.name) + (b.branch ? ' ' + esc(b.branch) : '') + '</h2><p class="sub">' + esc(b.road_addr || b.lot_addr) + '</p>' +
-    '<h3>이 가게 등록하기</h3><select id="kd"><option>간짜장</option><option>짜장면</option></select>' +
-    '<input id="pr" type="number" step="100" min="0" inputmode="numeric" placeholder="금액 (100원 단위 입력)">' +
-    '<div class="price-ctrl">' +
-      '<button type="button" class="price-btn" onclick="adjustPrice(1000)">+1,000원</button>' +
-      '<button type="button" class="price-btn" onclick="adjustPrice(500)">+500원</button>' +
-      '<button type="button" class="price-btn" onclick="adjustPrice(-500)">-500원</button>' +
-    '</div>' +
-    renderRatingComponent() + '<button class="btn primary" style="margin-top:10px" data-a="saveNew">가게 등록 및 저장</button>');
+    '<select id="kd"><option>간짜장</option><option>짜장면</option></select>' +
+    '<input id="pr" type="number" step="100" inputmode="numeric" placeholder="금액 입력 (원)">' +
+    renderRatingComponent() + 
+    '<button class="btn primary" style="margin-top:16px" data-a="saveNew">가게 등록하기</button>');
 }
 
 function openAsk(q){
-  sheet('<h2>등록 요청</h2><p class="sub">찾는 가게가 없으면 알려주세요. 확인 후 추가할게요.</p><input id="an" value="' + esc(q) + '" placeholder="가게 이름"><input id="aa" placeholder="주소 또는 위치"><input id="ao" placeholder="메모 (선택)"><button class="btn primary" style="margin-top:10px" data-a="sendAsk">요청 보내기</button>');
+  sheet('<h2>등록 요청</h2><p class="sub">찾는 가게가 없으면 알려주세요. 확인 후 추가할게요.</p><input id="an" value="' + esc(q) + '" placeholder="가게 이름"><input id="aa" placeholder="주소 또는 위치"><input id="ao" placeholder="메모 (선택)"><button class="btn primary" style="margin-top:16px" data-a="sendAsk">요청 보내기</button>');
 }
+
 function openLogin(){
-  sheet('<h2>로그인</h2><p class="sub">평점, 즐겨찾기, 팔로우를 쓰려면 로그인하세요.</p><div class="btns" style="margin-top:16px"><button class="btn primary" data-a="login" data-p="google">Google로 계속하기</button><button class="btn" data-a="login" data-p="kakao">카카오로 계속하기</button></div>');
+  sheet('<h2>로그인</h2><p class="sub">평점, 즐겨찾기, 팔로우를 쓰려면 로그인하세요.</p><div class="btns" style="margin-top:18px"><button class="btn primary" data-a="login" data-p="google">Google로 계속하기</button><button class="btn" data-a="login" data-p="kakao">카카오로 계속하기</button></div>');
 }
+
 async function openUser(uid){
   const { data: s } = await db.from('profile_stats').select('*').eq('id', uid).maybeSingle();
   if (!s){ toast('유저를 찾을 수 없어요'); return; }
@@ -310,11 +777,82 @@ const A = {
     if (needLogin()) return;
     let price = parseInt($('pr').value, 10), b = curBiz;
     if (!(price > 0)){ toast('금액을 입력해주세요'); return; }
-    price = Math.round(price / 100) * 100;
 
     const filled = [scores.taste, scores.price, scores.kind, scores.clean].filter(v => v > 0);
     if (filled.length < 4){ toast('4가지 평가 별점을 모두 선택해주세요'); return; }
     const finalScore = Math.round((scores.taste + scores.price + scores.kind + scores.clean) / 4);
 
     const { data, error } = await db.from('places').insert({
-      biz_id:
+      biz_id: b.id,
+      name: b.name + (b.branch ? ' ' + b.branch : ''),
+      kind: $('kd').value,
+      price,
+      lat: b.lat,
+      lng: b.lng,
+      address: b.road_addr || b.lot_addr
+    }).select().single();
+
+    if (error){ toast('등록 실패: ' + error.message); return; }
+    await db.from('reviews').insert({ place_id: data.id, rating: finalScore, comment: $('c').value.trim() || null });
+    await load();
+    fetchNearbyBiz();
+    openPlace(data);
+  },
+  sendAsk: async () => {
+    if (needLogin()) return;
+    const name = $('an').value.trim(); if (!name){ toast('가게 이름을 입력해주세요'); return; }
+    const { error } = await db.from('store_requests').insert({ name, address: $('aa').value.trim() || null, note: $('ao').value.trim() || null });
+    if (error){ toast('요청 실패: ' + error.message); return; }
+    toast('등록 요청이 접수됐어요'); A.close();
+  }
+};
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]');
+  if (b && A[b.dataset.a]) A[b.dataset.a](b.dataset);
+});
+
+db.auth.getSession().then(({ data }) => { me = data.session?.user || null; paintMe(); });
+db.auth.onAuthStateChange((_e, s) => { me = s?.user || null; paintMe(); });
+function paintMe(){ $('me').textContent = me ? '내 정보' : '로그인'; }
+
+function initMap(){
+  try {
+    const defaultCenter = new naver.maps.LatLng(37.5640, 126.9790);
+    map = new naver.maps.Map('map', { center: defaultCenter, zoom: 15 });
+
+    naver.maps.Event.addListener(map, 'click', () => { A.close(); $('res').hidden = true; });
+    naver.maps.Event.addListener(map, 'idle', onMapIdle);
+
+    drawPins();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        if (!map) return;
+        const myLoc = new naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        map.setCenter(myLoc);
+        map.setZoom(16);
+      }, err => {
+        console.warn('위치 확인 실패:', err.message);
+      }, { timeout: 7000 });
+    }
+  } catch (e) {
+    console.error('지도 초기화 실패:', e);
+    toast('지도 오류: ' + e.message);
+  }
+}
+
+window.navermap_authFailure = () => {
+  toast('네이버 지도 인증 실패: 네이버 콘솔 웹 서비스 URL을 확인하세요');
+};
+
+load();
+
+const s = document.createElement('script');
+s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(CLIENT_ID) + '&ncpClientId=' + encodeURIComponent(CLIENT_ID);
+s.onload = initMap;
+s.onerror = () => toast('네이버 지도 API 스크립트 로드 실패');
+document.head.appendChild(s);
+</script>
+</body>
+</html>
