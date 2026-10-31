@@ -71,7 +71,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offse
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.008</div>
+<div id="ver-badge">v0.010</div>
 <div id="top"><input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off" aria-label="가게 이름 검색"><button id="me" class="glass" data-a="me">로그인</button></div>
 <div id="res" class="glass" hidden></div>
 <div id="toast" hidden></div>
@@ -89,7 +89,7 @@ let map = null, markers = [], nearbyMarkers = [], places = [], rate = {}, me = n
 let scores = { taste: 0, price: 0, kind: 0, clean: 0 };
 
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
-function sheet(h){ $('sheet').innerHTML = '<button class="x" data-a="close" aria-label="닫기">✕</button>' + h; $('sheet').classList.add('open'); $('res').hidden = true; resetScores(); }
+function sheet(h){ $('sheet').innerHTML = '<button class="x" data-a="close" aria-label="닫기">✕</button>' + h; $('sheet').classList.add('open');$('res').hidden = true; resetScores(); }
 function needLogin(){ if (!me){ openLogin(); return true; } return false; }
 function resetScores(){ scores = { taste: 0, price: 0, kind: 0, clean: 0 }; }
 
@@ -317,76 +317,4 @@ const A = {
     const finalScore = Math.round((scores.taste + scores.price + scores.kind + scores.clean) / 4);
 
     const { data, error } = await db.from('places').insert({
-      biz_id: b.id,
-      name: b.name + (b.branch ? ' ' + b.branch : ''),
-      kind: $('kd').value,
-      price,
-      lat: b.lat,
-      lng: b.lng,
-      address: b.road_addr || b.lot_addr
-    }).select().single();
-
-    if (error){ toast('등록 실패: ' + error.message); return; }
-    await db.from('reviews').insert({ place_id: data.id, rating: finalScore, comment: $('c').value.trim() || null });
-    await load();
-    fetchNearbyBiz();
-    openPlace(data);
-  },
-  sendAsk: async () => {
-    if (needLogin()) return;
-    const name = $('an').value.trim(); if (!name){ toast('가게 이름을 입력해주세요'); return; }
-    const { error } = await db.from('store_requests').insert({ name, address: $('aa').value.trim() || null, note: $('ao').value.trim() || null });
-    if (error){ toast('요청 실패: ' + error.message); return; }
-    toast('등록 요청이 접수됐어요'); A.close();
-  }
-};
-
-document.addEventListener('click', e => {
-  const b = e.target.closest('[data-a]');
-  if (b && A[b.dataset.a]) A[b.dataset.a](b.dataset);
-});
-
-db.auth.getSession().then(({ data }) => { me = data.session?.user || null; paintMe(); });
-db.auth.onAuthStateChange((_e, s) => { me = s?.user || null; paintMe(); });
-function paintMe(){ $('me').textContent = me ? '내 정보' : '로그인'; }
-
-function initMap(){
-  try {
-    const defaultCenter = new naver.maps.LatLng(37.5640, 126.9790);
-    map = new naver.maps.Map('map', { center: defaultCenter, zoom: 15 });
-
-    naver.maps.Event.addListener(map, 'click', () => { A.close(); $('res').hidden = true; });
-    naver.maps.Event.addListener(map, 'idle', onMapIdle);
-
-    drawPins();
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        if (!map) return;
-        const myLoc = new naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        map.setCenter(myLoc);
-        map.setZoom(16);
-      }, err => {
-        console.warn('위치 확인 실패:', err.message);
-      }, { timeout: 7000 });
-    }
-  } catch (e) {
-    console.error('지도 초기화 실패:', e);
-    toast('지도 오류: ' + e.message);
-  }
-}
-
-window.navermap_authFailure = () => {
-  toast('네이버 지도 인증 실패: 네이버 콘솔 웹 서비스 URL을 확인하세요');
-};
-
-load();
-
-const s = document.createElement('script');
-s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(CLIENT_ID) + '&ncpClientId=' + encodeURIComponent(CLIENT_ID);
-s.onload = initMap;
-s.onerror = () => toast('네이버 지도 API 스크립트 로드 실패');
-document.head.appendChild(s);
-</script>
-</body>
-</html>
+      biz_id:
