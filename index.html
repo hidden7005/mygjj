@@ -8,10 +8,10 @@
 :root{--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--sub:#6e6e73;--line:#d2d2d7;--blue:#0071e3;--glass:rgba(255,255,255,.8);--gold:#ff9f0a}
 @media (prefers-color-scheme:dark){:root{--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--sub:#a1a1a6;--line:#38383a;--glass:rgba(28,28,30,.8);--gold:#ffb340}}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
+html,body{height:100%;width:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;cursor:pointer}
-#map{position:absolute;inset:0;width:100%;height:100%;background:#e5e5ea}
+#map{position:absolute;inset:0;width:100%;height:100%;background:#e5e5ea;z-index:1}
 .glass{background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 2px 14px rgba(0,0,0,.14)}
 #top{position:absolute;z-index:5;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);display:flex;gap:8px;max-width:520px}
 #q{flex:1;min-width:0;height:46px;border:0;border-radius:14px;padding:0 16px;font-size:17px;color:var(--ink)}
@@ -32,7 +32,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pin.biz{background:var(--bg);color:var(--sub);font-weight:500;font-size:12px;border:1px dashed var(--line);padding:4px 9px}
 
 /* 버전 뱃지 */
-#ver-badge{position:absolute;z-index:4;right:10px;top:calc(env(safe-area-inset-top,0px) + 10px);font-size:11px;font-weight:600;color:var(--sub);background:var(--glass);padding:3px 7px;border-radius:8px;pointer-events:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+#ver-badge{position:absolute;z-index:6;right:10px;top:calc(env(safe-area-inset-top,0px) + 12px);font-size:11px;font-weight:600;color:var(--sub);background:var(--glass);padding:3px 7px;border-radius:8px;pointer-events:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 
 #sheet{position:absolute;z-index:8;left:0;right:0;bottom:0;max-height:85%;overflow:auto;background:var(--card);border-radius:22px 22px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 22px);box-shadow:0 -4px 24px rgba(0,0,0,.2);transform:translateY(110%);transition:transform .25s ease}
 #sheet.open{transform:none}
@@ -46,41 +46,4 @@ h3{font-size:16px;margin:18px 0 8px;font-weight:600}
 .stats b{font-size:22px;font-weight:700}
 .stats span{font-size:13px;color:var(--sub);font-weight:500}
 .btns{display:flex;flex-direction:column;gap:8px}
-.btn{display:block;text-align:center;text-decoration:none;color:var(--ink);background:var(--bg);border:0;border-radius:12px;padding:13px;font-size:16px;font-weight:600;width:100%}
-.btn.primary{background:var(--blue);color:#fff}
-input,select{width:100%;height:46px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font-size:16px;background:var(--card);color:var(--ink);margin-top:6px}
-
-/* 금액 조절 컨트롤 */
-.price-ctrl{display:flex;gap:6px;margin-top:6px}
-.price-btn{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 0;font-size:13px;font-weight:600;color:var(--ink)}
-
-/* 별점 3줄 평가 그리드 */
-.rating-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);padding:12px;border-radius:14px;margin-top:8px}
-.rating-item{background:var(--card);padding:10px 12px;border-radius:10px;display:flex;flex-direction:column;gap:4px}
-.rating-item.full{grid-column:span 2;background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.25)}
-.rating-item label{font-size:13px;font-weight:600;color:var(--sub)}
-.rating-item.full label{color:var(--ink);font-size:14px}
-.star-row{display:flex;align-items:center;gap:2px}
-.star-btn{border:0;background:none;font-size:20px;color:var(--line);padding:0 1px;line-height:1}
-.star-btn.on{color:var(--gold)}
-.total-score{margin-left:auto;font-size:18px;font-weight:700;color:var(--gold)}
-
-.rv{padding:10px 0;border-top:1px solid var(--line);font-size:15px}
-.u{border:0;background:none;color:var(--blue);font-weight:600;padding:0;margin-right:6px}
-#toast{position:absolute;z-index:9;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:90%}
-#toast[hidden]{display:none}
-button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-@media (min-width:760px){#sheet{left:12px;right:auto;bottom:12px;width:420px;max-height:calc(100% - 24px);border-radius:22px}}
-</style>
-</head>
-<body>
-<div id="map"></div>
-<div id="ver-badge">v0.05</div>
-<div id="top"><input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off" aria-label="가게 이름 검색"><button id="me" class="glass" data-a="me">로그인</button></div>
-<div id="res" class="glass" hidden></div>
-<div id="toast" hidden></div>
-<section id="sheet" aria-live="polite"></section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script>
-const CLIENT_ID = 'd0j0x8a40f';
+.btn{display:block;text-align:center;text-decoration:none;color:var(--ink);background:var(--bg);border:0;border-radius:12px;padding:13px;font-size:16px;font-weight:600;width
