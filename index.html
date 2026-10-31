@@ -51,7 +51,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #2b6cff;outline-offse
     <div class="row"><h1>MY<em>GJJ</em></h1><span id="lab"></span></div>
     <input id="rng" type="range" min="4000" max="12000" step="500" value="8000" aria-label="최대 가격">
   </header>
-  <div id="notice" hidden><b>지도 키가 필요해요</b><br>코드 상단 <code>CLIENT_ID</code>에 네이버 클라우드 Client ID를 넣고, Application의 Web 서비스 URL에 이 페이지 주소를 등록해주세요. 그 전까지는 목록만 보여요.</div>
+  <div id="notice" hidden></div>
   <div id="card" hidden></div>
   <button class="fab" id="bList">목록 보기</button>
   <button class="fab" id="bLoc">내 위치</button>
@@ -134,15 +134,23 @@ function initMap(){
   naver.maps.Event.addListener(map, 'click', () => { sel = null; card(null); render(); });
   render();
 }
-window.navermap_authFailure = () => { $('notice').hidden = false; };
+function warn(t){
+  const n = $('notice'); n.textContent = '';
+  const b = document.createElement('b'); b.textContent = t;
+  const d = document.createElement('div');
+  d.textContent = '이 페이지 주소: ' + location.origin + ' — 네이버 Application의 Web 서비스 URL에 이 주소가 그대로 등록돼 있어야 해요.';
+  n.append(b, d); n.hidden = false;
+}
+window.navermap_authFailure = () => warn('지도 인증에 실패했어요');
 
 render();
-if (!CLIENT_ID){ $('notice').hidden = false; }
+if (!CLIENT_ID){ warn('지도 키(CLIENT_ID)가 비어 있어요'); }
 else {
   const s = document.createElement('script');
   s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(CLIENT_ID);
   s.onload = initMap;
-  s.onerror = () => { $('notice').hidden = false; };
+  s.onerror = () => warn('지도 스크립트를 불러오지 못했어요');
+  setTimeout(() => { if (!map) warn('지도를 불러오지 못했어요'); }, 6000);
   document.head.appendChild(s);
 }
 </script>
