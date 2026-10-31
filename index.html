@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MYGJJ</title>
+<style>
+:root{--bg:#faf6ef;--ink:#1a1412;--sub:#7a6f66;--line:#e4dccf;--gold:#d9a441;--red:#c8382a;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1412;--ink:#f4ede2;--sub:#a99e92;--line:#3a312b;--card:#251d19}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+#app{position:relative;height:100%}
+#map{position:absolute;inset:0;background:#e9e5de}
+header{position:absolute;z-index:5;left:0;right:0;top:0;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 10px}
+.row{display:flex;align-items:baseline;justify-content:space-between}
+h1{font:900 20px/1 Georgia,serif;letter-spacing:.08em}
+h1 em{color:var(--red);font-style:normal}
+#lab{font-size:13px;color:var(--sub)}
+#lab b{color:var(--ink)}
+input[type=range]{width:100%;margin:10px 0 0;accent-color:var(--red)}
+.pin{transform:translate(-50%,-100%);position:relative;background:var(--ink);color:var(--gold);font:700 13px sans-serif;padding:5px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+.pin::after{content:"";position:absolute;left:50%;top:100%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--ink)}
+.pin.on{background:var(--red);color:#fff}
+.pin.on::after{border-top-color:var(--red)}
+.fab{position:absolute;z-index:5;border:0;background:var(--ink);color:var(--bg);font:700 14px inherit;padding:11px 16px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+#bList{left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+#bLoc{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+#card{position:absolute;z-index:6;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);background:var(--card);border-left:5px solid var(--red);border-radius:8px;padding:12px 14px;box-shadow:0 3px 12px rgba(0,0,0,.25)}
+#card[hidden]{display:none}
+#card b{font-size:16px}
+#card p{margin-top:4px;color:var(--sub);font-size:14px}
+#panel{position:absolute;z-index:8;inset:0;background:var(--bg);display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+#panel.open{display:flex}
+#ph{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:800}
+#ph button{border:0;background:none;color:var(--ink);font:700 15px inherit;cursor:pointer}
+#list{list-style:none;padding:0 16px;overflow-y:auto}
+#list li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer}
+#list small{color:var(--sub)}
+#list .pr{grid-row:span 2;align-self:center;font:800 16px Georgia,serif;color:var(--red)}
+#notice{position:absolute;z-index:4;inset:100px 16px auto;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:14px;line-height:1.5}
+#notice[hidden]{display:none}
+button:focus-visible,input:focus-visible{outline:3px solid #2b6cff;outline-offset:2px}
+@media (min-width:760px){#panel{inset:0 auto 0 0;width:380px;border-right:1px solid var(--line)}#card{left:auto;width:340px;right:12px;bottom:80px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="map"></div>
+  <header>
+    <div class="row"><h1>MY<em>GJJ</em></h1><span id="lab"></span></div>
+    <input id="rng" type="range" min="4000" max="12000" step="500" value="8000" aria-label="최대 가격">
+  </header>
+  <div id="notice" hidden><b>지도 키가 필요해요</b><br>코드 상단 <code>CLIENT_ID</code>에 네이버 클라우드 Client ID를 넣고, Application의 Web 서비스 URL에 이 페이지 주소를 등록해주세요. 그 전까지는 목록만 보여요.</div>
+  <div id="card" hidden></div>
+  <button class="fab" id="bList">목록 보기</button>
+  <button class="fab" id="bLoc">내 위치</button>
+  <section id="panel">
+    <div id="ph"><span id="cnt"></span><button id="bClose">닫기</button></div>
+    <ul id="list"></ul>
+  </section>
+</div>
+<script>
+// ★ 네이버 클라우드 Application의 Client ID를 여기에 넣으세요
+const CLIENT_ID = 'd0j0x8a40f';
+
+// 샘플 데이터 (가상) — 나중에 DB로 교체
+const PLACES = [
+  {n:'가나반점', t:'간짜장', p:7000, r:4.0, lat:37.5712, lng:126.9769},
+  {n:'다라루', t:'짜장면', p:5500, r:4.6, lat:37.5641, lng:126.9753},
+  {n:'마바사 중화', t:'간짜장', p:8500, r:3.9, lat:37.5659, lng:126.9751},
+  {n:'아자성', t:'짜장면', p:6000, r:3.7, lat:37.5663, lng:126.9812},
+  {n:'차카원', t:'간짜장', p:9000, r:4.2, lat:37.5555, lng:126.9719},
+  {n:'타파하', t:'짜장면', p:6500, r:4.4, lat:37.5586, lng:126.9774},
+  {n:'홍보각', t:'간짜장', p:10000, r:4.8, lat:37.5589, lng:126.9786},
+  {n:'동해루', t:'짜장면', p:5000, r:3.6, lat:37.5702, lng:126.9998}
+];
+let max = 8000, map = null, markers = [], sel = null;
+const $ = id => document.getElementById(id);
+const won = v => v.toLocaleString('ko-KR');
+const shown = () => PLACES.filter(x => x.p <= max).sort((a,b) => a.p - b.p);
+
+function card(x){
+  const c = $('card');
+  if (!x){ c.hidden = true; return; }
+  c.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = x.n;
+  const p = document.createElement('p'); p.textContent = x.t + ' · ' + won(x.p) + '원 · 평점 ' + x.r.toFixed(1);
+  c.append(b, p); c.hidden = false;
+}
+
+function render(){
+  const items = shown();
+  $('lab').innerHTML = '<b>' + won(max) + '원</b> 이하 · ' + items.length + '곳';
+  $('cnt').textContent = items.length + '곳';
+  const ul = $('list'); ul.innerHTML = '';
+  items.forEach(x => {
+    const li = document.createElement('li');
+    const a = document.createElement('b'); a.textContent = x.n;
+    const s = document.createElement('small'); s.textContent = x.t + ' · 평점 ' + x.r.toFixed(1);
+    const pr = document.createElement('span'); pr.className = 'pr'; pr.textContent = won(x.p);
+    li.append(a, pr, s);
+    li.onclick = () => { $('panel').classList.remove('open'); pick(x); };
+    ul.appendChild(li);
+  });
+  if (!map) return;
+  markers.forEach(m => m.setMap(null));
+  markers = items.map(x => {
+    const mk = new naver.maps.Marker({ map, position: new naver.maps.LatLng(x.lat, x.lng),
+      icon: { content: '<div class="pin' + (x === sel ? ' on' : '') + '">' + won(x.p) + '</div>', anchor: new naver.maps.Point(0, 0) } });
+    naver.maps.Event.addListener(mk, 'click', () => pick(x));
+    return mk;
+  });
+}
+
+function pick(x){
+  sel = x; card(x);
+  if (map) map.panTo(new naver.maps.LatLng(x.lat, x.lng));
+  render();
+}
+
+$('rng').oninput = e => { max = +e.target.value; if (sel && sel.p > max){ sel = null; card(null); } render(); };
+$('bList').onclick = () => $('panel').classList.add('open');
+$('bClose').onclick = () => $('panel').classList.remove('open');
+$('bLoc').onclick = () => {
+  if (!map || !navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(
+    p => map.setCenter(new naver.maps.LatLng(p.coords.latitude, p.coords.longitude)),
+    () => alert('위치 권한을 허용해주세요.'));
+};
+
+function initMap(){
+  map = new naver.maps.Map('map', { center: new naver.maps.LatLng(37.5640, 126.9790), zoom: 15 });
+  naver.maps.Event.addListener(map, 'click', () => { sel = null; card(null); render(); });
+  render();
+}
+window.navermap_authFailure = () => { $('notice').hidden = false; };
+
+render();
+if (!CLIENT_ID){ $('notice').hidden = false; }
+else {
+  const s = document.createElement('script');
+  s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(CLIENT_ID);
+  s.onload = initMap;
+  s.onerror = () => { $('notice').hidden = false; };
+  document.head.appendChild(s);
+}
+</script>
+</body>
+</html>
