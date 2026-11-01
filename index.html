@@ -287,7 +287,6 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .row b { display: block; font-size: 16px; font-weight: 600; color: var(--label-primary); }
 .row small { display: block; color: var(--label-secondary); font-size: 13px; margin-top: 3px; }
 .row i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-style: normal; font-weight: 600; color: var(--apple-blue); }
-.ask { color: var(--apple-blue); font-size: 14px; font-weight: 500; text-align: center; padding: 15px; }
 .empty { padding: 20px 18px; text-align: center; color: var(--label-secondary); font-size: 15px; }
 
 /* 진짜 간짜장 애플 스타일 인증 뱃지 */
@@ -484,7 +483,7 @@ input {
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.027</div>
+<div id="ver-badge">v0.028</div>
 
 <div id="top-container">
   <div id="top">
@@ -632,12 +631,15 @@ function drawPins(){
     const price = Number(p.price || 0);
 
     if (filterRating !== 'all' && roundedStars !== parseInt(filterRating, 10)) return false;
+    
+    // 가격대 필터 로직
     if (filterPrice !== 'all') {
       if (price <= 0) return false;
-      if (filterPrice === 'under_6000' && price > 6000) return false;
-      if (filterPrice === '6000_8000' && (price <= 6000 || price > 8000)) return false;
-      if (filterPrice === '8000_10000' && (price <= 8000 || price > 10000)) return false;
-      if (filterPrice === 'over_10000' && price <= 10000) return false;
+      if (filterPrice === '6000s' && (price < 1 || price >= 7000)) return false; // 6000원대 (가성비 구간 포함)
+      if (filterPrice === '7000s' && (price < 7000 || price >= 8000)) return false;
+      if (filterPrice === '8000s' && (price < 8000 || price >= 9000)) return false;
+      if (filterPrice === '9000s' && (price < 9000 || price > 10000)) return false; // 9000원대 ~ 10000원
+      if (filterPrice === 'over_10000' && price <= 10000) return false; // 10000원 초과
     }
 
     return true;
@@ -712,11 +714,12 @@ const POP_MENUS = {
   price: {
     title: '가격대 필터',
     items: [
-      { id: 'all', label: '전체 가격' },
-      { id: 'under_6000', label: '6,000원 이하' },
-      { id: '6000_8000', label: '6,000원 ~ 8,000원' },
-      { id: '8000_10000', label: '8,000원 ~ 10,000원' },
-      { id: 'over_10000', label: '10,000원 초과' }
+      { id: 'all', label: '전체가격' },
+      { id: '6000s', label: '6000원대' },
+      { id: '7000s', label: '7000원대' },
+      { id: '8000s', label: '8000원대' },
+      { id: '9000s', label: '9000원대' },
+      { id: 'over_10000', label: '10000원 초과' }
     ],
     getVal: () => filterPrice,
     setVal: v => { filterPrice = v; updatePillLabels(); drawPins(); }
@@ -772,7 +775,7 @@ function renderRatingComponent(showPriceInput = false){
   return `
     ${priceInputHtml}
     <div class="rating-box">
-      <!-- 1. 진짜 간짜장 여부 (미달로 변경) -->
+      <!-- 1. 진짜 간짜장 여부 (미달로 수정) -->
       <div class="rating-row-real">
         <label>1. 진짜 간짜장인가요?</label>
         <div class="segment-row">
@@ -1033,7 +1036,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.027</div>' +
+        '<div><b>버전 정보</b>: v0.028</div>' +
       '</div>' +
       '<h3>✉️ 문의 및 제휴 제안</h3>' +
       '<p class="sub">서비스 피드백, 제휴 문의, 데이터 정정 요청을 남겨주세요.</p>' +
@@ -1060,7 +1063,7 @@ const A = {
   },
   reportPlace: () => {
     if (!cur) return;
-    sheet('<h2>🚩 정보 제보</h2><p class="sub">' + esc(cur.name) + '의 수정이 필요한 내용을 선택해주세요.</p>' +
+    sheet('<h2>🚩 기타 정보 제보</h2><p class="sub">' + esc(cur.name) + '의 수정이 필요한 내용을 선택해주세요.</p>' +
       '<div class="report-group">' +
         '<label class="report-opt"><input type="radio" name="rpt" value="closed" checked> 폐업한 가게예요</label>' +
         '<label class="report-opt"><input type="radio" name="rpt" value="price"> 간짜장 가격이 달라요</label>' +
@@ -1296,62 +1299,7 @@ function initMap(){
         map.setCenter(new naver.maps.LatLng(myCoord.lat, myCoord.lng));
       }, err => console.warn(err.message), { timeout: 7000 });
     }
-
-    initDoubleTapDragZoom();
   } catch (e) { toast('지도 오류: ' + e.message); }
-}
-
-// ── 모바일 원핑거 줌 (더블탭 후 누른 채 드래그 시 확대/축소)
-function initDoubleTapDragZoom() {
-  const mapEl = $('map');
-  if (!mapEl) return;
-
-  let lastTouchEndTime = 0;
-  let isDoubleTapDragging = false;
-  let startY = 0;
-  let initialZoom = 15;
-
-  mapEl.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 1) {
-      isDoubleTapDragging = false;
-      return;
-    }
-    const now = Date.now();
-    const touch = e.touches[0];
-    const timeSinceLastTouch = now - lastTouchEndTime;
-
-    // 더블탭 감지 (40ms ~ 320ms 사이 연속 터치)
-    if (timeSinceLastTouch > 40 && timeSinceLastTouch < 320) {
-      isDoubleTapDragging = true;
-      startY = touch.clientY;
-      if (map) initialZoom = map.getZoom();
-      e.preventDefault();
-    }
-  }, { passive: false });
-
-  mapEl.addEventListener('touchmove', (e) => {
-    if (!isDoubleTapDragging || !map || e.touches.length !== 1) return;
-    e.preventDefault();
-    const currentY = e.touches[0].clientY;
-    const dy = currentY - startY; // 아래로 내리면 양수(확대), 위로 올리면 음수(축소)
-
-    // 약 45px 이동당 1단계 줌 변경
-    const zoomDelta = Math.floor(dy / 45);
-    const targetZoom = Math.min(21, Math.max(6, initialZoom + zoomDelta));
-    if (map.getZoom() !== targetZoom) {
-      map.setZoom(targetZoom, false);
-    }
-  }, { passive: false });
-
-  const endDrag = () => {
-    if (isDoubleTapDragging) {
-      isDoubleTapDragging = false;
-    }
-    lastTouchEndTime = Date.now();
-  };
-
-  mapEl.addEventListener('touchend', endDrag);
-  mapEl.addEventListener('touchcancel', endDrag);
 }
 
 let moveDebounce;
