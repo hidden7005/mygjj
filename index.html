@@ -290,7 +290,7 @@ input {
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.019</div>
+<div id="ver-badge">v0.020</div>
 
 <div id="top-container">
   <div id="top">
@@ -711,7 +711,7 @@ async function openPlace(p){
     '<h3>리뷰</h3>' + (rv.length ? rv.map(r => '<div class="rv"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' +
       (r.is_real === true ? '<span class="real-badge">진짜</span> ' : (r.is_real === false ? '<span style="font-size:11px;color:var(--label-secondary)">가짜</span> ' : '')) +
       '★' + parseFloat(r.rating || 0).toFixed(1) + (r.comment ? '<br>' + esc(r.comment) : '') +
-      (r.photo_url ? '<div class="rv-photo-wrap"><img src="' + esc(r.photo_url) + '" class="rv-photo" onclick="window.open(\'' + esc(r.photo_url) + '\')"></div>' : '') + '</div>').join('') : '<p class="sub">아직 리뷰가 없어요</p>'));
+      (r.photo_url ? '<div class="rv-photo-wrap"><img src="' + esc(r.photo_url) + '" class="rv-photo" onclick="window.open('' + esc(r.photo_url) + '')"></div>' : '') + '</div>').join('') : '<p class="sub">아직 리뷰가 없어요</p>'));
 
   if (map) map.panTo(new naver.maps.LatLng(p.lat, p.lng));
 }
@@ -898,28 +898,51 @@ function initMap(){
 }
 
 let moveDebounce;
-function onMapIdle(){ clearTimeout(moveDebounce); moveDebounce = setTimeout(fetchNearbyBiz, 350); }
+function onMapIdle(){
+  clearTimeout(moveDebounce);
+  moveDebounce = setTimeout(fetchNearbyBiz, 500); // 500ms 디바운스로 트래픽 방어
+}
 
+// ⭐ 최적화: 줌 레벨 16 이상에서만 호출, 1회 최대 25개로 축소
 async function fetchNearbyBiz(){
-  if (!map || map.getZoom() < 14) { nearbyMarkers.forEach(m => m.setMap(null)); nearbyMarkers = []; return; }
-  const bounds = map.getBounds(); if (!bounds) return;
-  const sw = bounds.getSW(), ne = bounds.getNE();
-  const { data } = await db.from('biz_master').select('*').gte('lat', sw.lat()).lte('lat', ne.lat()).gte('lng', sw.lng()).lte('lng', ne.lng()).limit(60);
-  if (!data) return;
+  if (!map) return;
+  try {
+    const zoom = map.getZoom();
+    if (zoom < 16) {
+      nearbyMarkers.forEach(m => m.setMap(null));
+      nearbyMarkers = [];
+      return;
+    }
+    const bounds = map.getBounds();
+    if (!bounds) return;
+    const sw = bounds.getSW(), ne = bounds.getNE();
+    if (!sw || !ne) return;
 
-  const registeredBizIds = new Set(places.map(p => p.biz_id));
-  const unregistered = data.filter(b => !registeredBizIds.has(b.id));
-  nearbyMarkers.forEach(m => m.setMap(null)); nearbyMarkers = [];
+    const { data } = await db.from('biz_master')
+      .select('*')
+      .gte('lat', sw.lat()).lte('lat', ne.lat())
+      .gte('lng', sw.lng()).lte('lng', ne.lng())
+      .limit(25);
 
-  unregistered.forEach(b => {
-    biz[b.id] = b;
-    const mk = new naver.maps.Marker({
-      map, position: new naver.maps.LatLng(b.lat, b.lng),
-      icon: { content: '<div class="pin biz">+ ' + esc(b.name) + '</div>', anchor: new naver.maps.Point(0, 0) }
+    if (!data) return;
+
+    const registeredBizIds = new Set(places.map(p => p.biz_id));
+    const unregistered = data.filter(b => !registeredBizIds.has(b.id));
+    nearbyMarkers.forEach(m => m.setMap(null));
+    nearbyMarkers = [];
+
+    unregistered.forEach(b => {
+      biz[b.id] = b;
+      const mk = new naver.maps.Marker({
+        map, position: new naver.maps.LatLng(b.lat, b.lng),
+        icon: { content: '<div class="pin biz">+ ' + esc(b.name) + '</div>', anchor: new naver.maps.Point(0, 0) }
+      });
+      naver.maps.Event.addListener(mk, 'click', () => openNew(b));
+      nearbyMarkers.push(mk);
     });
-    naver.maps.Event.addListener(mk, 'click', () => openNew(b));
-    nearbyMarkers.push(mk);
-  });
+  } catch (err) {
+    console.warn('주변 매장 조회 예외 방어:', err);
+  }
 }
 
 $('q').oninput = e => { clearTimeout(st); st = setTimeout(() => search(e.target.value.trim()), 250); };
