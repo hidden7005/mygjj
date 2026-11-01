@@ -499,7 +499,7 @@ body.nav-open #nav-drawer{transform:translateX(0)}
 .nav-textarea{display:block;width:100%;min-height:130px;resize:vertical;border:0.5px solid var(--separator);border-radius:16px;padding:14px 16px;font:inherit;font-size:15px;background:var(--secondary-card-bg);color:var(--label-primary);margin-top:10px}
 @media(max-width:390px){.brand-btn{padding:0 7px;font-size:13px}.nav-toggle{width:42px}#top{gap:5px}#me{padding:0 9px}}
 
-/* v0.029 — cohesive Apple-inspired UI and responsive alignment */
+/* v0.030 — cohesive Apple-inspired UI and responsive alignment */
 :root { --ui-radius: 14px; --ui-control: 44px; }
 button,input,textarea { font-family:inherit; }
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid var(--apple-blue); outline-offset:2px; }
@@ -552,11 +552,37 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 }
 @media(min-width:768px) { #top-container {left:20px;right:auto;width:520px;} #res {left:20px;right:auto;width:520px;} }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after {transition-duration:.01ms!important;animation-duration:.01ms!important;} }
+
+/* v0.030 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
+#top-container { z-index: 12; }
+.nav-toggle { display:flex; align-items:center; justify-content:center; gap:6px; width:66px; padding:0 9px; font-size:18px; font-weight:650; }
+.nav-toggle-label { font-size:12px; letter-spacing:-.02em; }
+#top { grid-template-columns:66px auto minmax(0,1fr) auto; }
+#nav-backdrop { z-index:30; }
+#nav-drawer { z-index:31; }
+#nav-drawer[aria-hidden="true"] { visibility:hidden; pointer-events:none; }
+#nav-drawer[aria-hidden="false"] { visibility:visible; }
+#sheet { z-index:10; }
+#sheet .stats > div { display:flex; flex-direction:column; justify-content:center; gap:4px; }
+#sheet .stats small { line-height:1.4; }
+#sheet .rating-row label { flex:0 0 auto; }
+#sheet .rating-row .star-row { margin-left:auto; }
+@media (min-width:768px) {
+  #top-container { left:20px;right:auto;width:520px;max-width:calc(100vw - 40px);margin:0; }
+  #res { left:20px;right:auto;width:520px;max-width:calc(100vw - 40px);margin:0; }
+  #sheet { left:20px!important;right:auto!important;bottom:20px!important;width:440px!important;max-width:calc(100vw - 40px)!important;max-height:calc(100dvh - 40px)!important;border-radius:24px!important; }
+}
+@media (max-width:420px) {
+  #top { grid-template-columns:42px auto minmax(0,1fr) auto; }
+  .nav-toggle { width:42px; padding:0; }
+  .nav-toggle-label { display:none; }
+}
+@media (max-width:350px) { #top { grid-template-columns:38px minmax(0,1fr) auto; } .nav-toggle { width:38px; } }
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.029</div>
+<div id="ver-badge">v0.030</div>
 
 <div id="nav-backdrop" aria-hidden="true"></div>
 <nav id="nav-drawer" aria-label="전체 메뉴" aria-hidden="true">
@@ -572,12 +598,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.029</div>
+  <div class="nav-foot">MYGJJ · v0.030</div>
 </nav>
 
 <div id="top-container">
   <div id="top">
-    <button id="nav-toggle" class="glass nav-toggle" type="button" aria-label="전체 메뉴 열기" aria-controls="nav-drawer" aria-expanded="false">☰</button>
+    <button id="nav-toggle" class="glass nav-toggle" type="button" aria-label="전체 메뉴 열기" aria-controls="nav-drawer" aria-expanded="false"><span aria-hidden="true">☰</span><span class="nav-toggle-label">메뉴</span></button>
     <button id="brand-logo" class="glass brand-btn" data-a="refresh" title="지도를 새로고침합니다">
       <span style="font-size:17px;">🍜</span>
       <span>간짜장<span class="brand-point">면</span></span>
@@ -628,9 +654,11 @@ function getDistanceMeters(lat1, lng1, lat2, lng2) {
 
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
 function sheet(h){
+  if (document.body.classList.contains('nav-open')) toggleNav(false);
   const wasOpen = $('sheet').classList.contains('open');
   $('sheet').innerHTML = '<button class="x" data-a="close">✕</button>' + h;
   $('sheet').classList.add('open');
+  $('sheet').scrollTop = 0;
   $('res').hidden = true;
   resetScores();
   if (!wasOpen) history.pushState({ sheetOpen: true }, '');
@@ -1053,8 +1081,10 @@ function toggleNav(open){
   document.body.classList.toggle('nav-open',!!open);
   $('nav-toggle').setAttribute('aria-expanded',String(!!open));
   $('nav-drawer').setAttribute('aria-hidden',String(!open));
+  $('nav-drawer').inert = !open;
   if(open){ closePopover(); $('res').hidden=true; $('nav-drawer').querySelector('.nav-close')?.focus(); } else { $('nav-toggle').focus(); }
 }
+$('nav-drawer').inert = true;
 $('nav-toggle').addEventListener('click',()=>toggleNav(!document.body.classList.contains('nav-open')));
 $('nav-backdrop').addEventListener('click',()=>toggleNav(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape' && document.body.classList.contains('nav-open'))toggleNav(false)});
@@ -1176,7 +1206,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.029</div>' +
+        '<div><b>버전 정보</b>: v0.030</div>' +
       '</div>' +
       '<h3>✉️ 문의 및 제휴 제안</h3>' +
       '<p class="sub">서비스 피드백, 제휴 문의, 데이터 정정 요청을 남겨주세요.</p>' +
