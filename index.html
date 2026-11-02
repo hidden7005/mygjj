@@ -499,7 +499,7 @@ body.nav-open #nav-drawer{transform:translateX(0)}
 .nav-textarea{display:block;width:100%;min-height:130px;resize:vertical;border:0.5px solid var(--separator);border-radius:16px;padding:14px 16px;font:inherit;font-size:15px;background:var(--secondary-card-bg);color:var(--label-primary);margin-top:10px}
 @media(max-width:390px){.brand-btn{padding:0 7px;font-size:13px}.nav-toggle{width:42px}#top{gap:5px}#me{padding:0 9px}}
 
-/* v0.039 — cohesive Apple-inspired UI and responsive alignment */
+/* v0.040 — cohesive Apple-inspired UI and responsive alignment */
 :root { --ui-radius: 14px; --ui-control: 44px; }
 button,input,textarea { font-family:inherit; }
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid var(--apple-blue); outline-offset:2px; }
@@ -553,7 +553,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px) { #top-container {left:20px;right:auto;width:520px;} #res {left:20px;right:auto;width:520px;} }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after {transition-duration:.01ms!important;animation-duration:.01ms!important;} }
 
-/* v0.039 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
+/* v0.040 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
 #top-container { z-index: 12; }
 .nav-toggle { display:flex; align-items:center; justify-content:center; gap:6px; width:66px; padding:0 9px; font-size:18px; font-weight:650; }
 .nav-toggle-label { font-size:12px; letter-spacing:-.02em; }
@@ -578,7 +578,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   .nav-toggle-label { display:none; }
 }
 @media (max-width:350px) { #top { grid-template-columns:38px minmax(0,1fr) auto; } .nav-toggle { width:38px; } }
-/* v0.039 — 리뷰 메타데이터 및 지도 링크 */
+/* v0.040 — 리뷰 메타데이터 및 지도 링크 */
 .map-icon-btn { text-decoration:none; color:inherit; }
 .review-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
 .review-score { margin-top:4px; font-size:13px; }
@@ -587,7 +587,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .review-report { margin-left:auto; color:var(--label-secondary); font-size:12px; padding:5px 8px; border-radius:8px; }
 .review-report:hover { background:var(--secondary-card-bg); }
 
-/* v0.039 — 지도 우선형 모바일 헤더 */
+/* v0.040 — 지도 우선형 모바일 헤더 */
 #top { grid-template-columns:66px auto minmax(0,1fr); }
 #q { min-width:0; }
 #sort-bar { gap:6px; }
@@ -599,7 +599,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(max-width:420px){ #top {grid-template-columns:42px auto minmax(0,1fr);} #brand-logo{padding:0 7px;} #sort-bar{gap:4px;} .sort-pill{padding:0 10px;} }
 @media(max-width:350px){ #top {grid-template-columns:38px minmax(0,1fr);} #brand-logo{display:none;} #q{grid-column:2;} }
 
-/* v0.039 — 현재 위치로 이동 */
+/* v0.040 — 현재 위치로 이동 */
 #locate-btn {
   position:fixed; right:16px;
   bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);
@@ -616,7 +616,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px){#locate-btn{right:22px;bottom:70px}}
 @media(prefers-reduced-motion:reduce){#locate-btn{transition:none}}
 
-/* v0.039 — 방문자 중심 매장 상세 정보 */
+/* v0.040 — 방문자 중심 매장 상세 정보 */
 .detail-kicker { color:var(--label-secondary); font-size:12px; font-weight:650; letter-spacing:.02em; margin:2px 0 9px; }
 .detail-address { margin-top:8px; overflow-wrap:anywhere; }
 #sheet .stats { margin:20px 0 12px; gap:10px; }
@@ -651,7 +651,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .detail-back { color:var(--apple-blue); padding:0 0 18px; font-size:14px; font-weight:600; }
 @media(max-width:360px) { .detail-map-links .map-icon-btn { font-size:12px; gap:5px; } .map-service-icon { width:21px; height:21px; } }
 
-/* v0.039 — three-stage draggable bottom sheet (mobile web and desktop) */
+/* v0.040 — three-stage draggable bottom sheet (mobile web and desktop) */
 #sheet {
   height: 52dvh;
   max-height: 92dvh;
@@ -697,16 +697,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   #sheet { transition:none!important; }
   #sheet .sheet-drag-handle::after { transition:none; }
 }
-/* v0.039 — expanded mobile sheet stays below floating map controls. */
+/* v0.040 — expanded mobile sheet stays below floating map controls. */
 @media(max-width:767px){
   #sheet { max-height: var(--sheet-safe-height, 75dvh); }
   #sheet .sheet-drag-handle { z-index:3; }
 }
-/* v0.039 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
+/* v0.040 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
 #sheet .detail-back { display:flex; align-items:center; width:max-content; max-width:100%; min-height:42px; padding:8px 4px; margin:0 0 12px; color:var(--apple-blue); font-size:14px; font-weight:650; text-align:left; }
 #sheet .detail-back:focus-visible {outline:2px solid var(--apple-blue);outline-offset:3px;border-radius:6px}
 
-/* v0.039: full-height place details and reviewer profiles */
+/* v0.040: full-height place details and reviewer profiles */
 @media(max-width:767px){
   #sheet.place-fullscreen {
     position:fixed!important;top:0!important;bottom:0!important;left:0!important;right:0!important;
@@ -724,11 +724,24 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 #sheet .user-review-photo{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:10px}
 #sheet .user-review-go{color:var(--apple-blue);font-size:13px;font-weight:600;margin-top:12px}
 #sheet #user-review-more:not([hidden]){margin-top:16px}
+
+/* v0.040 — Mobile sheet fills the viewport when expanded, no toolbar collisions. */
+#sheet { position:fixed; left:0; right:0; bottom:0; top:auto!important; overflow-y:auto; overflow-x:hidden; padding-top:40px; overscroll-behavior-y:contain; transition:height .26s cubic-bezier(.2,.7,.2,1), transform .26s cubic-bezier(.2,.7,.2,1); }
+#sheet.sheet-expanded { border-radius:0!important; }
+#sheet.sheet-dragging {transition:none!important;}
+#sheet.place-fullscreen {top:auto!important;bottom:0!important;height:auto;max-height:none;padding-top:40px;}
+#sheet .sheet-drag-handle, #sheet.place-fullscreen .sheet-drag-handle {position:sticky;top:0!important;margin:-40px auto 12px;min-height:40px;z-index:5;}
+#sheet.sheet-expanded .sheet-drag-handle {background:var(--card-bg);}
+#sort-bar {overflow-x:auto;overflow-y:hidden;white-space:nowrap;}
+.real-filter-pill {font-weight:750;color:#9b5400;}
+.real-filter-pill.filtered {background:linear-gradient(115deg,#f59e0b,#ea580c);color:#fff;border-color:transparent;}
+@media (max-width:767px) { #sheet, #sheet.place-fullscreen {left:0!important;right:0!important;width:100%!important;max-height:none!important;} #sheet.sheet-expanded{border-radius:0!important;} }
+@media (min-width:768px) {#sheet{left:20px;right:auto;width:440px;max-height:calc(100dvh - 20px)!important} #sheet.sheet-expanded{border-radius:24px!important;} }
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.039</div>
+<div id="ver-badge">v0.040</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -746,7 +759,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.039</div>
+  <div class="nav-foot">MYGJJ · v0.040</div>
 </nav>
 
 <div id="top-container">
@@ -759,6 +772,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
     <input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off">
   </div>
   <div id="sort-bar">
+    <button class="sort-pill real-filter-pill" id="pill-real" type="button" aria-pressed="false">🔥 진짜 간짜장</button>
     <button class="sort-pill" id="pill-rating" data-pop="rating">★ 별점 필터 ▾</button>
     <button class="sort-pill" id="pill-price" data-pop="price">₩ 가격대 필터 ▾</button>
     <button class="sort-pill" id="pill-reset" style="display:none;color:#ff3b30;">↺ 초기화</button>
@@ -782,6 +796,7 @@ let map = null, markers = [], nearbyMarkers = [], places = [], rate = {}, realSt
 let searchSeq = 0, nearbySeq = 0, currentPreviewUrl = null;
 let currentSort = 'default';
 let filterRating = 'all';
+let filterRealOnly = false;
 let filterPrice = 'all';
 let myCoord = null;
 let openPopType = null;
@@ -800,70 +815,72 @@ function getDistanceMeters(lat1, lng1, lat2, lng2) {
 }
 
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
-// 20% / 52% / 90% snapping; the drag handle never steals list/review scrolling.
-const SHEET_STAGES = [0.20, 0.52, 0.90];
+// v0.040: two-position sheet. Handle drag is distinct from content scrolling.
+const SHEET_STAGES = [0.52, 1]; // half, full
 let sheetStage = 1;
 let sheetDrag = null;
 function sheetMaxHeight(){
-  if ($('sheet').classList.contains('place-fullscreen')) return window.innerHeight;
-  if (window.innerWidth >= 768) return Math.max(160, window.innerHeight - 40);
-  // Never let the sheet's handle slide behind the floating search/filter toolbar.
-  const toolbar = $('top-container');
-  const toolbarBottom = toolbar ? toolbar.getBoundingClientRect().bottom : 120;
-  return Math.max(130, window.innerHeight - Math.max(120, toolbarBottom + 14));
+  return Math.max(160, window.visualViewport?.height || window.innerHeight);
 }
 function sheetHeightAt(stage){
-  if ($('sheet').classList.contains('place-fullscreen') && stage===2) return window.innerHeight;
-  return Math.min(sheetMaxHeight(), Math.max(110, Math.round(window.innerHeight * SHEET_STAGES[stage])));
+  const vh = sheetMaxHeight();
+  return stage === 1 ? vh : Math.round(vh * 0.52);
 }
 function setSheetStage(stage){
-  sheetStage = Math.max(0, Math.min(2, stage));
-  $('sheet').style.maxHeight = sheetMaxHeight() + 'px';
-  $('sheet').style.height = sheetHeightAt(sheetStage) + 'px';
+  sheetStage = Math.max(0, Math.min(1, stage));
+  const el = $('sheet');
+  el.style.maxHeight = sheetMaxHeight() + 'px';
+  el.style.height = sheetHeightAt(sheetStage) + 'px';
+  el.classList.toggle('sheet-expanded', sheetStage === 1);
   const handle = $('sheet-drag-handle');
-  if (handle) handle.setAttribute('aria-valuenow', String(Math.round(SHEET_STAGES[sheetStage] * 100)));
+  if (handle) {
+    handle.setAttribute('aria-valuenow', String(sheetStage ? 100 : 52));
+    handle.setAttribute('aria-valuetext', sheetStage ? '전체 화면' : '절반 화면');
+  }
 }
 function setupSheetDragHandle(){
   const handle = $('sheet-drag-handle');
   if (!handle) return;
   handle.addEventListener('pointerdown', e => {
     if (e.button !== 0 || !$('sheet').classList.contains('open')) return;
-    sheetDrag = { id:e.pointerId, y:e.clientY, height:$('sheet').getBoundingClientRect().height, moved:false };
+    sheetDrag = {id:e.pointerId, y:e.clientY, height:$('sheet').getBoundingClientRect().height, moved:false};
     handle.setPointerCapture(e.pointerId);
     $('sheet').classList.add('sheet-dragging');
     e.preventDefault();
   });
   handle.addEventListener('pointermove', e => {
     if (!sheetDrag || e.pointerId !== sheetDrag.id) return;
-    const delta = sheetDrag.y - e.clientY;
-    if (Math.abs(delta) > 6) sheetDrag.moved = true;
-    const height = Math.max(sheetHeightAt(0), Math.min(sheetHeightAt(2), sheetDrag.height + delta));
-    $('sheet').style.height = Math.round(height) + 'px';
+    const dy = sheetDrag.y - e.clientY;
+    if (Math.abs(dy)>5) sheetDrag.moved = true;
+    // Pulling past half is allowed as a visual cue for dismissal.
+    const h = Math.max(90, Math.min(sheetMaxHeight(), sheetDrag.height+dy));
+    $('sheet').style.height = Math.round(h)+'px';
     e.preventDefault();
   });
-  function finishDrag(e){
+  const finishDrag = e => {
     if (!sheetDrag || e.pointerId !== sheetDrag.id) return;
+    const dy = e.clientY - sheetDrag.y;
+    const startedHeight = sheetDrag.height;
     const moved = sheetDrag.moved;
-    const downward = e.clientY - sheetDrag.y;
-    const wasFullscreen = $('sheet').classList.contains('place-fullscreen');
     sheetDrag = null;
     $('sheet').classList.remove('sheet-dragging');
     if (handle.hasPointerCapture(e.pointerId)) handle.releasePointerCapture(e.pointerId);
-    if (moved && wasFullscreen && downward > 110) { closeSheet(); return; }
-    if (moved){
-      const height = $('sheet').getBoundingClientRect().height;
-      const nearest = SHEET_STAGES.map((_,i)=>({i,dist:Math.abs(height-sheetHeightAt(i))})).sort((a,b)=>a.dist-b.dist)[0].i;
-      setSheetStage(nearest);
-    }
-  }
-  handle.addEventListener('pointerup',finishDrag);
-  handle.addEventListener('pointercancel',finishDrag);
-  handle.addEventListener('dblclick',()=>setSheetStage(sheetStage===2 ? 1 : 2));
-  handle.addEventListener('keydown',e=>{
-    if(e.key==='ArrowUp'){e.preventDefault();setSheetStage(sheetStage+1);}
-    if(e.key==='ArrowDown'){e.preventDefault();setSheetStage(sheetStage-1);}
-    if(e.key==='Home'){e.preventDefault();setSheetStage(0);}
-    if(e.key==='End'){e.preventDefault();setSheetStage(2);}
+    if (!moved) { setSheetStage(sheetStage); return; }
+    const half = sheetHeightAt(0), full = sheetHeightAt(1);
+    if (dy > 95 && (startedHeight <= half+35 || dy > full*0.44)) { closeSheet(); return; }
+    if (dy > 70) { setSheetStage(0); return; }
+    if (dy < -70) { setSheetStage(1); return; }
+    const current=$('sheet').getBoundingClientRect().height;
+    setSheetStage(Math.abs(current-half) < Math.abs(current-full) ? 0 : 1);
+  };
+  handle.addEventListener('pointerup', finishDrag);
+  handle.addEventListener('pointercancel', finishDrag);
+  handle.addEventListener('dblclick', () => setSheetStage(sheetStage ? 0 : 1));
+  handle.addEventListener('keydown', e => {
+    if (e.key==='ArrowUp' || e.key==='End') { e.preventDefault();setSheetStage(1); }
+    if (e.key==='ArrowDown') { e.preventDefault(); if(sheetStage===0) closeSheet(); else setSheetStage(0); }
+    if (e.key==='Home') { e.preventDefault();setSheetStage(0); }
+    if (e.key==='Escape') { e.preventDefault();closeSheet(); }
   });
 }
 function sheet(h, options = {}){
@@ -871,10 +888,10 @@ function sheet(h, options = {}){
   const wasOpen = $('sheet').classList.contains('open');
   $('sheet').classList.toggle('place-fullscreen', !!options.fullscreen);
   const hasBack = h.includes('data-a="backToPlace"');
-  $('sheet').innerHTML = '<button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="90" aria-valuenow="52" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + h;
+  $('sheet').innerHTML = '<button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="52" aria-valuemax="100" aria-valuenow="100" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + h;
   sheetDrag = null;
   $('sheet').classList.remove('sheet-dragging');
-  setSheetStage(options.fullscreen ? 2 : 1);
+  setSheetStage(options.fullscreen ? 1 : 0);
   setupSheetDragHandle();
   $('sheet').classList.add('open');
   $('sheet').scrollTop = 0;
@@ -886,7 +903,8 @@ window.addEventListener('resize',()=>{ if ($('sheet').classList.contains('open')
 function closeSheet(fromPopstate = false){
   if (!$('sheet').classList.contains('open')) return;
   $('sheet').classList.remove('open');
-  $('sheet').classList.remove('place-fullscreen');
+  $('sheet').classList.remove('place-fullscreen', 'sheet-expanded', 'sheet-dragging');
+  $('sheet').style.height = '';
   if (!fromPopstate && history.state?.sheetOpen) history.back();
 }
 window.addEventListener('popstate', () => { if ($('sheet').classList.contains('open')) closeSheet(true); });
@@ -956,6 +974,7 @@ async function load(){
     });
 
     drawPins();
+    updatePillLabels();
   } catch(e) { console.error(e); }
 }
 
@@ -978,12 +997,18 @@ function clearNearbyMarkers() {
   nearbyMarkers.forEach(m => m.setMap(null));
   nearbyMarkers = [];
 }
+function isVerifiedReal(p) {
+  const st = realStats[p.id];
+  return !!(st && st.total >= 3 && st.yes / st.total >= 0.9);
+}
+
 function drawPins(){
   if (!map || typeof naver === 'undefined' || !naver.maps) return;
   markers.forEach(m => m.setMap(null));
   markers = [];
 
   let listToDraw = places.filter(p => {
+    if (filterRealOnly && !isVerifiedReal(p)) return false;
     const rt = rate[p.id];
     const avg = rt ? parseFloat(rt.avg_rating) : 0;
     const roundedStars = Math.round(avg);
@@ -1092,11 +1117,13 @@ const POP_MENUS = {
 };
 
 function updatePillLabels(){
+  $('pill-real').classList.toggle('filtered', filterRealOnly);
+  $('pill-real').setAttribute('aria-pressed', String(filterRealOnly));
   $('pill-rating').textContent = filterRating === 'all' ? '★ 별점 필터 ▾' : POP_MENUS.rating.items.find(x => x.id === filterRating).label + ' ▾';
   $('pill-rating').classList.toggle('filtered', filterRating !== 'all');
   $('pill-price').textContent = filterPrice === 'all' ? '₩ 가격대 필터 ▾' : POP_MENUS.price.items.find(x => x.id === filterPrice).label + ' ▾';
   $('pill-price').classList.toggle('filtered', filterPrice !== 'all');
-  $('pill-reset').style.display = (filterRating !== 'all' || filterPrice !== 'all') ? 'inline-flex' : 'none';
+  $('pill-reset').style.display = (filterRealOnly || filterRating !== 'all' || filterPrice !== 'all') ? 'inline-flex' : 'none';
 }
 
 function openPopover(type, btnEl){
@@ -1113,8 +1140,16 @@ function closePopover(){ openPopType = null; popEl.hidden = true; }
 
 $('sort-bar').addEventListener('click', e => {
   const btn = e.target.closest('.sort-pill'); if (!btn) return;
+  if (btn.id === 'pill-real') {
+    filterRealOnly = !filterRealOnly;
+    updatePillLabels(); closePopover(); drawPins();
+    ++nearbySeq; if (filterRealOnly) clearNearbyMarkers(); else fetchNearbyBiz();
+    toast(filterRealOnly ? '인증된 진짜 간짜장 매장만 표시합니다.' : '모든 매장을 표시합니다.');
+    return;
+  }
   if (btn.id === 'pill-reset') {
-    filterRating = 'all'; filterPrice = 'all';
+    filterRealOnly = false; filterRating = 'all'; filterPrice = 'all';
+    fetchNearbyBiz();
     updatePillLabels(); closePopover(); drawPins(); toast('모든 필터가 초기화되었어요'); return;
   }
   if (btn.dataset.pop) openPopover(btn.dataset.pop, btn);
@@ -1318,7 +1353,7 @@ function openNew(b){
   curBiz = b;
   sheet('<h2>' + esc(b.name) + (b.branch ? ' ' + esc(b.branch) : '') + '</h2><p class="sub">' + esc(b.road_addr || b.lot_addr) + '</p>' +
     renderRatingComponent(true) +
-    '<button class="btn primary" style="margin-top:16px" data-a="saveNew">입력하기</button>');
+    '<button class="btn primary" style="margin-top:16px" data-a="saveNew">입력하기</button>', {fullscreen:true});
 }
 
 function openLogin(returnToPlace = false){
@@ -1585,7 +1620,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.039</div>' +
+        '<div><b>버전 정보</b>: v0.040</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -1898,7 +1933,7 @@ async function fetchNearbyBiz(){
   try {
     const zoom = map.getZoom();
     // 축척이 넓을 때는 이미 평가된 매장만 보여줍니다.
-    if (zoom < 16) { clearNearbyMarkers(); return; }
+    if (filterRealOnly || zoom < 16) { clearNearbyMarkers(); return; }
     const bounds = map.getBounds();
     if (!bounds) return;
     const sw = bounds.getSW(), ne = bounds.getNE();
