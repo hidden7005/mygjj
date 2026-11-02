@@ -499,7 +499,7 @@ body.nav-open #nav-drawer{transform:translateX(0)}
 .nav-textarea{display:block;width:100%;min-height:130px;resize:vertical;border:0.5px solid var(--separator);border-radius:16px;padding:14px 16px;font:inherit;font-size:15px;background:var(--secondary-card-bg);color:var(--label-primary);margin-top:10px}
 @media(max-width:390px){.brand-btn{padding:0 7px;font-size:13px}.nav-toggle{width:42px}#top{gap:5px}#me{padding:0 9px}}
 
-/* v0.037 — cohesive Apple-inspired UI and responsive alignment */
+/* v0.039 — cohesive Apple-inspired UI and responsive alignment */
 :root { --ui-radius: 14px; --ui-control: 44px; }
 button,input,textarea { font-family:inherit; }
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid var(--apple-blue); outline-offset:2px; }
@@ -553,7 +553,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px) { #top-container {left:20px;right:auto;width:520px;} #res {left:20px;right:auto;width:520px;} }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after {transition-duration:.01ms!important;animation-duration:.01ms!important;} }
 
-/* v0.037 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
+/* v0.039 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
 #top-container { z-index: 12; }
 .nav-toggle { display:flex; align-items:center; justify-content:center; gap:6px; width:66px; padding:0 9px; font-size:18px; font-weight:650; }
 .nav-toggle-label { font-size:12px; letter-spacing:-.02em; }
@@ -578,7 +578,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   .nav-toggle-label { display:none; }
 }
 @media (max-width:350px) { #top { grid-template-columns:38px minmax(0,1fr) auto; } .nav-toggle { width:38px; } }
-/* v0.037 — 리뷰 메타데이터 및 지도 링크 */
+/* v0.039 — 리뷰 메타데이터 및 지도 링크 */
 .map-icon-btn { text-decoration:none; color:inherit; }
 .review-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
 .review-score { margin-top:4px; font-size:13px; }
@@ -587,7 +587,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .review-report { margin-left:auto; color:var(--label-secondary); font-size:12px; padding:5px 8px; border-radius:8px; }
 .review-report:hover { background:var(--secondary-card-bg); }
 
-/* v0.037 — 지도 우선형 모바일 헤더 */
+/* v0.039 — 지도 우선형 모바일 헤더 */
 #top { grid-template-columns:66px auto minmax(0,1fr); }
 #q { min-width:0; }
 #sort-bar { gap:6px; }
@@ -599,7 +599,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(max-width:420px){ #top {grid-template-columns:42px auto minmax(0,1fr);} #brand-logo{padding:0 7px;} #sort-bar{gap:4px;} .sort-pill{padding:0 10px;} }
 @media(max-width:350px){ #top {grid-template-columns:38px minmax(0,1fr);} #brand-logo{display:none;} #q{grid-column:2;} }
 
-/* v0.037 — 현재 위치로 이동 */
+/* v0.039 — 현재 위치로 이동 */
 #locate-btn {
   position:fixed; right:16px;
   bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);
@@ -616,7 +616,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px){#locate-btn{right:22px;bottom:70px}}
 @media(prefers-reduced-motion:reduce){#locate-btn{transition:none}}
 
-/* v0.037 — 방문자 중심 매장 상세 정보 */
+/* v0.039 — 방문자 중심 매장 상세 정보 */
 .detail-kicker { color:var(--label-secondary); font-size:12px; font-weight:650; letter-spacing:.02em; margin:2px 0 9px; }
 .detail-address { margin-top:8px; overflow-wrap:anywhere; }
 #sheet .stats { margin:20px 0 12px; gap:10px; }
@@ -651,7 +651,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .detail-back { color:var(--apple-blue); padding:0 0 18px; font-size:14px; font-weight:600; }
 @media(max-width:360px) { .detail-map-links .map-icon-btn { font-size:12px; gap:5px; } .map-service-icon { width:21px; height:21px; } }
 
-/* v0.037 — three-stage draggable bottom sheet (mobile web and desktop) */
+/* v0.039 — three-stage draggable bottom sheet (mobile web and desktop) */
 #sheet {
   height: 52dvh;
   max-height: 92dvh;
@@ -697,19 +697,38 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   #sheet { transition:none!important; }
   #sheet .sheet-drag-handle::after { transition:none; }
 }
-/* v0.037 — expanded mobile sheet stays below floating map controls. */
+/* v0.039 — expanded mobile sheet stays below floating map controls. */
 @media(max-width:767px){
   #sheet { max-height: var(--sheet-safe-height, 75dvh); }
   #sheet .sheet-drag-handle { z-index:3; }
 }
-/* v0.037 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
+/* v0.039 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
 #sheet .detail-back { display:flex; align-items:center; width:max-content; max-width:100%; min-height:42px; padding:8px 4px; margin:0 0 12px; color:var(--apple-blue); font-size:14px; font-weight:650; text-align:left; }
 #sheet .detail-back:focus-visible {outline:2px solid var(--apple-blue);outline-offset:3px;border-radius:6px}
+
+/* v0.039: full-height place details and reviewer profiles */
+@media(max-width:767px){
+  #sheet.place-fullscreen {
+    position:fixed!important;top:0!important;bottom:0!important;left:0!important;right:0!important;
+    width:100%!important;height:100dvh!important;max-height:100dvh!important;
+    border-radius:0!important;padding-top:calc(env(safe-area-inset-top,0px) + 24px);
+    z-index:25!important;
+  }
+  #sheet.place-fullscreen .sheet-drag-handle {top:calc(-24px - env(safe-area-inset-top,0px));}
+}
+#sheet .reviewer-stats{font-size:12px;color:var(--label-secondary);white-space:nowrap}
+#sheet .review-meta{flex-wrap:wrap;column-gap:8px;row-gap:4px}
+#sheet .review-report{margin-left:auto}
+#sheet .user-review-place{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+#sheet .user-review-place time{font-size:12px;color:var(--label-secondary);white-space:nowrap}
+#sheet .user-review-photo{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:10px}
+#sheet .user-review-go{color:var(--apple-blue);font-size:13px;font-weight:600;margin-top:12px}
+#sheet #user-review-more:not([hidden]){margin-top:16px}
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.037</div>
+<div id="ver-badge">v0.039</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -727,7 +746,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.037</div>
+  <div class="nav-foot">MYGJJ · v0.039</div>
 </nav>
 
 <div id="top-container">
@@ -786,6 +805,7 @@ const SHEET_STAGES = [0.20, 0.52, 0.90];
 let sheetStage = 1;
 let sheetDrag = null;
 function sheetMaxHeight(){
+  if ($('sheet').classList.contains('place-fullscreen')) return window.innerHeight;
   if (window.innerWidth >= 768) return Math.max(160, window.innerHeight - 40);
   // Never let the sheet's handle slide behind the floating search/filter toolbar.
   const toolbar = $('top-container');
@@ -793,6 +813,7 @@ function sheetMaxHeight(){
   return Math.max(130, window.innerHeight - Math.max(120, toolbarBottom + 14));
 }
 function sheetHeightAt(stage){
+  if ($('sheet').classList.contains('place-fullscreen') && stage===2) return window.innerHeight;
   return Math.min(sheetMaxHeight(), Math.max(110, Math.round(window.innerHeight * SHEET_STAGES[stage])));
 }
 function setSheetStage(stage){
@@ -823,9 +844,12 @@ function setupSheetDragHandle(){
   function finishDrag(e){
     if (!sheetDrag || e.pointerId !== sheetDrag.id) return;
     const moved = sheetDrag.moved;
+    const downward = e.clientY - sheetDrag.y;
+    const wasFullscreen = $('sheet').classList.contains('place-fullscreen');
     sheetDrag = null;
     $('sheet').classList.remove('sheet-dragging');
     if (handle.hasPointerCapture(e.pointerId)) handle.releasePointerCapture(e.pointerId);
+    if (moved && wasFullscreen && downward > 110) { closeSheet(); return; }
     if (moved){
       const height = $('sheet').getBoundingClientRect().height;
       const nearest = SHEET_STAGES.map((_,i)=>({i,dist:Math.abs(height-sheetHeightAt(i))})).sort((a,b)=>a.dist-b.dist)[0].i;
@@ -842,14 +866,15 @@ function setupSheetDragHandle(){
     if(e.key==='End'){e.preventDefault();setSheetStage(2);}
   });
 }
-function sheet(h){
+function sheet(h, options = {}){
   if (document.body.classList.contains('nav-open')) toggleNav(false);
   const wasOpen = $('sheet').classList.contains('open');
+  $('sheet').classList.toggle('place-fullscreen', !!options.fullscreen);
   const hasBack = h.includes('data-a="backToPlace"');
   $('sheet').innerHTML = '<button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="90" aria-valuenow="52" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + h;
   sheetDrag = null;
   $('sheet').classList.remove('sheet-dragging');
-  setSheetStage(1);
+  setSheetStage(options.fullscreen ? 2 : 1);
   setupSheetDragHandle();
   $('sheet').classList.add('open');
   $('sheet').scrollTop = 0;
@@ -861,6 +886,7 @@ window.addEventListener('resize',()=>{ if ($('sheet').classList.contains('open')
 function closeSheet(fromPopstate = false){
   if (!$('sheet').classList.contains('open')) return;
   $('sheet').classList.remove('open');
+  $('sheet').classList.remove('place-fullscreen');
   if (!fromPopstate && history.state?.sheetOpen) history.back();
 }
 window.addEventListener('popstate', () => { if ($('sheet').classList.contains('open')) closeSheet(true); });
@@ -1144,7 +1170,7 @@ function renderRatingComponent(showPriceInput = false){
       </div>
     </div>
 
-    <input id="c" placeholder="한줄평 남기기 (선택)" maxlength="100">
+    <input id="c" placeholder="한줄평 (선택 · 비워도 별점 등록 가능)" maxlength="100">
     <div class="photo-uploader">
       <label for="review-photo-input" class="photo-upload-btn" id="photo-upload-label">
         <span>📷</span><span>간짜장 사진 첨부 (선택)</span>
@@ -1249,6 +1275,7 @@ async function openPlace(p){
     const badge = r.is_real === true ? '<span class="real-badge">진짜</span>' : r.is_real === false ? '<span class="review-not-real">미달</span>' : '';
     const photo = r.photo_url && /^https:\/\/[^\s"'<>]+$/i.test(r.photo_url) ? '<div class="rv-photo-wrap"><a href="' + esc(r.photo_url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(r.photo_url) + '" class="rv-photo" alt="리뷰 사진" loading="lazy"></a></div>' : '';
     return '<article class="rv"><div class="review-meta"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' +
+      '<span class="reviewer-stats" data-user-stats="' + esc(r.user_id) + '">(집계 중)</span>' +
       (dateText ? '<time class="review-date">' + esc(dateText) + '</time>' : '') +
       '<button class="review-report" data-a="reportReview" data-id="' + esc(r.id) + '">신고</button></div>' +
       '<div class="review-score">' + badge + ' <strong>★ ' + Number(r.rating || 0).toFixed(1) + '</strong></div>' +
@@ -1267,7 +1294,8 @@ async function openPlace(p){
     '<section class="detail-section"><div class="detail-section-head"><h3>방문자 리뷰</h3><span class="detail-count">최근 ' + rv.length + '개</span></div>' +
     '<div class="detail-reviews">' + reviewsHtml + '</div></section>' +
     '<section class="detail-actions"><button class="btn primary" data-a="openReviewComposer">★ 리뷰 및 사진 등록하기</button>' +
-    '<button class="btn detail-secondary-action" data-a="reportPlace">정보 오류 · 개선 제보</button></section>');
+    '<button class="btn detail-secondary-action" data-a="reportPlace">정보 오류 · 개선 제보</button></section>', {fullscreen:true});
+  updateVisibleReviewerStats(rv);
 
   if (map) map.panTo(new naver.maps.LatLng(p.lat, p.lng));
 }
@@ -1306,18 +1334,94 @@ function openNicknamePrompt(isInitial = false){
     '<button class="btn primary" style="margin-top:16px" data-a="saveNickname">닉네임 저장하기</button>');
 }
 
-async function openUser(uid){
-  const { data: s } = await db.from('profiles').select('username').eq('id', uid).maybeSingle();
-  const uname = s?.username || (me?.id === uid ? me?.user_metadata?.username : null) || '익명';
-  sheet('<h2>@' + esc(uname) + '</h2>' +
-    (me && me.id === uid ? '<div class="btns" style="margin-top:14px;">' +
-      '<button class="btn" data-a="editNick">✏️ 닉네임 수정</button>' +
-      '<button class="btn" data-a="showAppInfo">ℹ️ 앱 정보 / 문의 · 제휴</button>' +
-      '<button class="btn" data-a="logout">로그아웃</button>' +
-      '<button class="btn" data-a="withdraw" style="color:#ff3b30;border-color:rgba(255,59,48,0.25);margin-top:12px;font-size:14px;">회원 탈퇴</button>' +
-    '</div>' : '<div class="btns" style="margin-top:14px;"><button class="btn" data-a="showAppInfo">ℹ️ 앱 정보 / 문의 · 제휴</button></div>'));
+// 리뷰 작성자 통계는 전체 리뷰(모든 식당)에서 계산합니다.
+const reviewerStatsCache = new Map();
+async function getReviewerStats(uid){
+  if (!uid) return {count:0,avg:0,reviews:[]};
+  if (reviewerStatsCache.has(uid)) return reviewerStatsCache.get(uid);
+  const promise = (async()=>{
+    let offset=0, all=[];
+    const pageSize=500;
+    while(true){
+      const {data,error}=await db.from('reviews')
+        .select('id,place_id,created_at,rating,comment,photo_url,is_real')
+        .eq('user_id',uid).order('created_at',{ascending:false})
+        .range(offset,offset+pageSize-1);
+      if(error) throw error;
+      all.push(...(data||[]));
+      if(!data || data.length<pageSize) break;
+      offset+=pageSize;
+    }
+    const rated=all.filter(r=>Number.isFinite(Number(r.rating)) && r.rating!==null);
+    const avg=rated.length ? rated.reduce((sum,r)=>sum+Number(r.rating),0)/rated.length : 0;
+    return {count:all.length,avg,reviews:all};
+  })();
+  reviewerStatsCache.set(uid,promise);
+  try{return await promise;}catch(e){reviewerStatsCache.delete(uid);throw e;}
 }
-
+async function updateVisibleReviewerStats(reviews){
+  const unique=[...new Set(reviews.map(r=>r.user_id).filter(Boolean))];
+  await Promise.all(unique.map(async uid=>{
+    try{
+      const stat=await getReviewerStats(uid);
+      document.querySelectorAll('#sheet .reviewer-stats').forEach(el=>{
+        if(el.dataset.userStats===String(uid)) el.textContent=`(★ ${stat.count?stat.avg.toFixed(1):'-'} / ${stat.count})`;
+      });
+    }catch(e){
+      console.warn('작성자 통계 오류:',e);
+      document.querySelectorAll('#sheet .reviewer-stats').forEach(el=>{
+        if(el.dataset.userStats===String(uid)) el.textContent='(정보 없음)';
+      });
+    }
+  }));
+}
+let profileReviewData=[];
+let profileReviewOffset=0;
+function renderUserReviewRows(){
+  const box=$('user-review-list');
+  if(!box)return;
+  const slice=profileReviewData.slice(profileReviewOffset,profileReviewOffset+20);
+  box.insertAdjacentHTML('beforeend',slice.map(r=>{
+    const place=places.find(p=>String(p.id)===String(r.place_id));
+    const name=place?.name||'식당 정보';
+    const date=r.created_at&&!Number.isNaN(Date.parse(r.created_at)) ? new Date(r.created_at).toLocaleDateString('ko-KR') : '';
+    const photo=r.photo_url && /^https:\/\/[^\s"'<>]+$/i.test(r.photo_url) ? '<img class="user-review-photo" src="'+esc(r.photo_url)+'" alt="리뷰 사진" loading="lazy">':'';
+    return '<article class="rv user-review-item"><div class="user-review-place"><b>'+esc(name)+'</b><time>'+esc(date)+'</time></div>'+
+      '<div class="review-score"><strong>★ '+Number(r.rating||0).toFixed(1)+'</strong></div>'+
+      (r.comment?'<p class="review-comment">'+esc(r.comment)+'</p>':'')+photo+
+      (place?'<button class="user-review-go" data-a="place" data-id="'+esc(place.id)+'">식당 보기 ›</button>':'')+'</article>';
+  }).join(''));
+  profileReviewOffset+=slice.length;
+  const more=$('user-review-more');
+  if(more)more.hidden=profileReviewOffset>=profileReviewData.length;
+}
+async function openUser(uid, fromReview = false){
+  if(!uid)return;
+  const backButton = fromReview && cur ? '<button class="detail-back" data-a="backToPlace">‹ 식당 정보로 돌아가기</button>' : '';
+  sheet(backButton+'<h2>작성자 리뷰</h2><p class="sub">전체 리뷰를 불러오는 중입니다.</p>');
+  const current=$('sheet');
+  try{
+    const [profile,stat]=await Promise.all([
+      db.from('profiles').select('username').eq('id',uid).maybeSingle(),
+      getReviewerStats(uid)
+    ]);
+    if(profile.error) console.warn('프로필 조회 오류:',profile.error);
+    if(current!==$('sheet') || !$('sheet').classList.contains('open'))return;
+    const uname=profile.data?.username||(me?.id===uid?me?.user_metadata?.username:null)||'익명';
+    profileReviewData=stat.reviews;
+    profileReviewOffset=0;
+    sheet(backButton+'<div class="detail-kicker">작성자 프로필</div><h2>@'+esc(uname)+'</h2>'+
+      '<p class="sub">평균 평점 ★ '+(stat.count?stat.avg.toFixed(1):'-')+' / 리뷰 '+stat.count+'개</p>'+
+      '<section class="detail-section"><div class="detail-section-head"><h3>작성한 리뷰</h3><span class="detail-count">총 '+stat.count+'개</span></div>'+
+      '<div id="user-review-list"></div><button id="user-review-more" class="btn" data-a="moreUserReviews" hidden>리뷰 더 보기</button></section>'+
+      (me?.id===uid?'<div class="btns"><button class="btn" data-a="editNick">닉네임 수정</button><button class="btn" data-a="logout">로그아웃</button><button class="btn" data-a="withdraw">회원 탈퇴 요청</button></div>':''));
+    if(stat.count)renderUserReviewRows();
+    else $('user-review-list').innerHTML='<p class="detail-empty">작성한 리뷰가 없습니다.</p>';
+  }catch(e){
+    console.warn('작성자 리뷰 조회 실패:',e);
+    sheet(backButton+'<h2>리뷰 조회 오류</h2><p class="sub">리뷰를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>');
+  }
+}
 
 function toggleNav(open){
   document.body.classList.toggle('nav-open',!!open);
@@ -1481,7 +1585,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.037</div>' +
+        '<div><b>버전 정보</b>: v0.039</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -1565,7 +1669,8 @@ const A = {
   score: d => { scores[d.cat] = +d.n; updateStarsUI(); },
   login: d => db.auth.signInWithOAuth({ provider: d.p, options: { redirectTo: location.origin + location.pathname } }),
   logout: async () => { await db.auth.signOut(); closeSheet(); },
-  user: d => openUser(d.id),
+  user: d => openUser(d.id, true),
+  moreUserReviews: () => renderUserReviewRows(),
   review: async () => {
     if (needLogin()) return;
     const commentVal = $('c')?.value.trim() || '';
@@ -1603,6 +1708,7 @@ const A = {
 
     const finalScore = parseFloat(((scores.taste + scores.price + scores.kind) / 3).toFixed(1));
     const { error: rErr } = await db.from('reviews').insert({
+      user_id: me.id,
       place_id: cur.id,
       rating: finalScore,
       taste: scores.taste,
@@ -1613,6 +1719,7 @@ const A = {
       photo_url: photoUrl
     });
     if (rErr){ toast('등록 실패: ' + rErr.message); return; }
+    if (me?.id) reviewerStatsCache.delete(me.id);
     toast('평가가 입력되었어요!');
     await load(); openPlace(cur);
   },
@@ -1662,6 +1769,7 @@ const A = {
 
     const finalScore = parseFloat(((scores.taste + scores.price + scores.kind) / 3).toFixed(1));
     const { error: rErr } = await db.from('reviews').insert({
+      user_id: me.id,
       place_id: data.id,
       rating: finalScore,
       taste: scores.taste,
@@ -1675,7 +1783,8 @@ const A = {
     if (rErr) {
       toast('가게는 등록되었으나 리뷰 저장에 실패했습니다: ' + rErr.message);
     } else {
-      toast('가게 정보가 입력되었어요!');
+      reviewerStatsCache.delete(me.id);
+      toast('가게 정보와 별점이 등록되었어요!');
     }
     await load(); openPlace(data);
   }
@@ -1836,7 +1945,7 @@ async function fetchNearbyBiz(){
       const isGroup = list.length > 1;
       list.forEach(({b}) => { biz[b.id] = b; });
       const content = isGroup
-        ? `<div class="pin biz biz-group">+ 식당 ${list.length}곳</div>`
+        ? `<div class="pin biz biz-group">+ 간짜장 ${list.length}곳</div>`
         : `<div class="pin biz biz-single">+ <span class="pin-label">${esc(first.name)}</span></div>`;
       const mk = new naver.maps.Marker({
         map, position:new naver.maps.LatLng(first.lat,first.lng),
