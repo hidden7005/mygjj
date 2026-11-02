@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MYGJJ</title>
 <style>
 :root {
@@ -91,6 +91,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 
 #top { display: flex; align-items: center; gap: 6px; width: 100%; }
 
+/* 브랜드 로고 버튼 (간짜장면) */
 .brand-btn {
   height: 46px;
   padding: 0 10px;
@@ -114,14 +115,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   color: #ff9500;
 }
 
-#me {
-  width: 46px; height: 46px; padding: 0; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--label-primary); flex-shrink: 0;
-  transition: transform 0.15s ease, background 0.15s ease;
-}
-#me:active { transform: scale(0.95); background: rgba(0,0,0,0.06); }
-
+/* 외부 지도 바로가기 50:50 아이콘 바 */
 .map-links-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -143,99 +137,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   background: rgba(0, 0, 0, 0.06);
 }
 
-.menu-container {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 0 16px;
-}
-.menu-header-title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-}
-.menu-user-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 4px;
-  cursor: pointer;
-  border-radius: 14px;
-  transition: background 0.15s ease;
-}
-.menu-user-card:active {
-  background: var(--secondary-card-bg);
-}
-.menu-user-card .menu-icon {
-  margin-top: 3px;
-}
-.menu-user-card .user-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--label-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.menu-user-card .user-desc {
-  font-size: 13px;
-  color: var(--label-secondary);
-  margin-top: 4px;
-  line-height: 1.4;
-}
-.menu-item-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 13px 4px;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--label-primary);
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-  width: 100%;
-  text-align: left;
-}
-.menu-item-row:active {
-  opacity: 0.5;
-}
-.menu-icon {
-  width: 22px;
-  height: 22px;
-  color: var(--label-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.menu-divider {
-  height: 0.5px;
-  background: var(--separator);
-  margin: 10px 0;
-  width: 100%;
-}
-.menu-footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding: 8px 4px 0;
-}
-.menu-footer-links button {
-  font-size: 13px;
-  color: var(--label-secondary);
-  text-align: left;
-  padding: 2px 0;
-}
-.menu-footer-links button:hover {
-  color: var(--label-primary);
-}
-.menu-copyright {
-  font-size: 12px;
-  color: var(--label-tertiary);
-  margin-top: 14px;
-  padding-left: 4px;
-}
-
+/* 가격 제보 및 검증 카드 스타일 */
 .price-verify-box {
   background: rgba(255, 149, 0, 0.09);
   border: 1px solid rgba(255, 149, 0, 0.35);
@@ -304,6 +206,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   margin: 0;
 }
 
+/* 오류 제보 라디오 옵션 */
 .report-group {
   display: flex;
   flex-direction: column;
@@ -336,6 +239,12 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   border: 0.5px solid var(--glass-border); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 #q:focus { outline: none; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3); }
+
+#me {
+  height: 46px; line-height: 46px; padding: 0 12px; border-radius: 14px;
+  font-size: 14px; font-weight: 600; color: var(--apple-blue); white-space: nowrap; flex-shrink: 0;
+}
+#me:active { transform: scale(0.97); }
 
 #sort-bar {
   display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px; scrollbar-width: none;
@@ -378,7 +287,9 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .row b { display: block; font-size: 16px; font-weight: 600; color: var(--label-primary); }
 .row small { display: block; color: var(--label-secondary); font-size: 13px; margin-top: 3px; }
 .row i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-style: normal; font-weight: 600; color: var(--apple-blue); }
+.empty { padding: 20px 18px; text-align: center; color: var(--label-secondary); font-size: 15px; }
 
+/* 진짜 간짜장 애플 스타일 인증 뱃지 */
 .real-badge {
   display: inline-flex; align-items: center; gap: 3px;
   background: linear-gradient(135deg, var(--apple-real-start), var(--apple-real-end));
@@ -392,6 +303,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
   padding: 4px 10px; font-size: 12px; font-weight: 700; margin-top: 6px;
 }
 
+/* 마커 핀 */
 .pin {
   transform: translate(-50%, -100%); padding: 6px 12px; border-radius: 999px;
   white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center;
@@ -453,6 +365,7 @@ input {
   margin-top: 8px;
 }
 
+/* 가격 입력 전용 카드 */
 .price-input-card {
   background: var(--secondary-card-bg); border-radius: 18px; padding: 14px 16px;
   border: 0.5px solid var(--separator); margin: 14px 0 6px;
@@ -462,6 +375,7 @@ input {
 .price-field-wrap input { margin-top: 0; flex: 1; font-weight: 700; font-size: 18px; }
 .price-field-wrap span { font-size: 16px; font-weight: 600; color: var(--label-secondary); }
 
+/* 평가 항목 박스 */
 .rating-box {
   display: flex; flex-direction: column; gap: 10px;
   background: var(--secondary-card-bg); padding: 14px; border-radius: 20px;
@@ -539,47 +453,286 @@ input {
 #toast[hidden] { display: none; }
 
 @media (min-width: 768px) {
-  #top-container { left: 20px; right: auto; width: 420px; }
-  #res { left: 20px; right: auto; width: 420px; }
+  #top-container {
+    left: 20px;
+    right: auto;
+    width: 420px;
+  }
+  #res {
+    left: 20px;
+    right: auto;
+    width: 420px;
+  }
   #sheet {
-    left: 20px; right: auto; bottom: 20px; width: 420px;
-    max-height: calc(100vh - 40px); border-radius: 28px;
+    left: 20px;
+    right: auto;
+    bottom: 20px;
+    width: 420px;
+    max-height: calc(100vh - 40px);
+    border-radius: 28px;
     border: 0.5px solid var(--glass-border);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
   }
-  #ver-badge { left: auto; right: 14px; bottom: 14px; }
+  #ver-badge {
+    left: auto;
+    right: 14px;
+    bottom: 14px;
+  }
 }
 
-/* 하단 시트 내 ‘식당 정보로 돌아가기’ 또는 뒤로가기 링크 스타일 */
-.sheet-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--apple-blue);
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  cursor: pointer;
+/* MYGJJ navigation drawer */
+.nav-toggle{width:46px;height:46px;flex-shrink:0;border-radius:14px;display:grid;place-items:center;font-size:23px;line-height:1}
+#nav-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:19;opacity:0;visibility:hidden;transition:opacity .23s,visibility .23s}
+#nav-drawer{position:fixed;top:0;bottom:0;left:0;width:min(320px,86vw);z-index:20;background:var(--card-bg);box-shadow:8px 0 36px rgba(0,0,0,.18);transform:translateX(-105%);transition:transform .25s ease;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 22px) 18px calc(env(safe-area-inset-bottom,0px) + 22px)}
+body.nav-open #nav-backdrop{opacity:1;visibility:visible}
+body.nav-open #nav-drawer{transform:translateX(0)}
+.nav-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.nav-head strong{font-size:21px;letter-spacing:-.04em}
+.nav-close{width:36px;height:36px;border-radius:50%;background:var(--secondary-card-bg);font-size:20px}
+.nav-section-title{font-size:11px;color:var(--label-tertiary);font-weight:700;letter-spacing:.04em;margin:20px 10px 7px}
+.nav-link{display:flex;align-items:center;gap:13px;width:100%;min-height:47px;text-align:left;border-radius:12px;padding:10px 12px;font-size:15px;font-weight:600}
+.nav-link:active,.nav-link:hover{background:var(--secondary-card-bg)}
+.nav-icon{width:22px;text-align:center;font-size:17px}
+.nav-sep{height:1px;background:var(--separator);margin:13px 0}
+.nav-foot{color:var(--label-tertiary);font-size:11px;margin:16px 10px}
+.nav-form-note{font-size:12px;color:var(--label-secondary);margin:12px 0;line-height:1.5}
+.nav-textarea{display:block;width:100%;min-height:130px;resize:vertical;border:0.5px solid var(--separator);border-radius:16px;padding:14px 16px;font:inherit;font-size:15px;background:var(--secondary-card-bg);color:var(--label-primary);margin-top:10px}
+@media(max-width:390px){.brand-btn{padding:0 7px;font-size:13px}.nav-toggle{width:42px}#top{gap:5px}#me{padding:0 9px}}
+
+/* v0.036 — cohesive Apple-inspired UI and responsive alignment */
+:root { --ui-radius: 14px; --ui-control: 44px; }
+button,input,textarea { font-family:inherit; }
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid var(--apple-blue); outline-offset:2px; }
+#top-container { left:12px;right:12px;max-width:620px;gap:9px; }
+#top { display:grid;grid-template-columns:44px auto minmax(0,1fr) auto;align-items:center;gap:7px; }
+#top > * { min-width:0; }
+.nav-toggle,.brand-btn,#q,#me { height:44px;border-radius:13px; }
+.nav-toggle { width:44px;font-size:20px; }
+.brand-btn { padding:0 11px;justify-content:center;gap:5px; }
+#q { width:100%;line-height:normal;margin:0;padding:0 13px; }
+#me { line-height:normal;display:flex;align-items:center;justify-content:center;padding:0 12px; }
+#sort-bar { padding:2px 0 4px;gap:7px; }
+.sort-pill { min-height:36px;padding:0 14px; }
+#res { top:calc(env(safe-area-inset-top,0px) + 112px); }
+#sheet { scrollbar-width:thin; }
+#sheet .stats { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch; }
+#sheet .stats > div { min-width:0;overflow-wrap:anywhere; }
+#sheet .stats b { font-size:clamp(17px,4.5vw,22px); }
+#sheet .rating-row { gap:8px;min-height:57px; }
+#sheet .star-row { flex-shrink:0;gap:2px; }
+#sheet .star-btn { width:30px;height:36px; }
+.price-compare-row { flex-wrap:wrap;gap:8px;line-height:1.5; }
+.btn-verify-price { height:auto;min-height:42px;padding:9px 12px;text-align:center;line-height:1.4; }
+.nav-link { display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;align-items:center;min-height:48px; }
+.nav-icon { width:24px;display:flex;align-items:center;justify-content:center; }
+.nav-section-title { margin-left:12px; }
+.nav-head { min-height:44px; }
+.nav-close { display:grid;place-items:center; }
+.nav-textarea { line-height:1.5; }
+#sheet input { max-width:100%; }
+#sheet .btn { min-height:46px;line-height:1.35; }
+@media(max-width:420px) {
+ #top-container {left:10px;right:10px;}
+ #top {grid-template-columns:40px auto minmax(0,1fr) auto;gap:5px;}
+ .nav-toggle {width:40px;height:42px;}
+ .brand-btn {height:42px;padding:0 8px;font-size:12px;}
+ .brand-btn span:first-child {font-size:15px!important;}
+ #q,#me {height:42px;font-size:13px;}
+ #q {padding:0 9px;}
+ #me {padding:0 9px;}
+ #sheet {padding-left:17px;padding-right:17px;}
+ #sheet .rating-row {padding:10px 11px;}
+ #sheet .star-btn {width:27px;font-size:20px;}
 }
+@media(max-width:350px) {
+ #top {grid-template-columns:38px minmax(0,1fr) auto;}
+ #brand-logo {display:none;}
+ #q {grid-column:2;}
+ #me {grid-column:3;}
+}
+@media(min-width:768px) { #top-container {left:20px;right:auto;width:520px;} #res {left:20px;right:auto;width:520px;} }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after {transition-duration:.01ms!important;animation-duration:.01ms!important;} }
+
+/* v0.036 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
+#top-container { z-index: 12; }
+.nav-toggle { display:flex; align-items:center; justify-content:center; gap:6px; width:66px; padding:0 9px; font-size:18px; font-weight:650; }
+.nav-toggle-label { font-size:12px; letter-spacing:-.02em; }
+#top { grid-template-columns:66px auto minmax(0,1fr) auto; }
+#nav-backdrop { z-index:30; }
+#nav-drawer { z-index:31; }
+#nav-drawer[aria-hidden="true"] { visibility:hidden; pointer-events:none; }
+#nav-drawer[aria-hidden="false"] { visibility:visible; }
+#sheet { z-index:10; }
+#sheet .stats > div { display:flex; flex-direction:column; justify-content:center; gap:4px; }
+#sheet .stats small { line-height:1.4; }
+#sheet .rating-row label { flex:0 0 auto; }
+#sheet .rating-row .star-row { margin-left:auto; }
+@media (min-width:768px) {
+  #top-container { left:20px;right:auto;width:520px;max-width:calc(100vw - 40px);margin:0; }
+  #res { left:20px;right:auto;width:520px;max-width:calc(100vw - 40px);margin:0; }
+  #sheet { left:20px!important;right:auto!important;bottom:20px!important;width:440px!important;max-width:calc(100vw - 40px)!important;max-height:calc(100dvh - 40px)!important;border-radius:24px!important; }
+}
+@media (max-width:420px) {
+  #top { grid-template-columns:42px auto minmax(0,1fr) auto; }
+  .nav-toggle { width:42px; padding:0; }
+  .nav-toggle-label { display:none; }
+}
+@media (max-width:350px) { #top { grid-template-columns:38px minmax(0,1fr) auto; } .nav-toggle { width:38px; } }
+/* v0.036 — 리뷰 메타데이터 및 지도 링크 */
+.map-icon-btn { text-decoration:none; color:inherit; }
+.review-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+.review-score { margin-top:4px; font-size:13px; }
+.review-comment { margin-top:6px; line-height:1.5; overflow-wrap:anywhere; }
+.review-date { color:var(--label-tertiary); font-size:12px; font-variant-numeric:tabular-nums; }
+.review-report { margin-left:auto; color:var(--label-secondary); font-size:12px; padding:5px 8px; border-radius:8px; }
+.review-report:hover { background:var(--secondary-card-bg); }
+
+/* v0.036 — 지도 우선형 모바일 헤더 */
+#top { grid-template-columns:66px auto minmax(0,1fr); }
+#q { min-width:0; }
+#sort-bar { gap:6px; }
+.sort-pill { min-height:34px; padding:0 11px; font-size:12px; }
+.pin.biz { font-size:11px; padding:5px 9px; box-shadow:0 2px 8px rgba(0,0,0,.07); }
+.pin.biz-group { background:rgba(255,255,255,.96);color:#60646a;font-size:12px;font-weight:700;border:1px solid rgba(60,60,67,.16);box-shadow:0 3px 11px rgba(0,0,0,.09); }
+.pin.biz-single { max-width:118px; }
+.pin.biz-single .pin-label { overflow:hidden;text-overflow:ellipsis;max-width:97px;display:block; }
+@media(max-width:420px){ #top {grid-template-columns:42px auto minmax(0,1fr);} #brand-logo{padding:0 7px;} #sort-bar{gap:4px;} .sort-pill{padding:0 10px;} }
+@media(max-width:350px){ #top {grid-template-columns:38px minmax(0,1fr);} #brand-logo{display:none;} #q{grid-column:2;} }
+
+/* v0.036 — 현재 위치로 이동 */
+#locate-btn {
+  position:fixed; right:16px;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);
+  z-index:9; width:48px;height:48px; padding:0;
+  border-radius:16px;display:flex;align-items:center;justify-content:center;
+  color:var(--apple-blue);background:var(--card-bg);
+  border:1px solid var(--separator);box-shadow:0 4px 18px rgba(0,0,0,.15);
+  transition:transform .15s,opacity .15s;
+}
+#locate-btn:active{transform:scale(.94)}
+#locate-btn:disabled{opacity:.6;cursor:wait}
+#locate-btn svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#locate-btn:focus-visible{outline:3px solid var(--apple-blue);outline-offset:3px}
+@media(min-width:768px){#locate-btn{right:22px;bottom:70px}}
+@media(prefers-reduced-motion:reduce){#locate-btn{transition:none}}
+
+/* v0.036 — 방문자 중심 매장 상세 정보 */
+.detail-kicker { color:var(--label-secondary); font-size:12px; font-weight:650; letter-spacing:.02em; margin:2px 0 9px; }
+.detail-address { margin-top:8px; overflow-wrap:anywhere; }
+#sheet .stats { margin:20px 0 12px; gap:10px; }
+#sheet .stats>div { display:flex; flex-direction:column; align-items:flex-start; padding:16px; min-height:111px; }
+#sheet .stats b { line-height:1.3; font-variant-numeric:tabular-nums; }
+.detail-price-empty { color:var(--label-secondary); font-size:17px; }
+.detail-inline-link { color:var(--apple-blue); font-size:12px; margin-top:auto; padding:7px 0 0; text-align:left; }
+.detail-rating-count { font-size:12px; margin-top:auto; padding-top:7px; color:var(--label-secondary); }
+.detail-map-links { margin:2px 0 24px; }
+.detail-map-links .map-icon-btn { display:flex; flex-direction:row; min-width:0; gap:8px; min-height:48px; height:auto; padding:10px 8px; font-size:13px; font-weight:650; white-space:nowrap; }
+.map-service-icon { display:grid; place-items:center; flex-shrink:0; width:23px; height:23px; border-radius:6px; font-size:14px; font-weight:850; }
+.naver-symbol { color:white; background:#03c75a; }
+.kakao-symbol { background:#fee500; color:#191919; }
+.map-external-arrow { margin-left:auto; font-size:13px; color:var(--label-secondary); }
+.detail-section { margin-top:24px; }
+.detail-section-head { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:12px; }
+.detail-section-head h3 { margin:0; font-size:17px; color:var(--label-primary); font-weight:750; }
+.detail-count { color:var(--label-secondary); font-size:12px; white-space:nowrap; }
+.detail-photo-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+.detail-photo-grid>a { display:block; min-width:0; aspect-ratio:1; overflow:hidden; border-radius:12px; background:var(--secondary-card-bg); }
+.detail-photo-grid img { width:100%; height:100%; object-fit:cover; display:block; }
+.detail-reviews { border-top:1px solid var(--separator); }
+.detail-reviews .rv { padding:16px 0; }
+.detail-reviews .review-meta { min-width:0; margin-bottom:8px; }
+.detail-reviews .review-meta .u { font-size:14px; overflow-wrap:anywhere; }
+.detail-reviews .review-score { display:flex; align-items:center; gap:7px; font-size:13px; }
+.detail-reviews .review-comment { font-size:14px; line-height:1.6; margin-top:8px; white-space:pre-wrap; }
+.review-not-real { font-size:11px; color:var(--label-secondary); }
+.detail-empty { padding:18px 4px; color:var(--label-secondary); font-size:14px; line-height:1.6; }
+.detail-actions { display:flex; flex-direction:column; gap:10px; margin:24px 0 0; }
+.detail-secondary-action { color:var(--label-secondary); font-size:14px!important; }
+.detail-back { color:var(--apple-blue); padding:0 0 18px; font-size:14px; font-weight:600; }
+@media(max-width:360px) { .detail-map-links .map-icon-btn { font-size:12px; gap:5px; } .map-service-icon { width:21px; height:21px; } }
+
+/* v0.036 — three-stage draggable bottom sheet (mobile web and desktop) */
+#sheet {
+  height: 52dvh;
+  max-height: 92dvh;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+#sheet::before { display:none; }
+#sheet .sheet-drag-handle {
+  position: sticky;
+  top: -24px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 116px;
+  height: 37px;
+  padding: 0;
+  margin: -24px auto 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  touch-action: none;
+  cursor: ns-resize;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#sheet .sheet-drag-handle::after {
+  content: '';
+  display:block;
+  width: 42px;
+  height: 5px;
+  border-radius: 999px;
+  background: #c7c7cc;
+  transition:background .15s;
+}
+#sheet .sheet-drag-handle:focus-visible { outline: 3px solid var(--apple-blue); outline-offset: -3px; }
+#sheet .sheet-drag-handle:active::after { background:#8e8e93; }
+#sheet.sheet-dragging { transition:none!important; }
+@media (min-width: 768px) {
+  #sheet { max-height:calc(100dvh - 40px)!important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sheet { transition:none!important; }
+  #sheet .sheet-drag-handle::after { transition:none; }
+}
+/* v0.036 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
+#sheet .detail-back { display:flex; align-items:center; width:max-content; max-width:100%; min-height:42px; padding:8px 4px; margin:0 0 12px; color:var(--apple-blue); font-size:14px; font-weight:650; text-align:left; }
+#sheet .detail-back:focus-visible {outline:2px solid var(--apple-blue);outline-offset:3px;border-radius:6px}
 </style>
 </head>
 <body>
 <div id="map"></div>
 <div id="ver-badge">v0.036</div>
+<button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+</button>
+
+<div id="nav-backdrop" aria-hidden="true"></div>
+<nav id="nav-drawer" aria-label="전체 메뉴" aria-hidden="true">
+  <div class="nav-head"><strong>🍜 간짜장면</strong><button class="nav-close" type="button" data-a="closeNav" aria-label="메뉴 닫기">✕</button></div>
+  <button class="nav-link" type="button" data-a="navAccount"><span class="nav-icon">👤</span><span id="nav-account-label">로그인 / 회원가입</span></button>
+  <div class="nav-sep"></div>
+  <div class="nav-section-title">서비스</div>
+  <button class="nav-link" type="button" data-a="showAppInfo"><span class="nav-icon">ℹ️</span>서비스 소개</button>
+  <div class="nav-section-title">고객지원</div>
+  <button class="nav-link" type="button" data-a="navContact" data-type="report"><span class="nav-icon">🚩</span>문의 · 오류·문제 신고</button>
+  <button class="nav-link" type="button" data-a="navContact" data-type="partner"><span class="nav-icon">🤝</span>제휴·광고 문의</button>
+  <div class="nav-sep"></div>
+  <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
+  <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
+  <div class="nav-foot">MYGJJ · v0.036</div>
+</nav>
 
 <div id="top-container">
   <div id="top">
+    <button id="nav-toggle" class="glass nav-toggle" type="button" aria-label="전체 메뉴 열기" aria-controls="nav-drawer" aria-expanded="false"><span aria-hidden="true">☰</span><span class="nav-toggle-label">메뉴</span></button>
     <button id="brand-logo" class="glass brand-btn" data-a="refresh" title="지도를 새로고침합니다">
       <span style="font-size:17px;">🍜</span>
       <span>간짜장<span class="brand-point">면</span></span>
     </button>
     <input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off">
-    <button id="me" class="glass" data-a="me" aria-label="메뉴 및 사용자 정보">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-    </button>
   </div>
   <div id="sort-bar">
     <button class="sort-pill" id="pill-rating" data-pop="rating">★ 별점 필터 ▾</button>
@@ -609,18 +762,90 @@ let filterPrice = 'all';
 let myCoord = null;
 let openPopType = null;
 let selectedPhotoBlob = null;
+
 let scores = { is_real: null, taste: 0, price: 0, kind: 0 };
 
+function getDistanceMeters(lat1, lng1, lat2, lng2) {
+  const R = 6371e3;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
-function sheet(h, showBackToPlace = false){
+// 20% / 52% / 90% snapping; the drag handle never steals list/review scrolling.
+const SHEET_STAGES = [0.20, 0.52, 0.90];
+let sheetStage = 1;
+let sheetDrag = null;
+function sheetMaxHeight(){ return Math.max(160, window.innerHeight - (window.innerWidth >= 768 ? 40 : 0)); }
+function sheetHeightAt(stage){
+  return Math.min(sheetMaxHeight(), Math.max(150, Math.round(window.innerHeight * SHEET_STAGES[stage])));
+}
+function setSheetStage(stage){
+  sheetStage = Math.max(0, Math.min(2, stage));
+  $('sheet').style.height = sheetHeightAt(sheetStage) + 'px';
+  const handle = $('sheet-drag-handle');
+  if (handle) handle.setAttribute('aria-valuenow', String(Math.round(SHEET_STAGES[sheetStage] * 100)));
+}
+function setupSheetDragHandle(){
+  const handle = $('sheet-drag-handle');
+  if (!handle) return;
+  handle.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || !$('sheet').classList.contains('open')) return;
+    sheetDrag = { id:e.pointerId, y:e.clientY, height:$('sheet').getBoundingClientRect().height, moved:false };
+    handle.setPointerCapture(e.pointerId);
+    $('sheet').classList.add('sheet-dragging');
+    e.preventDefault();
+  });
+  handle.addEventListener('pointermove', e => {
+    if (!sheetDrag || e.pointerId !== sheetDrag.id) return;
+    const delta = sheetDrag.y - e.clientY;
+    if (Math.abs(delta) > 6) sheetDrag.moved = true;
+    const height = Math.max(sheetHeightAt(0), Math.min(sheetHeightAt(2), sheetDrag.height + delta));
+    $('sheet').style.height = Math.round(height) + 'px';
+    e.preventDefault();
+  });
+  function finishDrag(e){
+    if (!sheetDrag || e.pointerId !== sheetDrag.id) return;
+    const moved = sheetDrag.moved;
+    sheetDrag = null;
+    $('sheet').classList.remove('sheet-dragging');
+    if (handle.hasPointerCapture(e.pointerId)) handle.releasePointerCapture(e.pointerId);
+    if (moved){
+      const height = $('sheet').getBoundingClientRect().height;
+      const nearest = SHEET_STAGES.map((_,i)=>({i,dist:Math.abs(height-sheetHeightAt(i))})).sort((a,b)=>a.dist-b.dist)[0].i;
+      setSheetStage(nearest);
+    }
+  }
+  handle.addEventListener('pointerup',finishDrag);
+  handle.addEventListener('pointercancel',finishDrag);
+  handle.addEventListener('dblclick',()=>setSheetStage(sheetStage===2 ? 1 : 2));
+  handle.addEventListener('keydown',e=>{
+    if(e.key==='ArrowUp'){e.preventDefault();setSheetStage(sheetStage+1);}
+    if(e.key==='ArrowDown'){e.preventDefault();setSheetStage(sheetStage-1);}
+    if(e.key==='Home'){e.preventDefault();setSheetStage(0);}
+    if(e.key==='End'){e.preventDefault();setSheetStage(2);}
+  });
+}
+function sheet(h){
+  if (document.body.classList.contains('nav-open')) toggleNav(false);
   const wasOpen = $('sheet').classList.contains('open');
-  const backHtml = (showBackToPlace && cur) ? '<button class="sheet-back-btn" data-a="backToPlace">&lt; 식당 정보로 돌아가기</button>' : '';
-  $('sheet').innerHTML = '<button class="x" data-a="close">✕</button>' + backHtml + h;
+  const hasBack = h.includes('data-a="backToPlace"');
+  $('sheet').innerHTML = '<button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="90" aria-valuenow="52" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + h;
+  sheetDrag = null;
+  $('sheet').classList.remove('sheet-dragging');
+  setSheetStage(1);
+  setupSheetDragHandle();
   $('sheet').classList.add('open');
+  $('sheet').scrollTop = 0;
   $('res').hidden = true;
   resetScores();
   if (!wasOpen) history.pushState({ sheetOpen: true }, '');
 }
+window.addEventListener('resize',()=>{ if ($('sheet').classList.contains('open') && !sheetDrag) setSheetStage(sheetStage); });
 function closeSheet(fromPopstate = false){
   if (!$('sheet').classList.contains('open')) return;
   $('sheet').classList.remove('open');
@@ -696,6 +921,25 @@ async function load(){
   } catch(e) { console.error(e); }
 }
 
+// 평가 수가 많은 가게에 소폭 가중치를 부여하되 별점 등급을 우선합니다.
+function placePriority(p) {
+  const rt = rate[p.id];
+  const avg = Number(rt?.avg_rating) || 0;
+  const count = Math.max(0, Number(rt?.n) || 0);
+  if (!count || !avg) return 150;
+  const tier = avg >= 4.5 ? 500 : avg >= 4 ? 400 : avg >= 3.5 ? 300 : 200;
+  return tier + Math.min(70, Math.round(Math.log2(count + 1) * 12));
+}
+function mapPixelPosition(lat, lng) {
+  try {
+    const point = map.getProjection().fromCoordToOffset(new naver.maps.LatLng(Number(lat), Number(lng)));
+    return {x:point.x, y:point.y};
+  } catch (e) { return null; }
+}
+function clearNearbyMarkers() {
+  nearbyMarkers.forEach(m => m.setMap(null));
+  nearbyMarkers = [];
+}
 function drawPins(){
   if (!map || typeof naver === 'undefined' || !naver.maps) return;
   markers.forEach(m => m.setMap(null));
@@ -708,29 +952,34 @@ function drawPins(){
     const price = Number(p.price || 0);
 
     if (filterRating !== 'all' && roundedStars !== parseInt(filterRating, 10)) return false;
+    
+    // 가격대 필터 로직
     if (filterPrice !== 'all') {
       if (price <= 0) return false;
-      if (filterPrice === '6000s' && (price < 6000 || price >= 7000)) return false;
+      if (filterPrice === '6000s' && (price < 6000 || price >= 7000)) return false; // 6000원대 (가성비 구간 포함)
       if (filterPrice === '7000s' && (price < 7000 || price >= 8000)) return false;
       if (filterPrice === '8000s' && (price < 8000 || price >= 9000)) return false;
-      if (filterPrice === '9000s' && (price < 9000 || price >= 10000)) return false;
+      if (filterPrice === '9000s' && (price < 9000 || price >= 10000)) return false; // 9000원대 ~ 10000원
       if (filterPrice === '10000s' && price !== 10000) return false;
-      if (filterPrice === 'over_10000' && price <= 10000) return false;
+      if (filterPrice === 'over_10000' && price <= 10000) return false; // 10000원 초과
     }
+
     return true;
   });
 
   const groups = {};
   listToDraw.forEach(p => {
+    if (!Number.isFinite(Number(p.lat)) || !Number.isFinite(Number(p.lng))) return;
     const key = `${parseFloat(p.lat).toFixed(5)},${parseFloat(p.lng).toFixed(5)}`;
     if (!groups[key]) groups[key] = [];
     groups[key].push(p);
   });
 
   Object.values(groups).forEach(list => {
+    list.sort((a,b) => placePriority(b) - placePriority(a));
     const first = list[0];
     const rt = rate[first.id];
-    const avg = rt ? parseFloat(rt.avg_rating).toFixed(1) : null;
+    const avg = rt && Number.isFinite(Number(rt.avg_rating)) ? Number(rt.avg_rating).toFixed(1) : null;
     const tierClass = getRatingTier(avg);
 
     const st = realStats[first.id];
@@ -744,6 +993,7 @@ function drawPins(){
 
       const mk = new naver.maps.Marker({
         map, position: new naver.maps.LatLng(p.lat, p.lng),
+        zIndex: placePriority(p),
         icon: { content, anchor: new naver.maps.Point(0, 0) }
       });
       naver.maps.Event.addListener(mk, 'click', () => openPlace(p));
@@ -752,6 +1002,7 @@ function drawPins(){
       const label = `${badgeHtml}${esc(first.name)} 외 ${list.length - 1}곳`;
       const mk = new naver.maps.Marker({
         map, position: new naver.maps.LatLng(first.lat, first.lng),
+        zIndex: placePriority(first),
         icon: { content: `<div class="pin ${tierClass}">${label}</div>`, anchor: new naver.maps.Point(0, 0) }
       });
       naver.maps.Event.addListener(mk, 'click', () => openPlaceGroup(list));
@@ -851,6 +1102,7 @@ function renderRatingComponent(showPriceInput = false){
   return `
     ${priceInputHtml}
     <div class="rating-box">
+      <!-- 1. 진짜 간짜장 여부 (미달로 수정) -->
       <div class="rating-row-real">
         <label>1. 진짜 간짜장인가요?</label>
         <div class="segment-row">
@@ -858,18 +1110,22 @@ function renderRatingComponent(showPriceInput = false){
           <button type="button" class="seg-btn" id="seg-no" onclick="setRealStatus(false)">✋ 아니요(미달)</button>
         </div>
       </div>
+      <!-- 2. 맛 -->
       <div class="rating-row">
         <label>2. 맛</label>
         <div class="star-row">${[1,2,3,4,5].map(n => `<button class="star-btn" data-a="score" data-cat="taste" data-n="${n}">★</button>`).join('')}</div>
       </div>
+      <!-- 3. 가격 -->
       <div class="rating-row">
         <label>3. 가격</label>
         <div class="star-row">${[1,2,3,4,5].map(n => `<button class="star-btn" data-a="score" data-cat="price" data-n="${n}">★</button>`).join('')}</div>
       </div>
+      <!-- 4. 친절 -->
       <div class="rating-row">
         <label>4. 친절</label>
         <div class="star-row">${[1,2,3,4,5].map(n => `<button class="star-btn" data-a="score" data-cat="kind" data-n="${n}">★</button>`).join('')}</div>
       </div>
+      <!-- 5. 종합 평점 -->
       <div class="rating-row-total">
         <label>5. 종합 평점</label>
         <span class="total-score" id="total-score">- / 5.0</span>
@@ -933,11 +1189,14 @@ function removeSelectedPhoto() {
   if ($('photo-upload-label')) $('photo-upload-label').style.display = 'flex';
 }
 
+// ── 상세 시트 오픈
 async function openPlace(p){
   cur = p; const rt = rate[p.id], addr = p.address || '';
   const priceMissing = !(p.price > 0);
-  const rv = (await db.from('reviews').select('rating,comment,user_id,photo_url,is_real,profiles(username)').eq('place_id', p.id).order('created_at', { ascending: false }).limit(15)).data || [];
+  const rv = (await db.from('reviews').select('id,created_at,rating,comment,user_id,photo_url,is_real,profiles(username)').eq('place_id', p.id).order('created_at', { ascending: false }).limit(15)).data || [];
 
+  const naverUrl = 'https://map.naver.com/p/search/' + encodeURIComponent([p.name, p.address].filter(Boolean).join(' '));
+  const kakaoUrl = Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng)) ? 'https://map.kakao.com/link/map/' + encodeURIComponent(p.name).replace(/%2C/gi, '%252C') + ',' + Number(p.lat) + ',' + Number(p.lng) : 'https://map.kakao.com/?q=' + encodeURIComponent(p.name);
   const st = realStats[p.id];
   const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
   const authHeader = isAuthentic ? `<div class="real-badge-header">✓ 90% 검증 진짜 간짜장</div>` : '';
@@ -966,28 +1225,53 @@ async function openPlace(p){
     `;
   }
 
-  sheet('<h2>' + esc(p.name) + '</h2>' + authHeader + '<p class="sub">' + esc(addr) + '</p>' +
-    '<div class="stats"><div><small>간짜장 가격' + (!priceMissing ? ' <button style="font-size:11px;color:var(--apple-blue);text-decoration:underline;" data-a="openEditPrice">수정 제보</button>' : '') + '</small><b>' + (priceMissing ? '<span style="color:var(--apple-blue);font-size:17px;cursor:pointer;" data-a="focusPrice">가격을 입력해 주세요</span>' : won(p.price) + '원') + '</b></div><div><small>평점</small><b>' + (rt ? parseFloat(rt.avg_rating).toFixed(1) + ' <span>(' + rt.n + ')</span>' : '-') + '</b></div></div>' +
-    priceBannerHtml +
-    '<div class="map-links-grid">' +
-      '<button class="map-icon-btn" data-a="openNaver" title="네이버 지도로 보기">' +
-        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#03C75A"/><path d="M14.07 12.35L9.67 6H6V18H9.93V11.65L14.33 18H18V6H14.07V12.35Z" fill="white"/></svg>' +
-      '</button>' +
-      '<button class="map-icon-btn" data-a="openKakao" title="카카오맵으로 보기">' +
-        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#FEE500"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4.5C7.58 4.5 4 7.24 4 10.63C4 12.78 5.43 14.67 7.63 15.7L6.82 18.74C6.75 19.01 7.07 19.22 7.31 19.07L10.94 16.69C11.29 16.74 11.64 16.76 12 16.76C16.42 16.76 20 14.02 20 10.63C20 7.24 16.42 4.5 12 4.5Z" fill="#191919"/></svg>' +
-      '</button>' +
-    '</div>' +
-    '<div class="btns">' +
-      '<button class="btn" data-a="reportPlace" style="font-size:13px;color:var(--label-secondary);padding:12px;margin-top:4px;">🚩 정보 오류 · 개선 제보</button>' +
-    '</div>' +
-    '<h3>평가 남기기</h3>' + renderRatingComponent(priceMissing) +
-    '<button class="btn primary" style="margin-top:14px" data-a="review">입력하기</button>' +
-    '<h3>리뷰</h3>' + (rv.length ? rv.map(r => '<div class="rv"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' +
-      (r.is_real === true ? '<span class="real-badge">진짜</span> ' : (r.is_real === false ? '<span style="font-size:11px;color:var(--label-secondary)">미달</span> ' : '')) +
-      '★' + parseFloat(r.rating || 0).toFixed(1) + (r.comment ? '<br>' + esc(r.comment) : '') +
-      (r.photo_url ? `<div class="rv-photo-wrap"><img src="${esc(r.photo_url)}" class="rv-photo" onclick="window.open('${esc(r.photo_url)}')"></div>` : '') + '</div>').join('') : '<p class="sub">아직 리뷰가 없어요</p>'));
+  // 읽기 우선 상세 화면: 핵심 정보 → 외부 지도 → 사진 → 기존 리뷰 → 작성/제보.
+  const validPhotos = rv.filter(r => r.photo_url && /^https:\/\/[^\s"'<>]+$/i.test(r.photo_url));
+  const photosHtml = validPhotos.length ?
+    '<section class="detail-section"><div class="detail-section-head"><h3>사진</h3><span class="detail-count">' + validPhotos.length + '장 (최근 리뷰 기준)</span></div>' +
+    '<div class="detail-photo-grid">' + validPhotos.slice(0, 4).map((r, i) =>
+      '<a href="' + esc(r.photo_url) + '" target="_blank" rel="noopener noreferrer" aria-label="사진 ' + (i+1) + ' 크게 보기"><img src="' + esc(r.photo_url) + '" alt="간짜장 리뷰 사진 ' + (i+1) + '" loading="lazy"></a>'
+    ).join('') + '</div></section>' : '';
+  const reviewsHtml = rv.length ? rv.map(r => {
+    const dateText = r.created_at && !Number.isNaN(new Date(r.created_at).getTime()) ? new Date(r.created_at).toLocaleDateString('ko-KR', {year:'numeric',month:'2-digit',day:'2-digit'}) : '';
+    const badge = r.is_real === true ? '<span class="real-badge">진짜</span>' : r.is_real === false ? '<span class="review-not-real">미달</span>' : '';
+    const photo = r.photo_url && /^https:\/\/[^\s"'<>]+$/i.test(r.photo_url) ? '<div class="rv-photo-wrap"><a href="' + esc(r.photo_url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(r.photo_url) + '" class="rv-photo" alt="리뷰 사진" loading="lazy"></a></div>' : '';
+    return '<article class="rv"><div class="review-meta"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' +
+      (dateText ? '<time class="review-date">' + esc(dateText) + '</time>' : '') +
+      '<button class="review-report" data-a="reportReview" data-id="' + esc(r.id) + '">신고</button></div>' +
+      '<div class="review-score">' + badge + ' <strong>★ ' + Number(r.rating || 0).toFixed(1) + '</strong></div>' +
+      (r.comment ? '<div class="review-comment">' + esc(r.comment) + '</div>' : '') + photo + '</article>';
+  }).join('') : '<p class="detail-empty">아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요.</p>';
+  sheet('<div class="detail-kicker">MYGJJ · 식당 정보</div><h2>' + esc(p.name) + '</h2>' + authHeader +
+    '<p class="sub detail-address">' + esc(addr || '주소 정보가 없습니다') + '</p>' +
+    '<div class="stats"><div><small>간짜장 가격</small><b>' + (priceMissing ? '<span class="detail-price-empty">미등록</span>' : won(p.price) + '원') + '</b>' +
+    (!priceMissing ? '<button class="detail-inline-link" data-a="openEditPrice">가격 수정 제보</button>' : '') + '</div>' +
+    '<div><small>사용자 평점</small><b>' + (rt && Number.isFinite(Number(rt.avg_rating)) ? '★ ' + Number(rt.avg_rating).toFixed(1) : '평가 전') + '</b>' +
+    '<span class="detail-rating-count">' + (rt ? esc(rt.n || 0) + '명 평가' : '첫 평가를 남겨주세요') + '</span></div></div>' +
+    '<div class="map-links-grid detail-map-links">' +
+    '<a class="map-icon-btn" href="' + esc(naverUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="네이버 지도에서 열기"><span class="map-service-icon naver-symbol">N</span><span>네이버 지도</span><span class="map-external-arrow">↗</span></a>' +
+    '<a class="map-icon-btn" href="' + esc(kakaoUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="카카오맵에서 열기"><span class="map-service-icon kakao-symbol">●</span><span>카카오맵</span><span class="map-external-arrow">↗</span></a></div>' +
+    priceBannerHtml + photosHtml +
+    '<section class="detail-section"><div class="detail-section-head"><h3>방문자 리뷰</h3><span class="detail-count">최근 ' + rv.length + '개</span></div>' +
+    '<div class="detail-reviews">' + reviewsHtml + '</div></section>' +
+    '<section class="detail-actions"><button class="btn primary" data-a="openReviewComposer">★ 리뷰 및 사진 등록하기</button>' +
+    '<button class="btn detail-secondary-action" data-a="reportPlace">정보 오류 · 개선 제보</button></section>');
 
   if (map) map.panTo(new naver.maps.LatLng(p.lat, p.lng));
+}
+
+function openReviewComposer(focusPrice = false){
+  if (!cur) return;
+  const showPriceInput = !(Number(cur.price) > 0);
+  sheet('<button class="detail-back" data-a="backToPlace">‹ 식당 정보로 돌아가기</button>' +
+    '<div class="detail-kicker">리뷰 작성</div><h2>' + esc(cur.name) + '</h2>' +
+    '<p class="sub">직접 경험한 간짜장에 대한 평가를 남겨주세요. 사진은 선택 사항입니다.</p>' +
+    renderRatingComponent(showPriceInput) +
+    '<button class="btn primary" style="margin-top:18px" data-a="review">리뷰 등록하기</button>');
+  if (focusPrice) {
+    const el = $('pr');
+    if (el) { el.focus(); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  }
 }
 
 function openNew(b){
@@ -997,130 +1281,84 @@ function openNew(b){
     '<button class="btn primary" style="margin-top:16px" data-a="saveNew">입력하기</button>');
 }
 
-function openLogin(){
-  sheet('<h2>로그인</h2><p class="sub">평가 및 닉네임 설정을 위해 로그인하세요.</p>' +
+function openLogin(returnToPlace = false){
+  sheet((returnToPlace && cur ? '<button class="detail-back" data-a="backToPlace">‹ 식당 정보로 돌아가기</button>' : '') + '<h2>로그인</h2><p class="sub">평가, 닉네임 설정, 제보를 위해 로그인하세요.</p>' +
     '<div class="btns" style="margin-top:18px"><button class="btn primary" data-a="login" data-p="google">Google로 계속하기</button><button class="btn" data-a="login" data-p="kakao">카카오로 계속하기</button></div>' +
-    '<p style="font-size:12px;color:var(--label-tertiary);text-align:center;margin-top:16px;line-height:1.5;">계속 진행하면 간짜장면의 <a href="javascript:void(0)" data-a="showTerms" style="color:var(--apple-blue);text-decoration:underline;">이용약관</a> 및 <a href="javascript:void(0)" data-a="showPrivacy" style="color:var(--apple-blue);text-decoration:underline;">개인정보처리방침</a>에 동의하게 됩니다.</p>', true);
+    '<p style="font-size:12px;color:var(--label-tertiary);text-align:center;margin-top:16px;line-height:1.5;">계속 진행하면 간짜장면의 <a href="javascript:void(0)" data-a="showTerms" style="color:var(--apple-blue);text-decoration:underline;">이용약관</a> 및 <a href="javascript:void(0)" data-a="showPrivacy" style="color:var(--apple-blue);text-decoration:underline;">개인정보처리방침</a>에 동의하게 됩니다.</p>');
 }
 
 function openNicknamePrompt(isInitial = false){
   sheet('<h2>' + (isInitial ? '환영합니다! 👋' : '닉네임 수정') + '</h2>' +
     '<p class="sub">간짜장면에서 활동할 닉네임을 입력해주세요.</p>' +
     '<input id="nick-input" placeholder="닉네임 (2~12자)" maxlength="12" style="font-weight:600;">' +
-    '<button class="btn primary" style="margin-top:16px" data-a="saveNickname">닉네임 저장하기</button>', true);
+    '<button class="btn primary" style="margin-top:16px" data-a="saveNickname">닉네임 저장하기</button>');
 }
 
 async function openUser(uid){
   const { data: s } = await db.from('profiles').select('username').eq('id', uid).maybeSingle();
-  const uname = s?.username || me?.user_metadata?.username || '익명';
+  const uname = s?.username || (me?.id === uid ? me?.user_metadata?.username : null) || '익명';
   sheet('<h2>@' + esc(uname) + '</h2>' +
     (me && me.id === uid ? '<div class="btns" style="margin-top:14px;">' +
       '<button class="btn" data-a="editNick">✏️ 닉네임 수정</button>' +
-      '<button class="btn" data-a="showAppInfo">ℹ️ 앱 정보</button>' +
+      '<button class="btn" data-a="showAppInfo">ℹ️ 앱 정보 / 문의 · 제휴</button>' +
       '<button class="btn" data-a="logout">로그아웃</button>' +
       '<button class="btn" data-a="withdraw" style="color:#ff3b30;border-color:rgba(255,59,48,0.25);margin-top:12px;font-size:14px;">회원 탈퇴</button>' +
-    '</div>' : '<div class="btns" style="margin-top:14px;"><button class="btn" data-a="showAppInfo">ℹ️ 앱 정보</button></div>'));
+    '</div>' : '<div class="btns" style="margin-top:14px;"><button class="btn" data-a="showAppInfo">ℹ️ 앱 정보 / 문의 · 제휴</button></div>'));
 }
 
-async function openMainMenu(){
-  let uname = '로그인 / 회원가입';
-  let desc = '로그인하면 내 리뷰를 관리할 수 있습니다.';
-  let userAction = 'openLogin';
-  
-  if (me) {
-    const { data: s } = await db.from('profiles').select('username').eq('id', me.id).maybeSingle();
-    uname = s?.username || me?.user_metadata?.username || me?.email?.split('@')[0] || '사용자';
-    desc = '내 정보 및 프로필 관리';
-    userAction = 'openProfile';
+
+function toggleNav(open){
+  document.body.classList.toggle('nav-open',!!open);
+  $('nav-toggle').setAttribute('aria-expanded',String(!!open));
+  $('nav-drawer').setAttribute('aria-hidden',String(!open));
+  $('nav-drawer').inert = !open;
+  if(open){ closePopover(); $('res').hidden=true; $('nav-drawer').querySelector('.nav-close')?.focus(); } else { $('nav-toggle').focus(); }
+}
+$('nav-drawer').inert = true;
+$('nav-toggle').addEventListener('click',()=>toggleNav(!document.body.classList.contains('nav-open')));
+$('nav-backdrop').addEventListener('click',()=>toggleNav(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && document.body.classList.contains('nav-open'))toggleNav(false)});
+function navContact(type){
+  // 일반 문의와 서비스 오류 신고는 하나의 창으로 받습니다.
+  if (type === 'partner') {
+    sheet('<h2>제휴·광고 문의</h2><p class="sub">식당 제휴, 광고 및 협업은 이메일로 문의해 주세요.</p>' +
+      '<a class="btn primary" style="margin-top:20px" href="mailto:hidden7005@gmail.com?subject=MYGJJ%20%EC%A0%9C%ED%9C%B4%C2%B7%EA%B4%91%EA%B3%A0%20%EB%AC%B8%EC%9D%98">hidden7005@gmail.com</a>' +
+      '<p class="nav-form-note">이메일 주소를 누르면 기기의 메일 앱이 열립니다.</p>');
+    return;
   }
-
-  const h = `
-    <div class="menu-container">
-      <div class="menu-header-title">MYGJJ</div>
-      
-      <div class="menu-user-card" data-a="${userAction}">
-        <div class="menu-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${me ? 'var(--apple-blue)' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div>
-          <div class="user-title">${me ? '@' + esc(uname) : esc(uname)} <span style="font-size:12px;color:var(--apple-blue);margin-left:2px;">›</span></div>
-          <div class="user-desc">${esc(desc)}</div>
-        </div>
-      </div>
-
-      <button class="menu-item-row" data-a="myReviews">
-        <span class="menu-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-          </svg>
-        </span>
-        <span>내 리뷰</span>
-      </button>
-
-      <button class="menu-item-row" data-a="requestNewStore">
-        <span class="menu-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <line x1="12" y1="7" x2="12" y2="13"/>
-            <line x1="9" y1="10" x2="15" y2="10"/>
-          </svg>
-        </span>
-        <span>식당 등록 요청</span>
-      </button>
-
-      <div class="menu-divider"></div>
-
-      <!-- '문의하기'와 '오류·문제 신고' 통합 -->
-      <button class="menu-item-row" data-a="openBugReport">
-        <span class="menu-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
-            <line x1="4" y1="22" x2="4" y2="15"/>
-          </svg>
-        </span>
-        <span>오류·문제 신고 및 문의</span>
-      </button>
-
-      <!-- 제휴·광고 문의: 이메일 연결 -->
-      <a class="menu-item-row" href="mailto:myjjm@gmail.com" style="text-decoration: none;">
-        <span class="menu-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 17l-5-5a2.83 2.83 0 0 1 4-4l1 1 1-1a2.83 2.83 0 0 1 4 4l-5 5z"/>
-            <path d="M18 10l3 3a2.83 2.83 0 0 1-4 4l-3-3"/>
-          </svg>
-        </span>
-        <span>제휴·광고 문의 (myjjm@gmail.com)</span>
-      </a>
-
-      <div class="menu-divider"></div>
-
-      <div class="menu-footer-links">
-        <button type="button" data-a="showAbout">서비스 소개</button>
-        <button type="button" data-a="showTerms">이용약관</button>
-        <button type="button" data-a="showPrivacy">개인정보처리방침</button>
-      </div>
-      <div class="menu-copyright">© MYGJJ</div>
-    </div>
-  `;
-  sheet(h);
+  if (type !== 'report' && type !== 'inquiry') return;
+  sheet('<h2>문의 · 오류·문제 신고</h2><p class="sub">서비스 이용 문의, 개선 의견 및 오류를 알려주세요. 식당 정보 오류는 해당 식당 상세 화면에서도 제보할 수 있습니다.</p>' +
+    '<input id="nav-contact" type="text" maxlength="200" placeholder="답변받을 이메일 또는 연락처 (선택)">' +
+    '<textarea id="nav-message" class="nav-textarea" maxlength="2000" placeholder="문의 및 신고 내용을 입력해 주세요" aria-label="문의 및 신고 내용"></textarea>' +
+    '<p class="nav-form-note">민감한 개인정보는 작성하지 마세요.</p>' +
+    '<button class="btn primary" data-a="submitNavContact" data-type="report">접수하기</button>');
 }
 
 const A = {
-  close: () => closeSheet(),
-  me: () => openMainMenu(),
-  backToPlace: () => { if (cur) openPlace(cur); },
-  refresh: async () => {
-    filterRating = 'all'; filterPrice = 'all'; currentSort = 'default';
-    if ($('q')) $('q').value = '';
-    closeSheet(); closePopover(); updatePillLabels();
-    if (myCoord && map) { map.setCenter(new naver.maps.LatLng(myCoord.lat, myCoord.lng)); map.setZoom(16); }
-    else if (map) { map.setCenter(new naver.maps.LatLng(37.5640, 126.9790)); map.setZoom(15); }
-    await load(); fetchNearbyBiz();
-    toast('지도를 새로고침했어요 🍜');
+  openNearbyBiz:d=>{ const b=biz[d.id]; if(b) openNew(b); else toast('식당 정보를 다시 조회해주세요.'); },
+  closeNav:()=>toggleNav(false),
+  navAccount:()=>{toggleNav(false);me?openUser(me.id):openLogin();},
+  navContact:d=>{toggleNav(false);navContact(d.type);},
+  submitNavContact:async d=>{
+    const contact=$('nav-contact')?.value.trim()||'';
+    const message=$('nav-message')?.value.trim()||'';
+    if(!message){toast('내용을 입력해주세요');return;}
+    const labels={inquiry:'문의/오류신고',report:'문의/오류신고'};
+    const label=labels[d.type];if(!label)return;
+    const submitBtn = $('sheet').querySelector('[data-a="submitNavContact"]');
+    if(submitBtn?.disabled)return;
+    if(submitBtn)submitBtn.disabled=true;
+    const {error}=await db.from('store_requests').insert({
+      name:`[${label}] ${contact||me?.email||'익명'}`,
+      address:null,
+      note:`유형: ${label} / 연락처: ${contact} / 내용: ${message}`
+    });
+    if(error){if(submitBtn)submitBtn.disabled=false;toast('접수 실패: '+error.message);return;}
+    closeSheet();toast('정상적으로 접수되었습니다.');
   },
+
+  close: () => closeSheet(),
+  me: () => me ? openUser(me.id) : openLogin(),
   openNaver: () => {
     if (!cur) return;
     const q = encodeURIComponent(`${cur.name} ${cur.address || ''}`);
@@ -1131,67 +1369,40 @@ const A = {
     const url = `https://map.kakao.com/link/map/${encodeURIComponent(cur.name)},${cur.lat},${cur.lng}`;
     window.open(url, '_blank');
   },
-  openLogin: () => openLogin(),
-  openProfile: () => openUser(me.id),
-  myReviews: async () => {
+  reportReview: d => {
+    if (!me) { openLogin(true); return; }
+    const reviewId = d.id;
+    if (!reviewId || !cur) return;
+    sheet('<button class="detail-back" data-a="backToPlace">‹ 식당 정보로 돌아가기</button><h2>리뷰 신고</h2><p class="sub">허위 정보, 욕설, 광고 등 부적절한 리뷰를 신고해 주세요.</p>' +
+      '<div class="report-group">' +
+      '<label class="report-opt"><input type="radio" name="review-reason" value="허위 정보" checked> 허위 정보</label>' +
+      '<label class="report-opt"><input type="radio" name="review-reason" value="욕설·비방"> 욕설·비방</label>' +
+      '<label class="report-opt"><input type="radio" name="review-reason" value="광고·스팸"> 광고·스팸</label>' +
+      '<label class="report-opt"><input type="radio" name="review-reason" value="기타"> 기타</label></div>' +
+      '<textarea id="review-report-note" class="nav-textarea" maxlength="500" placeholder="상세 내용 (선택)"></textarea>' +
+      '<button class="btn primary" data-a="submitReviewReport" data-id="' + esc(reviewId) + '">신고 접수하기</button>');
+  },
+  submitReviewReport: async d => {
     if (needLogin()) return;
-    const { data } = await db.from('reviews').select('*, places(name, address)').eq('user_id', me.id).order('created_at', { ascending: false });
-    if (!data || !data.length) { sheet('<h2>내 리뷰</h2><p class="sub">아직 작성한 리뷰가 없어요.</p>', true); return; }
-    sheet('<h2>내 리뷰</h2><p class="sub">내가 남긴 ' + data.length + '개의 솔직한 평가입니다.</p>' +
-      data.map(r => '<div class="rv"><b>' + esc(r.places?.name || '가게') + '</b> <span style="font-size:12px;color:var(--apple-gold);">★' + parseFloat(r.rating || 0).toFixed(1) + '</span><br>' +
-        (r.is_real === true ? '<span class="real-badge">진짜</span> ' : '<span style="font-size:11px;color:var(--label-secondary)">미달</span> ') +
-        (r.comment ? '<span style="color:var(--label-primary);font-size:14px;">' + esc(r.comment) + '</span>' : '') +
-        (r.photo_url ? `<div class="rv-photo-wrap"><img src="${esc(r.photo_url)}" class="rv-photo" onclick="window.open('${esc(r.photo_url)}')"></div>` : '') +
-      '</div>').join(''), true);
+    if (!cur || !d.id) return;
+    const reason = document.querySelector('input[name="review-reason"]:checked')?.value || '기타';
+    const note = $('review-report-note')?.value.trim() || '';
+    const button = $('sheet').querySelector('[data-a="submitReviewReport"]');
+    if (button?.disabled) return;
+    if (button) button.disabled = true;
+    try {
+      const {error} = await db.from('store_requests').insert({
+        name: '[리뷰 신고] ' + cur.name,
+        address: cur.address || null,
+        note: '리뷰ID: ' + d.id + ' / 식당ID: ' + cur.id + ' / 신고자ID: ' + me.id + ' / 사유: ' + reason + ' / 내용: ' + note
+      });
+      if (error) throw error;
+      closeSheet(); toast('리뷰 신고가 접수되었습니다.');
+    } catch (e) { toast('신고 접수 실패: ' + e.message); if (button) button.disabled = false; }
   },
-  requestNewStore: () => {
-    sheet('<h2>📍 식당 등록 요청</h2><p class="sub">새로운 간짜장 맛집을 알려주세요!</p>' +
-      '<input id="req-store-name" placeholder="식당 상호명 (필수)">' +
-      '<input id="req-store-addr" placeholder="식당 위치 또는 도로명 주소">' +
-      '<input id="req-store-price" type="number" placeholder="간짜장 가격 (선택)">' +
-      '<button class="btn primary" style="margin-top:14px;" data-a="sendNewStoreRequest">등록 요청 접수하기</button>', true);
-  },
-  sendNewStoreRequest: async () => {
-    const sName = $('req-store-name')?.value.trim();
-    const sAddr = $('req-store-addr')?.value.trim();
-    const sPrice = $('req-store-price')?.value.trim();
-    if (!sName) { toast('식당 이름을 입력해주세요'); return; }
-    const { error } = await db.from('store_requests').insert({
-      name: `[식당등록요청] ${sName}`,
-      address: sAddr || null,
-      note: `가격: ${sPrice || '미입력'} / 요청자: ${me ? me.id : '비로그인'}`
-    });
-    if (error) { toast('접수 실패: ' + error.message); return; }
-    toast('식당 등록 요청이 접수되었습니다. 신속히 확인 후 등록할게요!');
-    closeSheet();
-  },
-  openBugReport: () => {
-    sheet('<h2>🚩 오류·문제 신고 및 문의</h2><p class="sub">서비스 이용 중 불편한 점이나 문의사항을 남겨주세요.</p>' +
-      '<input id="bug-contact" placeholder="답변받으실 이메일 또는 연락처 (선택)">' +
-      '<input id="bug-text" placeholder="내용을 입력해주세요">' +
-      '<button class="btn primary" style="margin-top:14px;" data-a="sendBugReport">신고 및 문의 접수하기</button>', true);
-  },
-  sendBugReport: async () => {
-    const contact = $('bug-contact')?.value.trim() || '';
-    const text = $('bug-text')?.value.trim();
-    if (!text) { toast('내용을 입력해주세요'); return; }
-    await db.from('store_requests').insert({ name: `[오류·문의] ${contact || '익명'}`, note: text });
-    toast('접수되었습니다. 감사합니다!');
-    closeSheet();
-  },
-  showAbout: () => {
-    sheet('<h2>🍜 간짜장면 (MYGJJ)</h2>' +
-      '<p class="sub">전국 간짜장 매니아를 위한 집단지성 지도</p>' +
-      '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
-        '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
-        '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.036</div>' +
-      '</div>', true);
-  },
-  focusPrice: () => {
-    const el = $('pr');
-    if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-  },
+  focusPrice: () => openReviewComposer(true),
+  openReviewComposer: () => openReviewComposer(),
+  backToPlace: () => { if (cur) openPlace(cur); },
   openEditPrice: () => {
     if (!cur) return;
     sheet('<h2>간짜장 가격 수정 제보</h2><p class="sub">' + esc(cur.name) + '의 현재 등록 가격은 ' + won(cur.price) + '원입니다.</p>' +
@@ -1203,7 +1414,7 @@ const A = {
         '</div>' +
       '</div>' +
       '<p style="font-size:12px;color:var(--label-secondary);margin:8px 2px 14px;">* 다른 사용자의 확인 투표가 모이면 공식 가격으로 즉시 업데이트됩니다.</p>' +
-      '<button class="btn primary" data-a="submitProposedPrice">가격 제보하기</button>', true);
+      '<button class="btn primary" data-a="submitProposedPrice">가격 제보하기</button>');
   },
   submitProposedPrice: async () => {
     if (needLogin()) return;
@@ -1211,6 +1422,7 @@ const A = {
     if (!(val > 0)) { toast('올바른 가격을 입력해주세요'); return; }
     if (val === cur.price) { toast('현재 등록된 가격과 동일합니다'); return; }
 
+    if (cur.proposed_price) { toast('이미 가격 확인이 진행 중입니다.'); return; }
     const { error } = await db.from('places').update({
       proposed_price: val,
       proposed_votes: 1
@@ -1225,7 +1437,7 @@ const A = {
   confirmPrice: async (d) => {
     if (needLogin()) return;
     const pVal = parseInt(d.price, 10);
-    if (!(pVal > 0)) return;
+    if (!(pVal > 0) || !cur || Number(cur.proposed_price) !== pVal) return;
 
     const currentVotes = (cur.proposed_votes || 1) + 1;
     let updatePayload = {};
@@ -1251,17 +1463,43 @@ const A = {
     await load();
     openPlace(cur);
   },
+  showAppInfo: () => {
+    sheet('<h2>🍜 간짜장면 (MYGJJ)</h2>' +
+      '<p class="sub">전국 간짜장 매니아를 위한 집단지성 지도</p>' +
+      '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
+        '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
+        '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
+        '<div><b>버전 정보</b>: v0.036</div>' +
+      '</div>' +
+      '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
+      '<div style="display:flex;gap:8px;margin-top:14px;">' +
+        '<button class="btn" data-a="showTerms" style="font-size:13px;padding:10px;">이용약관</button>' +
+        '<button class="btn" data-a="showPrivacy" style="font-size:13px;padding:10px;">개인정보처리방침</button>' +
+      '</div>');
+  },
+  sendInquiry: async () => {
+    const contact = $('inq-contact')?.value.trim() || '';
+    const content = $('inq-content')?.value.trim() || '';
+    if (!content) { toast('문의 내용을 입력해주세요'); return; }
+    const { error } = await db.from('store_requests').insert({
+      name: `[문의/제휴] ${contact || (me ? me.email : '익명')}`,
+      address: null,
+      note: `연락처: ${contact} / 내용: ${content}`
+    });
+    if (error) { toast('접수 실패: ' + error.message); return; }
+    toast('문의 및 제휴 제안이 성공적으로 접수되었어요! 🙏');
+    closeSheet();
+  },
   reportPlace: () => {
     if (!cur) return;
-    // 1번 요청사항: ‘간짜장 가격이 달라요’ 항목 제거 완료
-    sheet('<h2>🚩 정보 오류 · 개선 제보</h2><p class="sub">' + esc(cur.name) + '의 수정이 필요한 내용을 선택해주세요.</p>' +
+    sheet('<button class="detail-back" data-a="backToPlace">‹ 식당 정보로 돌아가기</button><h2>정보 오류 · 개선 제보</h2><p class="sub">' + esc(cur.name) + '의 수정이 필요한 내용을 선택해주세요.</p>' +
       '<div class="report-group">' +
         '<label class="report-opt"><input type="radio" name="rpt" value="closed" checked> 폐업한 가게예요</label>' +
         '<label class="report-opt"><input type="radio" name="rpt" value="info"> 주소 또는 상호가 달라요</label>' +
         '<label class="report-opt"><input type="radio" name="rpt" value="etc"> 기타 오류 제보</label>' +
       '</div>' +
       '<input id="rpt-note" placeholder="상세 내용을 적어주세요 (선택)">' +
-      '<button class="btn primary" style="margin-top:14px;" data-a="sendReport">제보 접수하기</button>', true);
+      '<button class="btn primary" style="margin-top:14px;" data-a="sendReport">제보 접수하기</button>');
   },
   sendReport: async () => {
     if (needLogin()) return;
@@ -1280,36 +1518,24 @@ const A = {
     sheet('<h2>서비스 이용약관</h2>' +
       '<div style="margin-top:14px;font-size:14px;line-height:1.6;color:var(--label-secondary);max-height:60vh;overflow-y:auto;">' +
       '<p><b>제 1 조 (목적)</b><br>본 약관은 ‘간짜장면’ 서비스의 이용 조건 및 절차에 관한 제반 사항을 규정함을 목적으로 합니다.</p><br>' +
-      '<p><b>제 2 조 (게시물 관리)</b><br>1. 회원은 솔직하고 건전한 리뷰를 작성해야 합니다.<br>2. 욕설, 비방, 허위 사실 유포 시 사전 통보 없이 삭제되거나 이용이 제한될 수 있습니다.</p>' +
-      '</div>', true);
+      '<p><b>제 2 조 (게시물 관리)</b><br>1. 회원은 솔직하고 건전한 리뷰를 작성해야 합니다.<br>2. 욕설, 비방, 허위 사실 유포 시 사전 통보 없이 삭제되거나 이용이 제한될 수 있습니다.</p><br>' +
+      '<p><b>제 3 조 (위치정보 이용)</b><br>주변 식당 안내를 위해 브라우저 위치 권한을 요청할 수 있습니다. 권한을 거부해도 지도 검색은 이용할 수 있습니다.</p>' +
+      '</div>');
   },
   showPrivacy: () => {
     sheet('<h2>개인정보처리방침</h2>' +
       '<div style="margin-top:14px;font-size:14px;line-height:1.6;color:var(--label-secondary);max-height:60vh;overflow-y:auto;">' +
       '<p><b>1. 수집하는 개인정보</b><br>- 소셜 로그인 정보(이메일, 고유 식별자, 닉네임, 프로필 사진)</p><br>' +
-      '<p><b>2. 수집 및 이용 목적</b><br>- 회원 식별, 리뷰 작성자 표시</p>' +
-      '</div>', true);
+      '<p><b>2. 수집 및 이용 목적</b><br>- 회원 식별, 리뷰 작성자 표시</p><br>' +
+      '<p><b>3. 보유 및 파기</b><br>- 회원 탈퇴 및 개인정보 삭제는 고객지원으로 요청할 수 있습니다. 처리 절차와 보유 기간은 운영 정책에 따라 별도 안내됩니다.</p>' +
+      '</div>');
   },
-  withdraw: async () => {
+  withdraw: () => {
     if (!me) return;
-    if (!confirm('정말 탈퇴하시겠습니까?\n탈퇴 시 내 프로필 및 작성 리뷰가 모두 영구 삭제됩니다.')) return;
-    try {
-      const [revRes, profRes] = await Promise.all([
-        db.from('reviews').delete().eq('user_id', me.id),
-        db.from('profiles').delete().eq('id', me.id)
-      ]);
-      if (revRes.error || profRes.error) {
-        const msg = revRes.error?.message || profRes.error?.message;
-        toast('데이터 정리 실패: ' + msg);
-        return;
-      }
-      await db.auth.signOut();
-      closeSheet();
-      toast('회원 탈퇴 및 데이터 삭제가 완료되었어요');
-      await load();
-    } catch(err) {
-      toast('탈퇴 처리 실패: ' + err.message);
-    }
+    navContact('inquiry');
+    const note = $('nav-message');
+    if (note) note.value = '회원 탈퇴 및 인증 계정과 관련 데이터 삭제를 요청합니다.';
+    toast('회원 탈퇴 요청 내용을 작성한 뒤 접수해 주세요.');
   },
   editNick: () => openNicknamePrompt(false),
   saveNickname: async () => {
@@ -1323,7 +1549,7 @@ const A = {
     openUser(me.id);
   },
   place: d => { const p = places.find(x => x.id === d.id); if (p) openPlace(p); },
-  pick: d => openNew(biz[d.id]),
+  pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다. 다시 검색해주세요.'); },
   score: d => { scores[d.cat] = +d.n; updateStarsUI(); },
   login: d => db.auth.signInWithOAuth({ provider: d.p, options: { redirectTo: location.origin + location.pathname } }),
   logout: async () => { await db.auth.signOut(); closeSheet(); },
@@ -1383,6 +1609,7 @@ const A = {
     const priceInput = parseInt($('pr')?.value, 10);
     const price = priceInput > 0 ? priceInput : null;
     const b = curBiz;
+    if (!b) { toast('식당 정보를 찾지 못했습니다.'); return; }
     const commentVal = $('c')?.value.trim() || '';
     if (containsBadWords(commentVal)) {
       toast('욕설이나 비방 표현은 등록할 수 없어요');
@@ -1444,13 +1671,16 @@ const A = {
 
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-a]');
-  if (b && A[b.dataset.a]) A[b.dataset.a](b.dataset);
+  if (b && A[b.dataset.a]) {
+    if (document.body.classList.contains('nav-open') && b.dataset.a !== 'closeNav') toggleNav(false);
+    A[b.dataset.a](b.dataset);
+  }
 });
 
 async function checkUserProfile(user){
   if (!user) return;
   const { data } = await db.from('profiles').select('username').eq('id', user.id).maybeSingle();
-  if (!data?.username && !user.user_metadata?.username) {
+  if (!data?.username) {
     openNicknamePrompt(true);
   }
 }
@@ -1465,21 +1695,63 @@ db.auth.onAuthStateChange((_e, s) => {
   paintMe();
   if (me) checkUserProfile(me);
 });
-function paintMe(){
-  const color = me ? 'var(--apple-blue)' : 'currentColor';
-  $('me').innerHTML = `
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-  `;
+function paintMe(){ $('nav-account-label').textContent = me ? '내 정보' : '로그인 / 회원가입'; }
+
+let userLocationMarker = null;
+let locating = false;
+function showUserLocation(coords) {
+  myCoord = { lat:coords.latitude, lng:coords.longitude };
+  if (!map || typeof naver === 'undefined' || !naver.maps) return;
+  const point = new naver.maps.LatLng(myCoord.lat, myCoord.lng);
+  if (!userLocationMarker) {
+    userLocationMarker = new naver.maps.Marker({
+      map, position:point, zIndex:1100,
+      icon:{content:'<div style="width:19px;height:19px;background:#007aff;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 5px rgba(0,122,255,.16),0 2px 8px rgba(0,0,0,.25)" aria-label="내 위치"></div>',anchor:new naver.maps.Point(9,9)}
+    });
+  } else userLocationMarker.setPosition(point);
+  map.panTo(point);
 }
+function locateMe(manual = true) {
+  if (locating) return;
+  if (!navigator.geolocation) {
+    if(manual) toast('이 브라우저에서는 위치 확인을 지원하지 않습니다.');
+    return;
+  }
+  if (!window.isSecureContext) {
+    if(manual) toast('현재 위치는 HTTPS 환경에서 사용할 수 있습니다.');
+    return;
+  }
+  locating = true;
+  const btn = $('locate-btn');
+  btn.disabled = true;
+  btn.setAttribute('aria-busy','true');
+  if (manual) toast('현재 위치를 확인하고 있습니다.');
+  navigator.geolocation.getCurrentPosition(pos => {
+    locating = false;
+    btn.disabled = false;
+    btn.setAttribute('aria-busy','false');
+    showUserLocation(pos.coords);
+    if (manual) toast('현재 위치로 이동했습니다.');
+  }, err => {
+    locating = false;
+    btn.disabled = false;
+    btn.setAttribute('aria-busy','false');
+    if (!manual) { console.warn('초기 위치 조회:',err.message); return; }
+    const messages = {
+      1:'위치 접근이 차단되었습니다. 브라우저 사이트 설정에서 위치 권한을 허용해 주세요.',
+      2:'현재 위치를 확인할 수 없습니다. GPS 또는 위치 서비스를 확인해 주세요.',
+      3:'위치 확인 시간이 초과되었습니다. 다시 시도해 주세요.'
+    };
+    toast(messages[err.code] || '위치를 확인하지 못했습니다.');
+  },{enableHighAccuracy:manual,timeout:manual?12000:7000,maximumAge:manual?0:60000});
+}
+$('locate-btn').addEventListener('click',()=>locateMe(true));
 
 function initMap(){
   try {
     map = new naver.maps.Map('map', {
       center: new naver.maps.LatLng(37.5640, 126.9790),
-      zoom: 15,
+      zoom: window.matchMedia("(max-width: 767px)").matches ? 16 : 15,
       pinchZoom: true,
       scrollWheel: true,
       draggable: true
@@ -1488,18 +1760,13 @@ function initMap(){
     naver.maps.Event.addListener(map, 'idle', onMapIdle);
     drawPins();
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        if (!map) return;
-        myCoord = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        map.setCenter(new naver.maps.LatLng(myCoord.lat, myCoord.lng));
-      }, err => console.warn(err.message), { timeout: 7000 });
-    }
+    locateMe(false);
   } catch (e) { toast('지도 오류: ' + e.message); }
 }
 
 let moveDebounce;
 function onMapIdle(){
+  drawPins();
   clearTimeout(moveDebounce);
   moveDebounce = setTimeout(fetchNearbyBiz, 500);
 }
@@ -1509,59 +1776,91 @@ async function fetchNearbyBiz(){
   const mySeq = ++nearbySeq;
   try {
     const zoom = map.getZoom();
-    if (zoom < 16) {
-      nearbyMarkers.forEach(m => m.setMap(null));
-      nearbyMarkers = [];
-      return;
-    }
+    // 축척이 넓을 때는 이미 평가된 매장만 보여줍니다.
+    if (zoom < 16) { clearNearbyMarkers(); return; }
     const bounds = map.getBounds();
     if (!bounds) return;
     const sw = bounds.getSW(), ne = bounds.getNE();
     if (!sw || !ne) return;
 
-    const { data } = await db.from('biz_master')
+    const { data, error } = await db.from('biz_master')
       .select('*')
       .gte('lat', sw.lat()).lte('lat', ne.lat())
       .gte('lng', sw.lng()).lte('lng', ne.lng())
-      .limit(25);
+      .limit(250);
 
     if (mySeq !== nearbySeq) return;
-    if (!data) return;
+    if (error) { console.warn('주변 매장 조회 실패', error); return; }
+    const registeredBizIds = new Set(places.map(p => String(p.biz_id)).filter(x => x !== 'null' && x !== 'undefined'));
+    const available = (data || []).filter(b => !registeredBizIds.has(String(b.id)) &&
+      Number.isFinite(Number(b.lat)) && Number.isFinite(Number(b.lng)));
 
-    const registeredBizIds = new Set(places.map(p => p.biz_id));
-    const unregistered = data.filter(b => !registeredBizIds.has(b.id));
-    nearbyMarkers.forEach(m => m.setMap(null));
-    nearbyMarkers = [];
-
-    unregistered.forEach(b => {
-      biz[b.id] = b;
+    // 지도에서 등록 식당과 겹치는 미등록 마커는 숨김: 우수매장 가독성 최우선.
+    const priorityLocations = places
+      .filter(p => Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng)))
+      .map(p => mapPixelPosition(p.lat, p.lng)).filter(Boolean);
+    const clusterSize = zoom >= 18 ? 90 : zoom >= 17 ? 108 : 128;
+    const clusters = new Map();
+    available.forEach(b => {
+      const xy = mapPixelPosition(b.lat, b.lng);
+      if (!xy) return;
+      if (priorityLocations.some(p => Math.abs(p.x-xy.x)<85 && Math.abs(p.y-xy.y)<40)) return;
+      const k = `${Math.floor(xy.x/clusterSize)}:${Math.floor(xy.y/clusterSize)}`;
+      if (!clusters.has(k)) clusters.set(k, []);
+      clusters.get(k).push({b,xy});
+    });
+    const limit = zoom >= 18 ? 20 : zoom >= 17 ? 18 : 15;
+    const size = map.getSize();
+    const center = {x: size.width/2, y:size.height/2};
+    const selected = [...clusters.values()]
+      .sort((a,b) => {
+        const da = Math.hypot(a[0].xy.x-center.x,a[0].xy.y-center.y);
+        const db = Math.hypot(b[0].xy.x-center.x,b[0].xy.y-center.y);
+        return da-db;
+      }).slice(0,limit);
+    clearNearbyMarkers();
+    selected.forEach(list => {
+      const first = list[0].b;
+      const isGroup = list.length > 1;
+      list.forEach(({b}) => { biz[b.id] = b; });
+      const content = isGroup
+        ? `<div class="pin biz biz-group">+ 식당 ${list.length}곳</div>`
+        : `<div class="pin biz biz-single">+ <span class="pin-label">${esc(first.name)}</span></div>`;
       const mk = new naver.maps.Marker({
-        map, position: new naver.maps.LatLng(b.lat, b.lng),
-        icon: { content: '<div class="pin biz">+ ' + esc(b.name) + '</div>', anchor: new naver.maps.Point(0, 0) }
+        map, position:new naver.maps.LatLng(first.lat,first.lng),
+        zIndex:40,
+        icon:{content,anchor:new naver.maps.Point(0,0)}
       });
-      naver.maps.Event.addListener(mk, 'click', () => openNew(b));
+      naver.maps.Event.addListener(mk,'click',() => {
+        if (isGroup) openNearbyGroup(list.map(x=>x.b));
+        else openNew(first);
+      });
       nearbyMarkers.push(mk);
     });
-  } catch (err) {
-    console.warn('주변 매장 조회 예외 방어:', err);
-  }
+  } catch (err) { console.warn('주변 매장 표시 오류:',err); }
 }
-
+function openNearbyGroup(list){
+  sheet('<h2>이 주변 미등록 식당</h2><p class="sub">'+list.length+'개 식당을 확인할 수 있어요.</p>'+
+    '<div style="margin-top:14px">'+list.map(b=>
+      `<button class="row" data-a="openNearbyBiz" data-id="${esc(b.id)}"><b>${esc(b.name)}</b><small>${esc(b.road_addr||b.lot_addr||'주소 정보 없음')}</small><i>보기</i></button>`
+    ).join('')+'</div>');
+}
 $('q').oninput = e => { clearTimeout(st); st = setTimeout(() => search(e.target.value.trim()), 250); };
 let st;
 async function search(q){
-  const box = $('res'); if (!q){ box.hidden = true; return; }
+  const box = $('res'); if (!q){ ++searchSeq; box.hidden = true; return; }
   const mySeq = ++searchSeq;
   const local = places.filter(p => p.name.includes(q)).slice(0, 10);
-  const { data } = await db.from('biz_master').select('*').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
+  const { data, error } = await db.from('biz_master').select('*').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
+  if (error) { console.warn('검색 실패', error); if(mySeq === searchSeq) toast('검색에 실패했습니다.'); return; }
   if (mySeq !== searchSeq) return;
-  const reg = new Set(places.map(p => p.biz_id));
-  const rows = (data || []).filter(b => !reg.has(b.id));
+  const reg = new Set(places.map(p => String(p.biz_id)));
+  const rows = (data || []).filter(b => !reg.has(String(b.id)));
   biz = Object.fromEntries(rows.map(b => [b.id, b]));
 
   let h = local.map(p => '<button class="row" data-a="place" data-id="' + esc(p.id) + '"><b>' + esc(p.name) + '</b><small>' + esc(p.address) + '</small><i>' + won(p.price) + '원</i></button>').join('');
   h += rows.map(b => '<button class="row" data-a="pick" data-id="' + esc(b.id) + '"><b>' + esc(b.name) + '</b><small>' + esc(b.road_addr || b.lot_addr) + ' · 등록 가능</small></button>').join('');
-  box.innerHTML = h; box.hidden = false;
+  box.innerHTML = h || '<div class="empty">검색 결과가 없습니다.</div>'; box.hidden = false;
 }
 
 load();
