@@ -499,7 +499,7 @@ body.nav-open #nav-drawer{transform:translateX(0)}
 .nav-textarea{display:block;width:100%;min-height:130px;resize:vertical;border:0.5px solid var(--separator);border-radius:16px;padding:14px 16px;font:inherit;font-size:15px;background:var(--secondary-card-bg);color:var(--label-primary);margin-top:10px}
 @media(max-width:390px){.brand-btn{padding:0 7px;font-size:13px}.nav-toggle{width:42px}#top{gap:5px}#me{padding:0 9px}}
 
-/* v0.040 — cohesive Apple-inspired UI and responsive alignment */
+/* v0.042 — cohesive Apple-inspired UI and responsive alignment */
 :root { --ui-radius: 14px; --ui-control: 44px; }
 button,input,textarea { font-family:inherit; }
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible { outline:3px solid var(--apple-blue); outline-offset:2px; }
@@ -553,7 +553,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px) { #top-container {left:20px;right:auto;width:520px;} #res {left:20px;right:auto;width:520px;} }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after {transition-duration:.01ms!important;animation-duration:.01ms!important;} }
 
-/* v0.040 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
+/* v0.042 — 메뉴 가시성 및 데스크톱 상세 패널 정렬 보강 */
 #top-container { z-index: 12; }
 .nav-toggle { display:flex; align-items:center; justify-content:center; gap:6px; width:66px; padding:0 9px; font-size:18px; font-weight:650; }
 .nav-toggle-label { font-size:12px; letter-spacing:-.02em; }
@@ -578,7 +578,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   .nav-toggle-label { display:none; }
 }
 @media (max-width:350px) { #top { grid-template-columns:38px minmax(0,1fr) auto; } .nav-toggle { width:38px; } }
-/* v0.040 — 리뷰 메타데이터 및 지도 링크 */
+/* v0.042 — 리뷰 메타데이터 및 지도 링크 */
 .map-icon-btn { text-decoration:none; color:inherit; }
 .review-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
 .review-score { margin-top:4px; font-size:13px; }
@@ -587,7 +587,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .review-report { margin-left:auto; color:var(--label-secondary); font-size:12px; padding:5px 8px; border-radius:8px; }
 .review-report:hover { background:var(--secondary-card-bg); }
 
-/* v0.040 — 지도 우선형 모바일 헤더 */
+/* v0.042 — 지도 우선형 모바일 헤더 */
 #top { grid-template-columns:66px auto minmax(0,1fr); }
 #q { min-width:0; }
 #sort-bar { gap:6px; }
@@ -599,7 +599,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(max-width:420px){ #top {grid-template-columns:42px auto minmax(0,1fr);} #brand-logo{padding:0 7px;} #sort-bar{gap:4px;} .sort-pill{padding:0 10px;} }
 @media(max-width:350px){ #top {grid-template-columns:38px minmax(0,1fr);} #brand-logo{display:none;} #q{grid-column:2;} }
 
-/* v0.040 — 현재 위치로 이동 */
+/* v0.042 — 현재 위치로 이동 */
 #locate-btn {
   position:fixed; right:16px;
   bottom:calc(env(safe-area-inset-bottom, 0px) + 72px);
@@ -616,7 +616,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 @media(min-width:768px){#locate-btn{right:22px;bottom:70px}}
 @media(prefers-reduced-motion:reduce){#locate-btn{transition:none}}
 
-/* v0.040 — 방문자 중심 매장 상세 정보 */
+/* v0.042 — 방문자 중심 매장 상세 정보 */
 .detail-kicker { color:var(--label-secondary); font-size:12px; font-weight:650; letter-spacing:.02em; margin:2px 0 9px; }
 .detail-address { margin-top:8px; overflow-wrap:anywhere; }
 #sheet .stats { margin:20px 0 12px; gap:10px; }
@@ -651,7 +651,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .detail-back { color:var(--apple-blue); padding:0 0 18px; font-size:14px; font-weight:600; }
 @media(max-width:360px) { .detail-map-links .map-icon-btn { font-size:12px; gap:5px; } .map-service-icon { width:21px; height:21px; } }
 
-/* v0.040 — three-stage draggable bottom sheet (mobile web and desktop) */
+/* v0.042 — three-stage draggable bottom sheet (mobile web and desktop) */
 #sheet {
   height: 52dvh;
   max-height: 92dvh;
@@ -697,16 +697,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   #sheet { transition:none!important; }
   #sheet .sheet-drag-handle::after { transition:none; }
 }
-/* v0.040 — expanded mobile sheet stays below floating map controls. */
+/* v0.042 — expanded mobile sheet stays below floating map controls. */
 @media(max-width:767px){
   #sheet { max-height: var(--sheet-safe-height, 75dvh); }
   #sheet .sheet-drag-handle { z-index:3; }
 }
-/* v0.040 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
+/* v0.042 - 상세 화면에서 뒤로가기 조작을 명확히 표시 */
 #sheet .detail-back { display:flex; align-items:center; width:max-content; max-width:100%; min-height:42px; padding:8px 4px; margin:0 0 12px; color:var(--apple-blue); font-size:14px; font-weight:650; text-align:left; }
 #sheet .detail-back:focus-visible {outline:2px solid var(--apple-blue);outline-offset:3px;border-radius:6px}
 
-/* v0.040: full-height place details and reviewer profiles */
+/* v0.042: full-height place details and reviewer profiles */
 @media(max-width:767px){
   #sheet.place-fullscreen {
     position:fixed!important;top:0!important;bottom:0!important;left:0!important;right:0!important;
@@ -725,7 +725,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 #sheet .user-review-go{color:var(--apple-blue);font-size:13px;font-weight:600;margin-top:12px}
 #sheet #user-review-more:not([hidden]){margin-top:16px}
 
-/* v0.040 — Mobile sheet fills the viewport when expanded, no toolbar collisions. */
+/* v0.042 — Mobile sheet fills the viewport when expanded, no toolbar collisions. */
 #sheet { position:fixed; left:0; right:0; bottom:0; top:auto!important; overflow-y:auto; overflow-x:hidden; padding-top:40px; overscroll-behavior-y:contain; transition:height .26s cubic-bezier(.2,.7,.2,1), transform .26s cubic-bezier(.2,.7,.2,1); }
 #sheet.sheet-expanded { border-radius:0!important; }
 #sheet.sheet-dragging {transition:none!important;}
@@ -737,11 +737,77 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .real-filter-pill.filtered {background:linear-gradient(115deg,#f59e0b,#ea580c);color:#fff;border-color:transparent;}
 @media (max-width:767px) { #sheet, #sheet.place-fullscreen {left:0!important;right:0!important;width:100%!important;max-height:none!important;} #sheet.sheet-expanded{border-radius:0!important;} }
 @media (min-width:768px) {#sheet{left:20px;right:auto;width:440px;max-height:calc(100dvh - 20px)!important} #sheet.sheet-expanded{border-radius:24px!important;} }
+
+/* v0.042: Sheet uses a fixed control header plus a separate scroll viewport.
+   Overrides legacy sheet positioning without affecting the map or drawer. */
+#sheet, #sheet.place-fullscreen {
+  position:fixed!important;
+  inset:auto 0 0 0!important;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  height:52dvh;
+  min-height:0;
+  max-height:100dvh!important;
+  overflow:hidden!important;
+  padding:0!important;
+  z-index:41!important;
+  border-radius:24px 24px 0 0!important;
+  transform:translateY(105%);
+  transition:transform .28s cubic-bezier(.16,1,.3,1),height .24s cubic-bezier(.2,.7,.2,1)!important;
+}
+#sheet.open{transform:translateY(0);}
+#sheet.sheet-expanded{border-radius:0!important;}
+#sheet.sheet-dragging{transition:none!important;}
+#sheet .sheet-control-bar{
+  flex:0 0 44px;min-height:44px;position:relative;
+  display:flex;justify-content:center;align-items:center;
+  background:var(--card-bg);z-index:4;
+  touch-action:none;
+}
+#sheet #sheet-drag-handle,#sheet.place-fullscreen #sheet-drag-handle{
+  position:relative!important;top:auto!important;left:auto!important;
+  margin:0!important;width:126px;height:44px;min-height:44px;
+  flex:0 0 auto;touch-action:none;background:transparent!important;
+}
+#sheet .sheet-control-bar .x{
+  position:absolute;right:16px;top:5px;width:34px;height:34px;
+  z-index:5;
+}
+#sheet .sheet-scroll{
+  flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  padding:6px 22px calc(24px + env(safe-area-inset-bottom,0px));
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+}
+#sheet .sheet-scroll>h2:first-child{margin-top:0;}
+#sheet .sheet-scroll .detail-kicker:first-child{margin-top:0;}
+#top-container{z-index:12;}
+#nav-backdrop{z-index:60;}
+#nav-drawer{z-index:61;}
+#toast{z-index:80;top:calc(env(safe-area-inset-top,0px) + 150px);max-width:min(90vw,410px);line-height:1.45;text-align:center;pointer-events:none;}
+@media(max-width:767px){
+  #sheet,#sheet.place-fullscreen{width:100%!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;}
+  #sheet .sheet-scroll{padding-left:18px;padding-right:18px;}
+}
+@media(min-width:768px){
+  #sheet,#sheet.place-fullscreen{
+    left:20px!important;right:auto!important;bottom:20px!important;top:auto!important;
+    width:440px!important;max-width:calc(100vw - 40px)!important;
+    max-height:calc(100dvh - 40px)!important;
+    border-radius:24px!important;
+  }
+  #sheet.sheet-expanded{border-radius:24px!important;}
+}
+@media(prefers-reduced-motion:reduce){#sheet{transition:none!important;}}
+
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.040</div>
+<div id="ver-badge">v0.042</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -759,7 +825,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.040</div>
+  <div class="nav-foot">MYGJJ · v0.042</div>
 </nav>
 
 <div id="top-container">
@@ -815,12 +881,12 @@ function getDistanceMeters(lat1, lng1, lat2, lng2) {
 }
 
 function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
-// v0.040: two-position sheet. Handle drag is distinct from content scrolling.
+// v0.042: two-position sheet. Handle drag is distinct from content scrolling.
 const SHEET_STAGES = [0.52, 1]; // half, full
 let sheetStage = 1;
 let sheetDrag = null;
 function sheetMaxHeight(){
-  return Math.max(160, window.visualViewport?.height || window.innerHeight);
+  return Math.max(160, (window.visualViewport?.height || window.innerHeight) - (window.innerWidth >= 768 ? 40 : 0));
 }
 function sheetHeightAt(stage){
   const vh = sheetMaxHeight();
@@ -888,13 +954,13 @@ function sheet(h, options = {}){
   const wasOpen = $('sheet').classList.contains('open');
   $('sheet').classList.toggle('place-fullscreen', !!options.fullscreen);
   const hasBack = h.includes('data-a="backToPlace"');
-  $('sheet').innerHTML = '<button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="52" aria-valuemax="100" aria-valuenow="100" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + h;
+  $('sheet').innerHTML = '<div class="sheet-control-bar"><button type="button" id="sheet-drag-handle" class="sheet-drag-handle" aria-label="상세 창 높이 조절: 위아래로 드래그하거나 방향키 사용" role="slider" aria-orientation="vertical" aria-valuemin="52" aria-valuemax="100" aria-valuenow="100" tabindex="0" title="드래그하여 창 높이 조절"></button>' + (hasBack ? '' : '<button class="x" data-a="close" aria-label="닫기">✕</button>') + '</div><div class="sheet-scroll" id="sheet-scroll">' + h + '</div>';
   sheetDrag = null;
   $('sheet').classList.remove('sheet-dragging');
   setSheetStage(options.fullscreen ? 1 : 0);
   setupSheetDragHandle();
   $('sheet').classList.add('open');
-  $('sheet').scrollTop = 0;
+  $('sheet-scroll').scrollTop = 0;
   $('res').hidden = true;
   resetScores();
   if (!wasOpen) history.pushState({ sheetOpen: true }, '');
@@ -1133,10 +1199,22 @@ function openPopover(type, btnEl){
   const curVal = cfg.getVal();
   popEl.innerHTML = cfg.items.map(it => `<button class="menu-item ${it.id === curVal ? 'selected' : ''}" data-item-id="${it.id}"><span>${esc(it.label)}</span>${it.id === curVal ? '<span class="check">✓</span>' : ''}</button>`).join('');
   const rect = btnEl.getBoundingClientRect();
-  popEl.style.left = Math.max(12, Math.min(rect.left, window.innerWidth - 300)) + 'px';
   popEl.hidden = false;
+  // Anchor each popup to its own button instead of clamping both to one x position.
+  popEl.style.position = 'fixed';
+  popEl.style.width = 'max-content';
+  popEl.style.maxWidth = 'min(240px, calc(100vw - 24px))';
+  const popupWidth = popEl.getBoundingClientRect().width;
+  const margin = 12;
+  // Prefer left alignment, but right-align to the price pill when near the screen edge.
+  const preferredLeft = type === 'price' ? rect.right - popupWidth : rect.left;
+  popEl.style.left = Math.max(margin, Math.min(preferredLeft, window.innerWidth - popupWidth - margin)) + 'px';
+  popEl.style.top = Math.min(rect.bottom + 8, window.innerHeight - 20) + 'px';
 }
 function closePopover(){ openPopType = null; popEl.hidden = true; }
+window.addEventListener('resize', closePopover);
+window.addEventListener('scroll', closePopover, {passive:true});
+$('sort-bar').addEventListener('scroll', closePopover, {passive:true});
 
 $('sort-bar').addEventListener('click', e => {
   const btn = e.target.closest('.sort-pill'); if (!btn) return;
@@ -1620,7 +1698,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.040</div>' +
+        '<div><b>버전 정보</b>: v0.042</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
