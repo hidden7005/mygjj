@@ -638,6 +638,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .kakao-symbol { background:#fee500; color:#191919; }
 .map-external-arrow { margin-left:auto; font-size:13px; color:var(--label-secondary); }
 .detail-section { margin-top:24px; }
+/* v0.053: 진짜/가짜 간짜장 투표 슬라이더 (왼쪽=진짜, 오른쪽=가짜) */
+.real-meter { margin:0 0 20px; padding:14px 16px; border-radius:16px; background:var(--secondary-card-bg); }
+.real-meter-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:12px; }
+.real-meter-head b { font-size:15px; color:var(--label-primary); font-weight:700; }
+.real-meter-head span { font-size:12px; color:var(--label-secondary); white-space:nowrap; }
+.real-meter-track { position:relative; height:8px; border-radius:999px; background:linear-gradient(90deg, var(--apple-real-end), var(--apple-real-start) 45%, var(--label-tertiary)); }
+.real-meter.empty .real-meter-track { background:var(--separator); }
+.real-meter-thumb { position:absolute; top:50%; width:20px; height:20px; border-radius:50%; background:#fff; border:2px solid var(--label-primary); box-shadow:0 2px 6px rgba(0,0,0,0.25); transform:translate(-50%,-50%); }
+.real-meter-labels { display:flex; justify-content:space-between; margin-top:10px; font-size:12px; font-weight:650; }
+.real-meter-labels .is-real { color:var(--apple-real-end); }
+.real-meter-labels .is-fake { color:var(--label-secondary); }
 .detail-section-head { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:12px; }
 .detail-section-head h3 { margin:0; font-size:17px; color:var(--label-primary); font-weight:750; }
 .detail-count { color:var(--label-secondary); font-size:12px; white-space:nowrap; }
@@ -813,7 +824,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.052</div>
+<div id="ver-badge">v0.053</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -831,7 +842,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.052</div>
+  <div class="nav-foot">MYGJJ · v0.053</div>
 </nav>
 
 <div id="top-container">
@@ -1381,6 +1392,13 @@ async function openPlace(p){
   const kakaoUrl = Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng)) ? 'https://map.kakao.com/link/map/' + encodeURIComponent(p.name).replace(/%2C/gi, '%252C') + ',' + Number(p.lat) + ',' + Number(p.lng) : 'https://map.kakao.com/?q=' + encodeURIComponent(p.name);
   const st = realStats[p.id];
   const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
+  const realYes = st && st.total > 0 ? st.yes / st.total : null;
+  const realMeterHtml = realYes === null
+    ? '<div class="real-meter empty"><div class="real-meter-head"><b>진짜 간짜장일까요?</b><span>아직 투표가 없어요</span></div>' +
+      '<div class="real-meter-track"></div><div class="real-meter-labels"><span class="is-real">진짜 간짜장</span><span class="is-fake">가짜 간짜장</span></div></div>'
+    : '<div class="real-meter" role="img" aria-label="' + st.total + '명 중 ' + st.yes + '명이 진짜 간짜장이라고 평가"><div class="real-meter-head"><b>진짜 간짜장일까요?</b><span>' + st.total + '명 중 ' + st.yes + '명이 진짜 (' + Math.round(realYes * 100) + '%)</span></div>' +
+      '<div class="real-meter-track"><span class="real-meter-thumb" style="left:calc(10px + (100% - 20px) * ' + (1 - realYes).toFixed(4) + ')"></span></div>' +
+      '<div class="real-meter-labels"><span class="is-real">진짜 간짜장</span><span class="is-fake">가짜 간짜장</span></div></div>';
   const authHeader = isAuthentic ? `<div class="real-badge-header">✓ 90% 검증 진짜 간짜장</div>` : '';
 
   let priceBannerHtml = '';
@@ -1430,7 +1448,7 @@ async function openPlace(p){
     '<div class="stats"><div><small>간짜장 가격</small><b>' + (priceMissing ? '<span class="detail-price-empty">미등록</span>' : won(p.price) + '원') + '</b>' +
     (!priceMissing ? '<button class="detail-inline-link" data-a="openEditPrice">가격 수정 제보</button>' : '') + '</div>' +
     '<div><small>사용자 평점</small><b>' + (rt && Number.isFinite(Number(rt.avg_rating)) ? '★ ' + Number(rt.avg_rating).toFixed(1) : '평가 전') + '</b>' +
-    '<span class="detail-rating-count">' + (rt ? esc(rt.n || 0) + '명 평가' : '첫 평가를 남겨주세요') + '</span></div></div>' +
+    '<span class="detail-rating-count">' + (rt ? esc(rt.n || 0) + '명 평가' : '첫 평가를 남겨주세요') + '</span></div></div>' + realMeterHtml +
     '<div class="map-links-grid detail-map-links">' +
     '<a class="map-icon-btn" href="' + esc(naverUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="네이버 지도에서 열기"><span class="map-service-icon naver-symbol">N</span><span>네이버 지도</span><span class="map-external-arrow">↗</span></a>' +
     '<a class="map-icon-btn" href="' + esc(kakaoUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="카카오맵에서 열기"><span class="map-service-icon kakao-symbol">●</span><span>카카오맵</span><span class="map-external-arrow">↗</span></a></div>' +
@@ -1710,7 +1728,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.052</div>' +
+        '<div><b>버전 정보</b>: v0.053</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
