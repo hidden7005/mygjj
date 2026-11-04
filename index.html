@@ -1121,7 +1121,7 @@ function drawPins(){
       if (filterPrice === '7000s' && (price < 7000 || price >= 8000)) return false;
       if (filterPrice === '8000s' && (price < 8000 || price >= 9000)) return false;
       if (filterPrice === '9000s' && (price < 9000 || price >= 10000)) return false; // 9000원대 ~ 10000원
-      if (filterPrice === 'over_10000' && price <= 10000) return false; // 10000원 초과
+      if (filterPrice === 'over_10000' && price < 10000) return false; // 10000원 이상
     }
 
     return true;
@@ -1208,7 +1208,7 @@ const POP_MENUS = {
       { id: '7000s', label: '7천 원대' },
       { id: '8000s', label: '8천 원대' },
       { id: '9000s', label: '9천 원대' },
-      { id: 'over_10000', label: '1만 원 초과' }
+      { id: 'over_10000', label: '1만 원 이상' }
     ],
     getVal: () => filterPrice,
     setVal: v => { filterPrice = v; updatePillLabels(); drawPins(); }
@@ -1699,7 +1699,7 @@ const A = {
       toast(`검증 완료! 간짜장 가격이 ${won(pVal)}원으로 업데이트되었습니다`);
     } else {
       cur.proposed_votes = data ? data.votes : cur.proposed_votes;
-      toast('확인 투표가 반영되었습니다 (감사합니다!)');
+      toast('확인 투표가 반영되었습니다. (감사합니다!)');
     }
     await load();
     openPlace(cur);
@@ -1752,7 +1752,7 @@ const A = {
       note: note || `매장ID: ${cur.id}`
     });
     if (error) { toast('제보 접수 실패: ' + error.message); return; }
-    toast('소중한 제보가 접수되었어요 감사합니다! 🙏');
+    toast('소중한 제보가 접수되었어요. 감사합니다! 🙏');
     closeSheet();
   },
   showTerms: () => {
@@ -1779,7 +1779,7 @@ const A = {
     toast('회원 탈퇴 요청 내용을 작성한 뒤 접수해 주세요');
   },
   place: d => { const p = places.find(x => x.id === d.id); if (p) openPlace(p); },
-  pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다 다시 검색해주세요'); },
+  pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다. 다시 검색해주세요'); },
   score: d => { scores[d.cat] = +d.n; updateStarsUI(); },
   login: d => db.auth.signInWithOAuth({ provider: d.p, options: { redirectTo: location.origin + location.pathname } }),
   logout: async () => { await db.auth.signOut(); closeSheet(); },
@@ -1857,7 +1857,7 @@ const A = {
 
     const existing = places.find(p => String(p.biz_id) === String(b.id));
     if (existing) {
-      toast('이미 등록된 가게입니다 상세 페이지로 이동합니다');
+      toast('이미 등록된 가게입니다. 상세 페이지로 이동합니다');
       openPlace(existing);
       return;
     }
@@ -1971,9 +1971,9 @@ function locateMe(manual = true) {
     btn.setAttribute('aria-busy','false');
     if (!manual) { console.warn('초기 위치 조회:',err.message); return; }
     const messages = {
-      1:'위치 접근이 차단되었습니다 브라우저 사이트 설정에서 위치 권한을 허용해 주세요',
-      2:'현재 위치를 확인할 수 없습니다 GPS 또는 위치 서비스를 확인해 주세요',
-      3:'위치 확인 시간이 초과되었습니다 다시 시도해 주세요'
+      1:'위치 접근이 차단되었습니다. 브라우저 사이트 설정에서 위치 권한을 허용해 주세요',
+      2:'현재 위치를 확인할 수 없습니다. GPS 또는 위치 서비스를 확인해 주세요',
+      3:'위치 확인 시간이 초과되었습니다. 다시 시도해 주세요'
     };
     toast(messages[err.code] || '위치를 확인하지 못했습니다');
   },{enableHighAccuracy:manual,timeout:manual?12000:7000,maximumAge:manual?0:60000});
