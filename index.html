@@ -813,7 +813,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.051</div>
+<div id="ver-badge">v0.052</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -831,7 +831,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.051</div>
+  <div class="nav-foot">MYGJJ · v0.052</div>
 </nav>
 
 <div id="top-container">
@@ -845,8 +845,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   </div>
   <div id="sort-bar">
     <button class="sort-pill real-filter-pill" id="pill-real" type="button" aria-pressed="false">🔥 진짜 간짜장</button>
-    <button class="sort-pill" id="pill-rating" data-pop="rating">★ 별점 필터 ▾</button>
-    <button class="sort-pill" id="pill-price" data-pop="price">₩ 가격대 필터 ▾</button>
+    <button class="sort-pill" id="pill-rating" data-pop="rating">★ 별점 ▾</button>
+    <button class="sort-pill" id="pill-price" data-pop="price">₩ 가격대 ▾</button>
     <button class="sort-pill" id="pill-reset" style="display:none;color:#ff3b30;">↺ 초기화</button>
   </div>
 </div>
@@ -1121,7 +1121,6 @@ function drawPins(){
       if (filterPrice === '7000s' && (price < 7000 || price >= 8000)) return false;
       if (filterPrice === '8000s' && (price < 8000 || price >= 9000)) return false;
       if (filterPrice === '9000s' && (price < 9000 || price >= 10000)) return false; // 9000원대 ~ 10000원
-      if (filterPrice === '10000s' && price !== 10000) return false;
       if (filterPrice === 'over_10000' && price <= 10000) return false; // 10000원 초과
     }
 
@@ -1189,28 +1188,27 @@ function openPlaceGroup(list){
 const popEl = $('popover-menu');
 const POP_MENUS = {
   rating: {
-    title: '별점 필터',
+    title: '별점',
     items: [
       { id: 'all', label: '전체 별점' },
-      { id: '5', label: '★ 5.0점 매장만' },
-      { id: '4', label: '★ 4점대 (4.0 ~ 4.9)' },
-      { id: '3', label: '★ 3점대 (3.0 ~ 3.9)' },
-      { id: '2', label: '★ 2점대 (2.0 ~ 2.9)' },
-      { id: '1', label: '★ 1점대 (1.0 ~ 1.9)' }
+      { id: '5', label: '★ 5점 만점' },
+      { id: '4', label: '★ 4점대' },
+      { id: '3', label: '★ 3점대' },
+      { id: '2', label: '★ 2점대' },
+      { id: '1', label: '★ 1점대' }
     ],
     getVal: () => filterRating,
     setVal: v => { filterRating = v; updatePillLabels(); drawPins(); }
   },
   price: {
-    title: '가격대 필터',
+    title: '가격대',
     items: [
       { id: 'all', label: '전체가격' },
-      { id: '6000s', label: '6000원대' },
-      { id: '7000s', label: '7000원대' },
-      { id: '8000s', label: '8000원대' },
-      { id: '9000s', label: '9000원대' },
-      { id: '10000s', label: '10000원' },
-      { id: 'over_10000', label: '10000원 초과' }
+      { id: '6000s', label: '6천 원대' },
+      { id: '7000s', label: '7천 원대' },
+      { id: '8000s', label: '8천 원대' },
+      { id: '9000s', label: '9천 원대' },
+      { id: 'over_10000', label: '1만 원 초과' }
     ],
     getVal: () => filterPrice,
     setVal: v => { filterPrice = v; updatePillLabels(); drawPins(); }
@@ -1220,9 +1218,9 @@ const POP_MENUS = {
 function updatePillLabels(){
   $('pill-real').classList.toggle('filtered', filterRealOnly);
   $('pill-real').setAttribute('aria-pressed', String(filterRealOnly));
-  $('pill-rating').textContent = filterRating === 'all' ? '★ 별점 필터 ▾' : POP_MENUS.rating.items.find(x => x.id === filterRating).label + ' ▾';
+  $('pill-rating').textContent = filterRating === 'all' ? '★ 별점 ▾' : POP_MENUS.rating.items.find(x => x.id === filterRating).label + ' ▾';
   $('pill-rating').classList.toggle('filtered', filterRating !== 'all');
-  $('pill-price').textContent = filterPrice === 'all' ? '₩ 가격대 필터 ▾' : POP_MENUS.price.items.find(x => x.id === filterPrice).label + ' ▾';
+  $('pill-price').textContent = filterPrice === 'all' ? '₩ 가격대 ▾' : POP_MENUS.price.items.find(x => x.id === filterPrice).label + ' ▾';
   $('pill-price').classList.toggle('filtered', filterPrice !== 'all');
   $('pill-reset').style.display = (filterRealOnly || filterRating !== 'all' || filterPrice !== 'all') ? 'inline-flex' : 'none';
 }
@@ -1255,7 +1253,7 @@ $('sort-bar').addEventListener('click', e => {
     filterRealOnly = !filterRealOnly;
     updatePillLabels(); closePopover(); drawPins();
     ++nearbySeq; if (filterRealOnly) clearNearbyMarkers(); else fetchNearbyBiz();
-    toast(filterRealOnly ? '인증된 진짜 간짜장 매장만 표시합니다.' : '모든 매장을 표시합니다.');
+    toast(filterRealOnly ? '인증된 진짜 간짜장 매장만 표시합니다' : '모든 매장을 표시합니다');
     return;
   }
   if (btn.id === 'pill-reset') {
@@ -1590,7 +1588,7 @@ function navContact(type){
 }
 
 const A = {
-  openNearbyBiz:d=>{ const b=biz[d.id]; if(b) openNew(b); else toast('식당 정보를 다시 조회해주세요.'); },
+  openNearbyBiz:d=>{ const b=biz[d.id]; if(b) openNew(b); else toast('식당 정보를 다시 조회해주세요'); },
   closeNav:()=>toggleNav(false),
   navAccount:()=>{toggleNav(false);me?openUser(me.id):openLogin();},
   navContact:d=>{toggleNav(false);navContact(d.type);},
@@ -1609,7 +1607,7 @@ const A = {
       note:`유형: ${label} / 연락처: ${contact} / 내용: ${message}`
     });
     if(error){if(submitBtn)submitBtn.disabled=false;toast('접수 실패: '+error.message);return;}
-    closeSheet();toast('정상적으로 접수되었습니다.');
+    closeSheet();toast('정상적으로 접수되었습니다');
   },
 
   close: () => closeSheet(),
@@ -1652,7 +1650,7 @@ const A = {
         note: '리뷰ID: ' + d.id + ' / 식당ID: ' + cur.id + ' / 신고자ID: ' + me.id + ' / 사유: ' + reason + ' / 내용: ' + note
       });
       if (error) throw error;
-      closeSheet(); toast('리뷰 신고가 접수되었습니다.');
+      closeSheet(); toast('리뷰 신고가 접수되었습니다');
     } catch (e) { toast('신고 접수 실패: ' + e.message); if (button) button.disabled = false; }
   },
   focusPrice: () => openReviewComposer(true),
@@ -1677,13 +1675,13 @@ const A = {
     if (!(val > 0)) { toast('올바른 가격을 입력해주세요'); return; }
     if (val === cur.price) { toast('현재 등록된 가격과 동일합니다'); return; }
 
-    if (cur.proposed_price) { toast('이미 가격 확인이 진행 중입니다.'); return; }
+    if (cur.proposed_price) { toast('이미 가격 확인이 진행 중입니다'); return; }
     const { error } = await db.rpc('propose_price', { p_place: cur.id, p_price: val });
 
     if (error) { toast('제보 실패: ' + error.message); return; }
     cur.proposed_price = val;
     cur.proposed_votes = 1;
-    toast('가격 수정 제보가 등록되었어요! 다른 사용자의 확인을 거쳐 반영됩니다.');
+    toast('가격 수정 제보가 등록되었어요! 다른 사용자의 확인을 거쳐 반영됩니다');
     openPlace(cur);
   },
   confirmPrice: async (d) => {
@@ -1692,16 +1690,16 @@ const A = {
     if (!(pVal > 0) || !cur || Number(cur.proposed_price) !== pVal) return;
 
     const { data, error } = await db.rpc('confirm_price', { p_place: cur.id, p_price: pVal });
-    if (error) { toast(error.message || '투표 처리에 실패했습니다.'); return; }
+    if (error) { toast(error.message || '투표 처리에 실패했습니다'); return; }
 
     if (data && data.promoted) {
       cur.price = pVal;
       cur.proposed_price = null;
       cur.proposed_votes = 0;
-      toast(`검증 완료! 간짜장 가격이 ${won(pVal)}원으로 업데이트되었습니다.`);
+      toast(`검증 완료! 간짜장 가격이 ${won(pVal)}원으로 업데이트되었습니다`);
     } else {
       cur.proposed_votes = data ? data.votes : cur.proposed_votes;
-      toast('확인 투표가 반영되었습니다. (감사합니다!)');
+      toast('확인 투표가 반영되었습니다 (감사합니다!)');
     }
     await load();
     openPlace(cur);
@@ -1712,7 +1710,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.051</div>' +
+        '<div><b>버전 정보</b>: v0.052</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -1754,7 +1752,7 @@ const A = {
       note: note || `매장ID: ${cur.id}`
     });
     if (error) { toast('제보 접수 실패: ' + error.message); return; }
-    toast('소중한 제보가 접수되었어요. 감사합니다! 🙏');
+    toast('소중한 제보가 접수되었어요 감사합니다! 🙏');
     closeSheet();
   },
   showTerms: () => {
@@ -1778,10 +1776,10 @@ const A = {
     navContact('inquiry');
     const note = $('nav-message');
     if (note) note.value = '회원 탈퇴 및 인증 계정과 관련 데이터 삭제를 요청합니다.';
-    toast('회원 탈퇴 요청 내용을 작성한 뒤 접수해 주세요.');
+    toast('회원 탈퇴 요청 내용을 작성한 뒤 접수해 주세요');
   },
   place: d => { const p = places.find(x => x.id === d.id); if (p) openPlace(p); },
-  pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다. 다시 검색해주세요.'); },
+  pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다 다시 검색해주세요'); },
   score: d => { scores[d.cat] = +d.n; updateStarsUI(); },
   login: d => db.auth.signInWithOAuth({ provider: d.p, options: { redirectTo: location.origin + location.pathname } }),
   logout: async () => { await db.auth.signOut(); closeSheet(); },
@@ -1844,7 +1842,7 @@ const A = {
     const priceInput = parseInt($('pr')?.value, 10);
     const price = priceInput > 0 ? priceInput : null;
     const b = curBiz;
-    if (!b) { toast('식당 정보를 찾지 못했습니다.'); return; }
+    if (!b) { toast('식당 정보를 찾지 못했습니다'); return; }
     const commentVal = $('c')?.value.trim() || '';
     if (containsBadWords(commentVal)) {
       toast('욕설이나 비방 표현은 등록할 수 없어요');
@@ -1859,7 +1857,7 @@ const A = {
 
     const existing = places.find(p => String(p.biz_id) === String(b.id));
     if (existing) {
-      toast('이미 등록된 가게입니다. 상세 페이지로 이동합니다.');
+      toast('이미 등록된 가게입니다 상세 페이지로 이동합니다');
       openPlace(existing);
       return;
     }
@@ -1949,35 +1947,35 @@ function showUserLocation(coords) {
 function locateMe(manual = true) {
   if (locating) return;
   if (!navigator.geolocation) {
-    if(manual) toast('이 브라우저에서는 위치 확인을 지원하지 않습니다.');
+    if(manual) toast('이 브라우저에서는 위치 확인을 지원하지 않습니다');
     return;
   }
   if (!window.isSecureContext) {
-    if(manual) toast('현재 위치는 HTTPS 환경에서 사용할 수 있습니다.');
+    if(manual) toast('현재 위치는 HTTPS 환경에서 사용할 수 있습니다');
     return;
   }
   locating = true;
   const btn = $('locate-btn');
   btn.disabled = true;
   btn.setAttribute('aria-busy','true');
-  if (manual) toast('현재 위치를 확인하고 있습니다.');
+  if (manual) toast('현재 위치를 확인하고 있습니다');
   navigator.geolocation.getCurrentPosition(pos => {
     locating = false;
     btn.disabled = false;
     btn.setAttribute('aria-busy','false');
     showUserLocation(pos.coords);
-    if (manual) toast('현재 위치로 이동했습니다.');
+    if (manual) toast('현재 위치로 이동했습니다');
   }, err => {
     locating = false;
     btn.disabled = false;
     btn.setAttribute('aria-busy','false');
     if (!manual) { console.warn('초기 위치 조회:',err.message); return; }
     const messages = {
-      1:'위치 접근이 차단되었습니다. 브라우저 사이트 설정에서 위치 권한을 허용해 주세요.',
-      2:'현재 위치를 확인할 수 없습니다. GPS 또는 위치 서비스를 확인해 주세요.',
-      3:'위치 확인 시간이 초과되었습니다. 다시 시도해 주세요.'
+      1:'위치 접근이 차단되었습니다 브라우저 사이트 설정에서 위치 권한을 허용해 주세요',
+      2:'현재 위치를 확인할 수 없습니다 GPS 또는 위치 서비스를 확인해 주세요',
+      3:'위치 확인 시간이 초과되었습니다 다시 시도해 주세요'
     };
-    toast(messages[err.code] || '위치를 확인하지 못했습니다.');
+    toast(messages[err.code] || '위치를 확인하지 못했습니다');
   },{enableHighAccuracy:manual,timeout:manual?12000:7000,maximumAge:manual?0:60000});
 }
 $('locate-btn').addEventListener('click',()=>locateMe(true));
@@ -2087,7 +2085,7 @@ async function search(q){
   const mySeq = ++searchSeq;
   const local = places.filter(p => p.name.includes(q)).slice(0, 10);
   const { data, error } = await db.from('biz_master').select('*').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
-  if (error) { console.warn('검색 실패', error); if(mySeq === searchSeq) toast('검색에 실패했습니다.'); return; }
+  if (error) { console.warn('검색 실패', error); if(mySeq === searchSeq) toast('검색에 실패했습니다'); return; }
   if (mySeq !== searchSeq) return;
   const reg = new Set(places.map(p => String(p.biz_id)));
   const rows = (data || []).filter(b => !reg.has(String(b.id)));
