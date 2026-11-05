@@ -1389,7 +1389,8 @@ async function openPlace(p){
   const rv = (await db.from('reviews').select('id,created_at,rating,comment,user_id,photo_url,is_real,profiles(username)').eq('place_id', p.id).order('created_at', { ascending: false }).limit(15)).data || [];
 
   /* v0.055: 좌표 핀 대신 '지역 + 가게 이름'으로 검색해서 실제 가게 정보가 뜨게 함 */
-  const mapQuery = [addr.split(/\s+/).slice(0, 2).join(' '), p.name].filter(Boolean).join(' ');
+  const mapName = String(p.name || '').replace(/\s*[(\[（][^)\]）]*[)\]）]\s*/g, ' ').trim() || p.name; // '아서원 (필동)' → '아서원'
+  const mapQuery = [addr.split(/\s+/).slice(0, 2).join(' '), mapName].filter(Boolean).join(' ');
   const naverUrl = 'https://map.naver.com/p/search/' + encodeURIComponent(mapQuery);
   const kakaoUrl = 'https://map.kakao.com/?q=' + encodeURIComponent(mapQuery);
   const st = realStats[p.id];
