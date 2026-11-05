@@ -318,6 +318,15 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .pin.tier-muted { background: #e5e5ea; color: #8e8e93; }
 .pin.tier-none { background: var(--card-bg); color: var(--label-primary); }
 .pin.biz { background: var(--card-bg); color: var(--label-secondary); font-size: 12px; border: 1px dashed var(--separator); }
+/* v0.057: 넓은 축척용 원 표시 (색은 평점 등급, 빨강은 인증된 진짜 간짜장) */
+.pin-dot { width:14px; height:14px; border-radius:50%; transform:translate(-50%,-50%); cursor:pointer; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.35); background:#c7c7cc; }
+.pin-dot.is-group { width:18px; height:18px; }
+.pin-dot.tier-gold { background:#ffc53d; }
+.pin-dot.tier-silver { background:#aeaeb6; }
+.pin-dot.tier-bronze { background:#d39462; }
+.pin-dot.tier-titanium, .pin-dot.tier-neutral, .pin-dot.tier-muted { background:#9a9aa1; }
+.pin-dot.tier-none { background:#ffffff; border-color:#8e8e93; }
+.pin-dot.is-real { background:linear-gradient(135deg, var(--apple-real-start), var(--apple-real-end)); border-color:#fff; }
 
 #ver-badge {
   position: absolute; z-index: 6; left: 14px; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
@@ -827,7 +836,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.056</div>
+<div id="ver-badge">v0.057</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -845,7 +854,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.056</div>
+  <div class="nav-foot">MYGJJ · v0.057</div>
 </nav>
 
 <div id="top-container">
@@ -1101,6 +1110,7 @@ function isVerifiedReal(p) {
   return !!(st && st.total >= 3 && st.yes / st.total >= 0.9);
 }
 
+const PIN_LABEL_ZOOM = 13; // 네이버 지도 축척 막대 약 1km
 function drawPins(){
   if (!map || typeof naver === 'undefined' || !naver.maps) return;
   markers.forEach(m => m.setMap(null));
@@ -1149,6 +1159,7 @@ function drawPins(){
     groups[key].push(p);
   });
 
+  const showLabels = map.getZoom() >= PIN_LABEL_ZOOM;
   Object.values(groups).forEach(list => {
     list.sort((a,b) => placePriority(b) - placePriority(a));
     const first = list[0];
@@ -1159,6 +1170,19 @@ function drawPins(){
     const st = realStats[first.id];
     const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
     const badgeHtml = isAuthentic ? `<span class="real-badge">🔥 찐</span> ` : '';
+
+    /* v0.057: 넓게 볼 때(축척 1km보다 넓음)는 이름 없이 원으로만 표시 */
+    if (!showLabels) {
+      const dot = `<div class="pin-dot ${tierClass}${isAuthentic ? ' is-real' : ''}${list.length > 1 ? ' is-group' : ''}" title="${esc(first.name)}"></div>`;
+      const mk = new naver.maps.Marker({
+        map, position: new naver.maps.LatLng(first.lat, first.lng),
+        zIndex: placePriority(first),
+        icon: { content: dot, anchor: new naver.maps.Point(0, 0) }
+      });
+      naver.maps.Event.addListener(mk, 'click', () => list.length > 1 ? openPlaceGroup(list) : openPlace(first));
+      markers.push(mk);
+      return;
+    }
 
     if (list.length === 1) {
       const p = first;
@@ -1762,7 +1786,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.056</div>' +
+        '<div><b>버전 정보</b>: v0.057</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
