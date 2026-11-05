@@ -824,7 +824,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.053</div>
+<div id="ver-badge">v0.054</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -842,7 +842,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.053</div>
+  <div class="nav-foot">MYGJJ · v0.054</div>
 </nav>
 
 <div id="top-container">
@@ -897,7 +897,7 @@ function getDistanceMeters(lat1, lng1, lat2, lng2) {
   return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
-function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 4000); }
+function toast(t){ const e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(() => e.hidden = true, 2000); }
 // v0.050: Smooth, responsive dismiss on downward drag
 const SHEET_STAGES = [0.52, 1]; // half, full
 let sheetStage = 1;
@@ -1557,16 +1557,18 @@ async function openUser(uid, fromReview = false){
   const current=$('sheet');
   try{
     const [profile,stat]=await Promise.all([
-      db.from('profiles').select('username').eq('id',uid).maybeSingle(),
+      db.from('profiles').select(me?.id===uid?'username,nickname_changes':'username').eq('id',uid).maybeSingle(),
       getReviewerStats(uid)
     ]);
     if(profile.error) console.warn('프로필 조회 오류:',profile.error);
     if(current!==$('sheet') || !$('sheet').classList.contains('open'))return;
     const uname=profile.data?.username||(me?.id===uid?me?.user_metadata?.username:null)||'익명';
+    const nickLeft=me?.id===uid&&profile.data?Math.max(0,3-Number(profile.data.nickname_changes||0)):null;
     profileReviewData=stat.reviews;
     profileReviewOffset=0;
     sheet(backButton+'<div class="detail-kicker">작성자 프로필</div><h2>@'+esc(uname)+'</h2>'+
       '<p class="sub">평균 평점 ★ '+(stat.count?stat.avg.toFixed(1):'-')+' / 리뷰 '+stat.count+'개</p>'+
+      (nickLeft===null?'':'<button class="btn" data-a="rerollNickname" data-left="'+nickLeft+'"'+(nickLeft>0?'':' disabled')+'>🎲 닉네임 다시 뽑기 (남은 횟수 '+nickLeft+'/3)</button>')+
       '<section class="detail-section"><div class="detail-section-head"><h3>작성한 리뷰</h3><span class="detail-count">총 '+stat.count+'개</span></div>'+
       '<div id="user-review-list"></div><button id="user-review-more" class="btn" data-a="moreUserReviews" hidden>리뷰 더 보기</button></section>'+
       (me?.id===uid?'<div class="btns"><button class="btn" data-a="logout">로그아웃</button><button class="btn" data-a="withdraw">회원 탈퇴 요청</button></div>':''));
@@ -1630,6 +1632,20 @@ const A = {
 
   close: () => closeSheet(),
   me: () => me ? openUser(me.id) : openLogin(),
+  /* v0.054: 자동 배정된 닉네임을 3번까지 다시 뽑기 (서버 함수 reroll_nickname) */
+  rerollNickname: async d => {
+    if (!me) { openLogin(); return; }
+    const left = Number(d.left || 0);
+    if (left <= 0) { toast('닉네임은 3번까지만 바꿀 수 있어요'); return; }
+    if (!confirm('지금 닉네임은 다시 쓸 수 없어요. 새로 뽑을까요?\n(남은 횟수 ' + left + '/3)')) return;
+    const btn = $('sheet').querySelector('[data-a="rerollNickname"]');
+    if (btn) btn.disabled = true;
+    const { data, error } = await db.rpc('reroll_nickname');
+    if (error) { if (btn) btn.disabled = false; toast(error.message || '닉네임을 바꾸지 못했어요'); return; }
+    reviewerStatsCache.delete(me.id);
+    toast('새 닉네임: @' + (data?.username || ''));
+    openUser(me.id);
+  },
   openNaver: () => {
     if (!cur) return;
     const q = encodeURIComponent(`${cur.name} ${cur.address || ''}`);
@@ -1728,7 +1744,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.053</div>' +
+        '<div><b>버전 정보</b>: v0.054</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -2075,7 +2091,7 @@ async function fetchNearbyBiz(){
       const isGroup = list.length > 1;
       list.forEach(({b}) => { biz[b.id] = b; });
       const content = isGroup
-        ? `<div class="pin biz biz-group">+ 간짜장 ${list.length}곳</div>`
+        ? `<div class="pin biz biz-group">+ 중국집 ${list.length}곳</div>`
         : `<div class="pin biz biz-single">+ <span class="pin-label">${esc(first.name)}</span></div>`;
       const mk = new naver.maps.Marker({
         map, position:new naver.maps.LatLng(first.lat,first.lng),
