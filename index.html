@@ -638,6 +638,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 .kakao-symbol { background:#fee500; color:#191919; }
 .map-external-arrow { margin-left:auto; font-size:13px; color:var(--label-secondary); }
 .detail-section { margin-top:24px; }
+.nick-welcome-name { color:var(--apple-real-end); overflow-wrap:anywhere; }
+.nick-welcome-tail { white-space:nowrap; }
+#sheet .nick-welcome-sub { word-break:keep-all; line-height:1.6; }
 /* v0.053: 진짜/가짜 간짜장 투표 슬라이더 (왼쪽=진짜, 오른쪽=가짜) */
 .real-meter { margin:0 0 20px; padding:14px 16px; border-radius:16px; background:var(--secondary-card-bg); }
 .real-meter-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:12px; }
@@ -824,7 +827,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.055</div>
+<div id="ver-badge">v0.056</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -842,7 +845,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.055</div>
+  <div class="nav-foot">MYGJJ · v0.056</div>
 </nav>
 
 <div id="top-container">
@@ -1635,6 +1638,18 @@ const A = {
 
   close: () => closeSheet(),
   me: () => me ? openUser(me.id) : openLogin(),
+  welcomeReroll: async () => {
+    const btn = $('nick-welcome-reroll');
+    if (!me || !btn || btn.disabled) return;
+    btn.disabled = true;
+    const { data, error } = await db.rpc('reroll_nickname');
+    if (error) { toast(error.message || '닉네임을 바꾸지 못했어요'); btn.disabled = false; return; }
+    reviewerStatsCache.delete(me.id);
+    const left = Number(data?.left ?? 0);
+    if ($('nick-welcome-name')) $('nick-welcome-name').textContent = '@' + (data?.username || '');
+    if ($('nick-welcome-left')) $('nick-welcome-left').textContent = String(left);
+    btn.disabled = left <= 0;
+  },
   /* v0.054: 자동 배정된 닉네임을 3번까지 다시 뽑기 (서버 함수 reroll_nickname) */
   rerollNickname: async d => {
     if (!me) { openLogin(); return; }
@@ -1747,7 +1762,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.055</div>' +
+        '<div><b>버전 정보</b>: v0.056</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -1949,10 +1964,22 @@ document.addEventListener('click', e => {
   }
 });
 
+/* v0.056: 가입 후 첫 로그인 때 자동 배정된 닉네임 안내 팝업 (한 번만 표시) */
+let nicknameWelcomeShown = false;
 async function checkUserProfile(user){
-  if (!user) return;
-  const { data } = await db.from('profiles').select('username').eq('id', user.id).maybeSingle();
-  /* v0.051: 닉네임은 가입 시 DB가 자동 배정함 */
+  if (!user || nicknameWelcomeShown) return;
+  const { data, error } = await db.from('profiles').select('username,nickname_changes,nickname_welcomed').eq('id', user.id).maybeSingle();
+  if (error || !data || data.nickname_welcomed) return;
+  nicknameWelcomeShown = true;
+  db.rpc('ack_nickname_welcome').then(({ error: e }) => { if (e) console.warn('닉네임 안내 기록 실패:', e); });
+  openNicknameWelcome(data.username, Math.max(0, 3 - Number(data.nickname_changes || 0)));
+}
+function openNicknameWelcome(username, left){
+  sheet('<div class="detail-kicker">가입을 환영해요</div><h2>당신의 닉네임은<br><span class="nick-welcome-name" id="nick-welcome-name">@' + esc(username || '') + '</span> <span class="nick-welcome-tail">입니다</span></h2>' +
+    '<p class="sub nick-welcome-sub">닉네임이 마음에 안 든다면 다시 뽑을 수 있어요<br>다시 뽑기는 <b>총 3회</b> 가능하고, 이전 닉네임은 다시 쓸 수 없어요</p>' +
+    '<div class="btns"><button class="btn" id="nick-welcome-reroll" data-a="welcomeReroll"' + (left > 0 ? '' : ' disabled') + '>🎲 다시 뽑기 (남은 횟수 <span id="nick-welcome-left">' + left + '</span>/3)</button>' +
+    '<button class="btn primary" data-a="close">이 닉네임으로 할게요</button></div>' +
+    '<p class="sub" style="margin-top:12px;font-size:12px;">남은 횟수는 나중에 내 정보에서도 쓸 수 있어요</p>');
 }
 
 db.auth.getSession().then(({ data }) => {
