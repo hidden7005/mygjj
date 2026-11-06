@@ -839,7 +839,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.060</div>
+<div id="ver-badge">v0.061</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -857,7 +857,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.060</div>
+  <div class="nav-foot">MYGJJ · v0.061</div>
 </nav>
 
 <div id="top-container">
@@ -898,7 +898,9 @@ let filterRating = 'all';
 let filterRealOnly = false;
 /* v0.060: '진짜 간짜장'(투표 인증) 기능은 잠시 숨김. true로 바꾸면 다시 보임 */
 const SHOW_REAL = false;
-/* v0.060: '간짜장' 버튼 — 기본으로 켜짐. 켜져 있으면 간짜장 파는 등록 매장만, 끄면 다른 중국집(+)도 표시 */
+/* v0.061: '간짜장' 버튼 — 기본으로 켜짐.
+   켜짐: 간짜장 매장(등록 매장)은 강조 핀 + 일반 중국집(+)도 함께 표시
+   꺼짐: 간짜장 매장도 일반 중국집과 똑같은 모양(+)으로 표시 */
 let filterJjajangOnly = true;
 let filterPrice = 'all';
 let myCoord = null;
@@ -1123,6 +1125,7 @@ function drawPins(){
   if (!map || typeof naver === 'undefined' || !naver.maps) return;
   markers.forEach(m => m.setMap(null));
   markers = [];
+  if (!filterJjajangOnly) return; // 꺼짐: 등록 매장도 fetchNearbyBiz에서 일반 핀으로 그림
 
   let listToDraw = places.filter(p => {
     if (filterRealOnly && !isVerifiedReal(p)) return false;
@@ -1300,8 +1303,8 @@ $('sort-bar').addEventListener('click', e => {
   if (btn.id === 'pill-jjajang') {
     filterJjajangOnly = !filterJjajangOnly;
     updatePillLabels(); closePopover(); drawPins();
-    ++nearbySeq; if (filterJjajangOnly) clearNearbyMarkers(); else fetchNearbyBiz();
-    toast(filterJjajangOnly ? '간짜장 파는 매장만 표시합니다' : '다른 중국집도 함께 표시합니다');
+    fetchNearbyBiz();
+    toast(filterJjajangOnly ? '간짜장 매장을 강조해서 표시합니다' : '모든 매장을 같은 모양으로 표시합니다');
     return;
   }
   if (btn.id === 'pill-real') {
@@ -1313,7 +1316,7 @@ $('sort-bar').addEventListener('click', e => {
   }
   if (btn.id === 'pill-reset') {
     filterRealOnly = false; filterJjajangOnly = true; filterRating = 'all'; filterPrice = 'all';
-    ++nearbySeq; clearNearbyMarkers();
+    fetchNearbyBiz();
     updatePillLabels(); closePopover(); drawPins(); toast('모든 필터가 초기화되었어요'); return;
   }
   if (btn.dataset.pop) openPopover(btn.dataset.pop, btn);
@@ -1655,7 +1658,7 @@ function navContact(type){
 }
 
 const A = {
-  openNearbyBiz:d=>{ const b=biz[d.id]; if(b) openNew(b); else toast('식당 정보를 다시 조회해주세요'); },
+  openNearbyBiz:d=>{ const b=biz[d.id]; if(b?._place) openPlace(b._place); else if(b) openNew(b); else toast('식당 정보를 다시 조회해주세요'); },
   closeNav:()=>toggleNav(false),
   navAccount:()=>{toggleNav(false);me?openUser(me.id):openLogin();},
   navContact:d=>{toggleNav(false);navContact(d.type);},
@@ -1803,7 +1806,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         (!SHOW_REAL ? '' : '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>') +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.060</div>' +
+        '<div><b>버전 정보</b>: v0.061</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -2130,7 +2133,8 @@ async function fetchNearbyBiz(){
   try {
     const zoom = map.getZoom();
     // 축척이 넓을 때는 이미 평가된 매장만 보여줍니다.
-    if (filterRealOnly || filterJjajangOnly || zoom < 15) { clearNearbyMarkers(); return; }
+    if (filterRealOnly || zoom < 15) { clearNearbyMarkers(); return; }
+    const plainMode = !filterJjajangOnly;
     const bounds = map.getBounds();
     if (!bounds) return;
     const sw = bounds.getSW(), ne = bounds.getNE();
@@ -2145,11 +2149,18 @@ async function fetchNearbyBiz(){
     if (mySeq !== nearbySeq) return;
     if (error) { console.warn('주변 매장 조회 실패', error); return; }
     const registeredBizIds = new Set(places.map(p => String(p.biz_id)).filter(x => x !== 'null' && x !== 'undefined'));
-    const available = (data || []).filter(b => !registeredBizIds.has(String(b.id)) &&
+    let available = (data || []).filter(b => (plainMode || !registeredBizIds.has(String(b.id))) &&
       Number.isFinite(Number(b.lat)) && Number.isFinite(Number(b.lng)));
+    if (plainMode) {
+      // 꺼짐: 등록 매장도 일반 중국집처럼. 누르면 가게 정보가 열리도록 연결
+      const placeByBiz = new Map(places.filter(p => p.biz_id).map(p => [String(p.biz_id), p]));
+      available = available.map(b => placeByBiz.has(String(b.id)) ? { ...b, _place: placeByBiz.get(String(b.id)) } : b);
+      places.filter(p => !p.biz_id && Number(p.lat) >= sw.lat() && Number(p.lat) <= ne.lat() && Number(p.lng) >= sw.lng() && Number(p.lng) <= ne.lng())
+        .forEach(p => available.push({ id: 'place:' + p.id, name: p.name, lat: p.lat, lng: p.lng, road_addr: p.address, _place: p }));
+    }
 
     // 지도에서 등록 식당과 겹치는 미등록 마커는 숨김: 우수매장 가독성 최우선.
-    const priorityLocations = places
+    const priorityLocations = plainMode ? [] : places
       .filter(p => Number.isFinite(Number(p.lat)) && Number.isFinite(Number(p.lng)))
       .map(p => mapPixelPosition(p.lat, p.lng)).filter(Boolean);
     const clusterSize = zoom >= 18 ? 90 : zoom >= 17 ? 108 : (zoom >= 16 ? 128 : 148);
@@ -2186,6 +2197,7 @@ async function fetchNearbyBiz(){
       });
       naver.maps.Event.addListener(mk,'click',() => {
         if (isGroup) openNearbyGroup(list.map(x=>x.b));
+        else if (first._place) openPlace(first._place);
         else openNew(first);
       });
       nearbyMarkers.push(mk);
@@ -2193,7 +2205,7 @@ async function fetchNearbyBiz(){
   } catch (err) { console.warn('주변 매장 표시 오류:',err); }
 }
 function openNearbyGroup(list){
-  sheet('<h2>이 주변 미등록 식당</h2><p class="sub">'+list.length+'개 식당을 확인할 수 있어요.</p>'+
+  sheet('<h2>'+(filterJjajangOnly?'이 주변 미등록 식당':'이 주변 식당')+'</h2><p class="sub">'+list.length+'개 식당을 확인할 수 있어요.</p>'+
     '<div style="margin-top:14px">'+list.map(b=>
       `<button class="row" data-a="openNearbyBiz" data-id="${esc(b.id)}"><b>${esc(b.name)}</b><small>${esc(b.road_addr||b.lot_addr||'주소 정보 없음')}</small><i>보기</i></button>`
     ).join('')+'</div>');
