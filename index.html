@@ -765,6 +765,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 #sort-bar {overflow-x:auto;overflow-y:hidden;white-space:nowrap;}
 .real-filter-pill {font-weight:750;color:#9b5400;}
 .real-filter-pill.filtered {background:linear-gradient(115deg,#f59e0b,#ea580c);color:#fff;border-color:transparent;}
+.jjajang-filter-pill {font-weight:750;color:#9b5400;}
+.jjajang-filter-pill.filtered {background:linear-gradient(115deg,#f59e0b,#ea580c);color:#fff;border-color:transparent;}
 @media (max-width:767px) { #sheet, #sheet.place-fullscreen {left:0!important;right:0!important;width:100%!important;max-height:none!important;} #sheet.sheet-expanded{border-radius:0!important;} }
 @media (min-width:768px) {#sheet{left:20px;right:auto;width:440px;max-height:calc(100dvh - 20px)!important} #sheet.sheet-expanded{border-radius:24px!important;} }
 
@@ -837,7 +839,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.059</div>
+<div id="ver-badge">v0.060</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -855,7 +857,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.059</div>
+  <div class="nav-foot">MYGJJ · v0.060</div>
 </nav>
 
 <div id="top-container">
@@ -868,7 +870,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
     <input id="q" class="glass" type="search" placeholder="가게 이름 검색" autocomplete="off">
   </div>
   <div id="sort-bar">
-    <button class="sort-pill real-filter-pill" id="pill-real" type="button" aria-pressed="false">🔥 진짜 간짜장</button>
+    <button class="sort-pill jjajang-filter-pill filtered" id="pill-jjajang" type="button" aria-pressed="true">🍜 간짜장</button>
+    <button class="sort-pill real-filter-pill" id="pill-real" type="button" aria-pressed="false" hidden>🔥 진짜 간짜장</button>
     <button class="sort-pill" id="pill-rating" data-pop="rating">★ 별점 ▾</button>
     <button class="sort-pill" id="pill-price" data-pop="price">₩ 가격대 ▾</button>
     <button class="sort-pill" id="pill-reset" style="display:none;color:#ff3b30;">↺ 초기화</button>
@@ -893,6 +896,10 @@ let searchSeq = 0, nearbySeq = 0, currentPreviewUrl = null;
 let currentSort = 'default';
 let filterRating = 'all';
 let filterRealOnly = false;
+/* v0.060: '진짜 간짜장'(투표 인증) 기능은 잠시 숨김. true로 바꾸면 다시 보임 */
+const SHOW_REAL = false;
+/* v0.060: '간짜장' 버튼 — 기본으로 켜짐. 켜져 있으면 간짜장 파는 등록 매장만, 끄면 다른 중국집(+)도 표시 */
+let filterJjajangOnly = true;
 let filterPrice = 'all';
 let myCoord = null;
 let openPopType = null;
@@ -1108,7 +1115,7 @@ function clearNearbyMarkers() {
 }
 function isVerifiedReal(p) {
   const st = realStats[p.id];
-  return !!(st && st.total >= 3 && st.yes / st.total >= 0.9);
+  return SHOW_REAL && !!(st && st.total >= 3 && st.yes / st.total >= 0.9);
 }
 
 const PIN_LABEL_ZOOM = 13; // 네이버 지도 축척 막대 약 1km
@@ -1169,7 +1176,7 @@ function drawPins(){
     const tierClass = getRatingTier(avg);
 
     const st = realStats[first.id];
-    const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
+    const isAuthentic = SHOW_REAL && st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
     const badgeHtml = isAuthentic ? `<span class="real-badge">🔥 찐</span> ` : '';
 
     /* v0.057: 넓게 볼 때(축척 1km보다 넓음)는 이름 없이 원으로만 표시 */
@@ -1187,7 +1194,7 @@ function drawPins(){
 
     if (list.length === 1) {
       const p = first;
-      const rateBadge = avg ? `<span style="font-weight:700;font-size:12px;margin-left:2px;">(★${avg}/${rt?.n || 0})</span>` : `<span style="font-size:11px;opacity:0.8;margin-left:2px;">(신규)</span>`;
+      const rateBadge = avg ? `<span style="font-weight:700;font-size:12px;margin-left:2px;">(★${avg}/${rt?.n || 0})</span>` : `<span style="font-weight:700;font-size:12px;margin-left:2px;">(★0.0/0)</span>`;
       const content = `<div class="pin ${tierClass}">${badgeHtml}<span style="font-weight:700">${esc(p.name)}</span> ${rateBadge}</div>`;
 
       const mk = new naver.maps.Marker({
@@ -1216,9 +1223,9 @@ function openPlaceGroup(list){
     '<div style="margin-top:16px;border-radius:18px;overflow:hidden;background:var(--secondary-card-bg);border:0.5px solid var(--separator);">' +
     list.map(p => {
       const rt = rate[p.id];
-      const rateText = rt ? `★${parseFloat(rt.avg_rating).toFixed(1)} (${rt.n})` : '신규';
+      const rateText = rt ? `★${parseFloat(rt.avg_rating).toFixed(1)} (${rt.n})` : '★0.0 (0)';
       const st = realStats[p.id];
-      const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
+      const isAuthentic = SHOW_REAL && st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
       const badge = isAuthentic ? '<span class="real-badge">🔥 찐</span> ' : '';
       return '<button class="row" data-a="place" data-id="' + esc(p.id) + '"><b>' + badge + esc(p.name) + ' <span style="font-size:13px;color:var(--apple-gold);">' + rateText + '</span></b><small>' + (p.price ? won(p.price) + '원' : '가격 미등록') + '</small><i>보기</i></button>';
     }).join('') + '</div>');
@@ -1255,13 +1262,15 @@ const POP_MENUS = {
 };
 
 function updatePillLabels(){
+  $('pill-jjajang').classList.toggle('filtered', filterJjajangOnly);
+  $('pill-jjajang').setAttribute('aria-pressed', String(filterJjajangOnly));
   $('pill-real').classList.toggle('filtered', filterRealOnly);
   $('pill-real').setAttribute('aria-pressed', String(filterRealOnly));
   $('pill-rating').textContent = filterRating === 'all' ? '★ 별점 ▾' : POP_MENUS.rating.items.find(x => x.id === filterRating).label + ' ▾';
   $('pill-rating').classList.toggle('filtered', filterRating !== 'all');
   $('pill-price').textContent = filterPrice === 'all' ? '₩ 가격대 ▾' : POP_MENUS.price.items.find(x => x.id === filterPrice).label + ' ▾';
   $('pill-price').classList.toggle('filtered', filterPrice !== 'all');
-  $('pill-reset').style.display = (filterRealOnly || filterRating !== 'all' || filterPrice !== 'all') ? 'inline-flex' : 'none';
+  $('pill-reset').style.display = (filterRealOnly || !filterJjajangOnly || filterRating !== 'all' || filterPrice !== 'all') ? 'inline-flex' : 'none';
 }
 
 function openPopover(type, btnEl){
@@ -1288,6 +1297,13 @@ $('sort-bar').addEventListener('scroll', closePopover, {passive:true});
 
 $('sort-bar').addEventListener('click', e => {
   const btn = e.target.closest('.sort-pill'); if (!btn) return;
+  if (btn.id === 'pill-jjajang') {
+    filterJjajangOnly = !filterJjajangOnly;
+    updatePillLabels(); closePopover(); drawPins();
+    ++nearbySeq; if (filterJjajangOnly) clearNearbyMarkers(); else fetchNearbyBiz();
+    toast(filterJjajangOnly ? '간짜장 파는 매장만 표시합니다' : '다른 중국집도 함께 표시합니다');
+    return;
+  }
   if (btn.id === 'pill-real') {
     filterRealOnly = !filterRealOnly;
     updatePillLabels(); closePopover(); drawPins();
@@ -1296,8 +1312,8 @@ $('sort-bar').addEventListener('click', e => {
     return;
   }
   if (btn.id === 'pill-reset') {
-    filterRealOnly = false; filterRating = 'all'; filterPrice = 'all';
-    fetchNearbyBiz();
+    filterRealOnly = false; filterJjajangOnly = true; filterRating = 'all'; filterPrice = 'all';
+    ++nearbySeq; clearNearbyMarkers();
     updatePillLabels(); closePopover(); drawPins(); toast('모든 필터가 초기화되었어요'); return;
   }
   if (btn.dataset.pop) openPopover(btn.dataset.pop, btn);
@@ -1422,9 +1438,9 @@ async function openPlace(p){
   const naverUrl = 'https://map.naver.com/p/search/' + encodeURIComponent(mapQuery);
   const kakaoUrl = 'https://map.kakao.com/?q=' + encodeURIComponent(mapQuery);
   const st = realStats[p.id];
-  const isAuthentic = st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
+  const isAuthentic = SHOW_REAL && st && st.total >= 3 && ((st.yes / st.total) >= 0.9);
   const realYes = st && st.total > 0 ? st.yes / st.total : null;
-  const realMeterHtml = realYes === null
+  const realMeterHtml = !SHOW_REAL ? '' : realYes === null
     ? '<div class="real-meter empty"><div class="real-meter-head"><b>진짜 간짜장일까요?</b><span>아직 투표가 없어요</span></div>' +
       '<div class="real-meter-track"></div><div class="real-meter-labels"><span class="is-real">진짜 간짜장</span><span class="is-fake">가짜 간짜장</span></div></div>'
     : '<div class="real-meter" role="img" aria-label="' + st.total + '명 중 ' + st.yes + '명이 진짜 간짜장이라고 평가"><div class="real-meter-head"><b>진짜 간짜장일까요?</b><span>' + st.total + '명 중 ' + st.yes + '명이 진짜 (' + Math.round(realYes * 100) + '%)</span></div>' +
@@ -1478,7 +1494,7 @@ async function openPlace(p){
     '<p class="sub detail-address">' + esc(addr || '주소 정보가 없습니다') + '</p>' +
     '<div class="stats"><div><small>간짜장 가격</small><b>' + (priceMissing ? '<span class="detail-price-empty">미등록</span>' : won(p.price) + '원') + '</b>' +
     (!priceMissing ? '<button class="detail-inline-link" data-a="openEditPrice">가격 수정 제보</button>' : '') + '</div>' +
-    '<div><small>사용자 평점</small><b>' + (rt && Number.isFinite(Number(rt.avg_rating)) ? '★ ' + Number(rt.avg_rating).toFixed(1) : '평가 전') + '</b>' +
+    '<div><small>사용자 평점</small><b>' + (rt && Number.isFinite(Number(rt.avg_rating)) ? '★ ' + Number(rt.avg_rating).toFixed(1) : '★ 0.0') + '</b>' +
     '<span class="detail-rating-count">' + (rt ? esc(rt.n || 0) + '명 평가' : '첫 평가를 남겨주세요') + '</span></div></div>' + realMeterHtml +
     '<div class="map-links-grid detail-map-links">' +
     '<a class="map-icon-btn" href="' + esc(naverUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="네이버 지도에서 열기"><span class="map-service-icon naver-symbol">N</span><span>네이버 지도</span><span class="map-external-arrow">↗</span></a>' +
@@ -1785,9 +1801,9 @@ const A = {
     sheet('<h2>🍜 간짜장면 (MYGJJ)</h2>' +
       '<p class="sub">전국 간짜장 매니아를 위한 집단지성 지도</p>' +
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
-        '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
+        (!SHOW_REAL ? '' : '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>') +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.059</div>' +
+        '<div><b>버전 정보</b>: v0.060</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -2114,7 +2130,7 @@ async function fetchNearbyBiz(){
   try {
     const zoom = map.getZoom();
     // 축척이 넓을 때는 이미 평가된 매장만 보여줍니다.
-    if (filterRealOnly || zoom < 15) { clearNearbyMarkers(); return; }
+    if (filterRealOnly || filterJjajangOnly || zoom < 15) { clearNearbyMarkers(); return; }
     const bounds = map.getBounds();
     if (!bounds) return;
     const sw = bounds.getSW(), ne = bounds.getNE();
