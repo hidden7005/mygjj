@@ -837,7 +837,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
 </head>
 <body>
 <div id="map"></div>
-<div id="ver-badge">v0.058</div>
+<div id="ver-badge">v0.059</div>
 <button id="locate-btn" type="button" aria-label="현재 위치로 이동" title="현재 위치로 이동" aria-busy="false">
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
 </button>
@@ -855,7 +855,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible 
   <div class="nav-sep"></div>
   <button class="nav-link" type="button" data-a="showTerms"><span class="nav-icon">📄</span>이용약관</button>
   <button class="nav-link" type="button" data-a="showPrivacy"><span class="nav-icon">🔒</span>개인정보처리방침</button>
-  <div class="nav-foot">MYGJJ · v0.058</div>
+  <div class="nav-foot">MYGJJ · v0.059</div>
 </nav>
 
 <div id="top-container">
@@ -1467,7 +1467,7 @@ async function openPlace(p){
     const dateText = r.created_at && !Number.isNaN(new Date(r.created_at).getTime()) ? new Date(r.created_at).toLocaleDateString('ko-KR', {year:'numeric',month:'2-digit',day:'2-digit'}) : '';
     const badge = r.is_real === true ? '<span class="real-badge">진짜</span>' : r.is_real === false ? '<span class="review-not-real">미달</span>' : '';
     const photo = r.photo_url && /^https:\/\/[^\s"'<>]+$/i.test(r.photo_url) ? '<div class="rv-photo-wrap"><a href="' + esc(r.photo_url) + '" target="_blank" rel="noopener noreferrer"><img src="' + esc(r.photo_url) + '" class="rv-photo" alt="리뷰 사진" loading="lazy"></a></div>' : '';
-    return '<article class="rv"><div class="review-meta"><button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' +
+    return '<article class="rv"><div class="review-meta">' + (r.user_id ? '<button class="u" data-a="user" data-id="' + esc(r.user_id) + '">@' + esc(r.profiles?.username || '익명') + '</button>' : '<span class="u">탈퇴한 회원</span>') +
       '<span class="reviewer-stats" data-user-stats="' + esc(r.user_id) + '">(집계 중)</span>' +
       (dateText ? '<time class="review-date">' + esc(dateText) + '</time>' : '') +
       '<button class="review-report" data-a="reportReview" data-id="' + esc(r.id) + '">신고</button></div>' +
@@ -1602,7 +1602,7 @@ async function openUser(uid, fromReview = false){
       (nickLeft===null?'':'<button class="btn" data-a="rerollNickname" data-left="'+nickLeft+'"'+(nickLeft>0?'':' disabled')+'>🎲 닉네임 다시 뽑기 (남은 횟수 '+nickLeft+'/3)</button>')+
       '<section class="detail-section"><div class="detail-section-head"><h3>작성한 리뷰</h3><span class="detail-count">총 '+stat.count+'개</span></div>'+
       '<div id="user-review-list"></div><button id="user-review-more" class="btn" data-a="moreUserReviews" hidden>리뷰 더 보기</button></section>'+
-      (me?.id===uid?'<div class="btns"><button class="btn" data-a="logout">로그아웃</button><button class="btn" data-a="withdraw">회원 탈퇴 요청</button></div>':''));
+      (me?.id===uid?'<div class="btns"><button class="btn" data-a="logout">로그아웃</button><button class="btn" data-a="withdraw">회원 탈퇴</button></div>':''));
     if(stat.count)renderUserReviewRows();
     else $('user-review-list').innerHTML='<p class="detail-empty">작성한 리뷰가 없습니다.</p>';
   }catch(e){
@@ -1787,7 +1787,7 @@ const A = {
       '<div style="margin-top:16px;background:var(--secondary-card-bg);border-radius:18px;padding:16px;border:0.5px solid var(--separator);display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;">' +
         '<div><b>🔥 진짜 간짜장 90% 인증제</b><br><span style="color:var(--label-secondary);font-size:13px;">기름에 갓 볶아낸 진짜 간짜장 매장만을 유저 투표(90% 이상)로 엄선합니다.</span></div>' +
         '<div><b>₩ 투명한 가격 검증</b><br><span style="color:var(--label-secondary);font-size:13px;">물가 변동 시 유저들의 가격 제보와 상호 확인으로 최신 정가를 유지합니다.</span></div>' +
-        '<div><b>버전 정보</b>: v0.058</div>' +
+        '<div><b>버전 정보</b>: v0.059</div>' +
       '</div>' +
       '<div class="btns" style="margin-top:14px"><button class="btn" data-a="navContact" data-type="report">문의 · 오류·문제 신고</button><button class="btn" data-a="navContact" data-type="partner">제휴·광고 문의: hidden7005@gmail.com</button></div>' +
       '<div style="display:flex;gap:8px;margin-top:14px;">' +
@@ -1837,7 +1837,8 @@ const A = {
       '<div style="margin-top:14px;font-size:14px;line-height:1.6;color:var(--label-secondary);max-height:60vh;overflow-y:auto;">' +
       '<p><b>제 1 조 (목적)</b><br>본 약관은 ‘간짜장면’ 서비스의 이용 조건 및 절차에 관한 제반 사항을 규정함을 목적으로 합니다.</p><br>' +
       '<p><b>제 2 조 (게시물 관리)</b><br>1. 회원은 솔직하고 건전한 리뷰를 작성해야 합니다.<br>2. 욕설, 비방, 허위 사실 유포 시 사전 통보 없이 삭제되거나 이용이 제한될 수 있습니다.</p><br>' +
-      '<p><b>제 3 조 (위치정보 이용)</b><br>주변 식당 안내를 위해 브라우저 위치 권한을 요청할 수 있습니다. 권한을 거부해도 지도 검색은 이용할 수 있습니다.</p>' +
+      '<p><b>제 3 조 (위치정보 이용)</b><br>주변 식당 안내를 위해 브라우저 위치 권한을 요청할 수 있습니다. 권한을 거부해도 지도 검색은 이용할 수 있습니다.</p><br>' +
+      '<p><b>제 4 조 (회원 탈퇴와 게시물)</b><br>1. 회원은 언제든지 내 정보 화면에서 탈퇴할 수 있습니다.<br>2. 탈퇴하면 계정 정보(이메일, 고유 식별자, 닉네임)는 즉시 삭제됩니다.<br>3. 탈퇴 전에 작성한 리뷰, 별점, 사진은 삭제되지 않고 작성자를 알 수 없도록 <b>익명으로 처리되어 남습니다</b>. 리뷰에는 작성자 대신 ‘탈퇴한 회원’으로 표시됩니다.<br>4. 익명 처리된 게시물은 작성자를 확인할 수 없어 탈퇴 후에는 삭제를 요청할 수 없습니다. 삭제를 원하는 게시물은 탈퇴 전에 고객지원으로 요청해 주세요.</p>' +
       '</div>');
   },
   showPrivacy: () => {
@@ -1845,15 +1846,29 @@ const A = {
       '<div style="margin-top:14px;font-size:14px;line-height:1.6;color:var(--label-secondary);max-height:60vh;overflow-y:auto;">' +
       '<p><b>1. 수집하는 개인정보</b><br>- 소셜 로그인 정보(이메일, 고유 식별자, 닉네임, 프로필 사진)</p><br>' +
       '<p><b>2. 수집 및 이용 목적</b><br>- 회원 식별, 리뷰 작성자 표시</p><br>' +
-      '<p><b>3. 보유 및 파기</b><br>- 회원 탈퇴 및 개인정보 삭제는 고객지원으로 요청할 수 있습니다. 처리 절차와 보유 기간은 운영 정책에 따라 별도 안내됩니다.</p>' +
+      '<p><b>3. 보유 및 파기</b><br>- 회원 탈퇴 시 계정 정보(이메일, 고유 식별자, 닉네임)는 즉시 삭제됩니다.<br>- 작성한 리뷰, 별점, 사진은 작성자와의 연결을 끊어 누가 작성했는지 알 수 없도록 익명 처리한 뒤 서비스에 남습니다.</p>' +
       '</div>');
   },
+  /* v0.059: 회원 탈퇴 — 계정 삭제, 리뷰는 익명 처리 (서버 함수 delete_my_account) */
   withdraw: () => {
     if (!me) return;
-    navContact('inquiry');
-    const note = $('nav-message');
-    if (note) note.value = '회원 탈퇴 및 인증 계정과 관련 데이터 삭제를 요청합니다.';
-    toast('회원 탈퇴 요청 내용을 작성한 뒤 접수해 주세요');
+    sheet('<button class="detail-back" data-a="me">‹ 내 정보로 돌아가기</button><h2>회원 탈퇴</h2>' +
+      '<p class="sub nick-welcome-sub">탈퇴하면 계정 정보(이메일, 닉네임)가 바로 삭제되고 되돌릴 수 없어요<br><br>' +
+      '작성한 리뷰, 별점, 사진은 지워지지 않고 <b>누가 썼는지 알 수 없도록 익명으로 남아요</b>. 리뷰에는 ‘탈퇴한 회원’으로 표시돼요<br><br>' +
+      '탈퇴 후에는 리뷰 삭제를 요청할 수 없으니, 지우고 싶은 리뷰가 있다면 탈퇴 전에 고객지원으로 요청해 주세요</p>' +
+      '<div class="btns"><button class="btn" data-a="me">취소</button><button class="btn" id="withdraw-confirm" data-a="withdrawConfirm" style="color:#ff3b30;">탈퇴하기</button></div>');
+  },
+  withdrawConfirm: async () => {
+    if (!me) return;
+    const btn = $('withdraw-confirm');
+    if (btn?.disabled) return;
+    if (btn) btn.disabled = true;
+    const { error } = await db.rpc('delete_my_account');
+    if (error) { if (btn) btn.disabled = false; toast(error.message || '탈퇴 처리에 실패했어요'); return; }
+    await db.auth.signOut();
+    closeSheet();
+    toast('탈퇴가 완료됐어요. 그동안 이용해 주셔서 감사해요');
+    load();
   },
   place: d => { const p = places.find(x => x.id === d.id); if (p) openPlace(p); },
   pick: d => { if (biz[d.id]) openNew(biz[d.id]); else toast('검색 결과가 만료되었습니다. 다시 검색해주세요'); },
